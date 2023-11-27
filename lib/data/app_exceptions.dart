@@ -4,6 +4,7 @@ class AppExceptions implements Exception {
 
   AppExceptions(this.message, this.prefix);
 
+  @override
   String toString() {
     return '$prefix $message';
   }
@@ -15,8 +16,7 @@ class FetchDataException extends AppExceptions {
 }
 
 class BadRequestException extends AppExceptions {
-  BadRequestException([String? message])
-      : super(message!, 'Invalid Request: ');
+  BadRequestException([String? message]) : super(message!, 'Invalid Request: ');
 }
 
 class UnauthorizedException extends AppExceptions {
@@ -25,7 +25,5 @@ class UnauthorizedException extends AppExceptions {
 }
 
 class InvalidInputException extends AppExceptions {
-  InvalidInputException([String? message])
-      : super(message!, 'Invalid Input: ');
+  InvalidInputException([String? message]) : super(message!, 'Invalid Input: ');
 }
-
