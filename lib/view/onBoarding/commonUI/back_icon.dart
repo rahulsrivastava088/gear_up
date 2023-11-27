@@ -11,6 +11,7 @@ class BackIcon extends StatelessWidget {
       // height: 32,
       // child: FittedBox(
       onPressed: () {
+        context.pop();
         print('Back Button is Pressed');
       },
       icon: Icon(Icons.arrow_back),
