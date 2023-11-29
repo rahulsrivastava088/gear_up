@@ -11,10 +11,11 @@ class IntroPageGetStartedButton extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 16, bottom: 24),
+          margin: const EdgeInsets.symmetric(vertical: 16),
           child: InkWell(
             onTap: () {
-              GoRouter.of(context).pushNamed(RouteConstants.loginPageRouteName);
+              GoRouter.of(context)
+                  .replaceNamed(RouteConstants.loginPageRouteName);
             },
             child: Ink(
               width: double.infinity,

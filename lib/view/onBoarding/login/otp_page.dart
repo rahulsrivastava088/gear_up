@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
-import 'package:gear_up/view/onBoarding/commonUI/back_icon.dart';
+import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/otp_status_text.dart';
@@ -14,14 +14,13 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 71, left: 24, right: 24),
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      appBar: onBoardingAppBar(context),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const BackIcon(),
-            const SizedBox(height: 24),
             const LoginHeaderText(text: Strings.enterOtp),
             const SizedBox(height: 6),
             const LoginSubHeaderText(text: Strings.otpSentText),

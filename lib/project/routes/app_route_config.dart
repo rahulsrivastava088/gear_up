@@ -22,21 +22,22 @@ class AppRouter {
             name: RouteConstants.introPage1RouteName,
             path: '/intro_page_one',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: IntroOnePage());
+              return const MaterialPage(child: SafeArea(child: IntroOnePage()));
             },
           ),
           GoRoute(
             name: RouteConstants.introPage2RouteName,
             path: '/intro_page_two',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: IntroTwoPage());
+              return const MaterialPage(child: SafeArea(child: IntroTwoPage()));
             },
           ),
           GoRoute(
             name: RouteConstants.introPage3RouteName,
             path: '/intro_page_three',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: IntroThreePage());
+              return const MaterialPage(
+                  child: SafeArea(child: IntroThreePage()));
             },
           ),
           GoRoute(
@@ -57,42 +58,47 @@ class AppRouter {
             name: RouteConstants.selectSportsPageRouteName,
             path: '/select_sports_page',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SelectSportsScreen());
+              return const MaterialPage(
+                  child: SafeArea(child: SelectSportsScreen()));
             },
           ),
           GoRoute(
             name: RouteConstants.selectLevelPageRouteName,
             path: '/select_level_page',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SetLevelScreen());
+              return const MaterialPage(
+                  child: SafeArea(child: SetLevelScreen()));
             },
           ),
           GoRoute(
             name: RouteConstants.setObjectivePageRouteName,
             path: '/set_objective',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SetObjectiveScreen());
+              return const MaterialPage(
+                  child: SafeArea(child: SetObjectiveScreen()));
             },
           ),
           GoRoute(
             name: RouteConstants.setNamePageRouteName,
             path: '/set_name',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SetNameScreen());
+              return const MaterialPage(
+                  child: SafeArea(child: SetNameScreen()));
             },
           ),
           GoRoute(
             name: RouteConstants.setAgePageRouteName,
             path: '/set_age',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SetAgeScreen());
+              return const MaterialPage(child: SafeArea(child: SetAgeScreen()));
             },
           ),
           GoRoute(
             name: RouteConstants.setGenderPageRouteName,
             path: '/set_gender',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SetGenderScreen());
+              return const MaterialPage(
+                  child: SafeArea(child: SetGenderScreen()));
             },
           )
         ],

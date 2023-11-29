@@ -30,7 +30,7 @@ class IntroThreePage extends StatelessWidget {
               IntroPageNextButton(
                 onTap: () {
                   GoRouter.of(context)
-                      .pushNamed(RouteConstants.loginPageRouteName);
+                      .goNamed(RouteConstants.loginPageRouteName);
                 },
               ),
               const IntroPageGetStartedButton()

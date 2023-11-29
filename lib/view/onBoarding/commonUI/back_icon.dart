@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class BackIcon extends StatelessWidget {
   const BackIcon({super.key});
@@ -11,9 +10,9 @@ class BackIcon extends StatelessWidget {
       // height: 32,
       // child: FittedBox(
       onPressed: () {
-        print('Back Button is Pressed');
+        // print('Back Button is Pressed');
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       // ),
     );
   }

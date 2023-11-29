@@ -33,46 +33,44 @@ class _OTPTextField extends State<OTPTextField> {
                       : const Color(0xFF333333)),
             ),
           ),
-          child: Flexible(
-            child: TextField(
-              onTapOutside: (event) {
-                setState(() {
-                  isFocussed = false;
-                });
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              onTap: () {
-                setState(() {
-                  isFocussed = true;
-                });
-              },
-              maxLines: 1,
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
+          child: TextField(
+            onTapOutside: (event) {
+              setState(() {
+                isFocussed = false;
+              });
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            onTap: () {
+              setState(() {
+                isFocussed = true;
+              });
+            },
+            maxLines: 1,
+            textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: 'Space Mono',
+              fontWeight: FontWeight.w400,
+            ),
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              isDense: true,
+              border: InputBorder.none,
+              hintText: '0000',
+              hintStyle: TextStyle(
+                color: Color(0x40FFFFFF),
                 fontSize: 18,
-                fontFamily: 'Space Mono',
+                fontFamily: 'Space Grotesk',
                 fontWeight: FontWeight.w400,
               ),
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.zero,
-                isDense: true,
-                border: InputBorder.none,
-                hintText: '0000',
-                hintStyle: TextStyle(
-                  color: Color(0x40FFFFFF),
-                  fontSize: 18,
-                  fontFamily: 'Space Grotesk',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                LengthLimitingTextInputFormatter(10),
-                FilteringTextInputFormatter.digitsOnly
-              ],
             ),
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              LengthLimitingTextInputFormatter(10),
+              FilteringTextInputFormatter.digitsOnly
+            ],
           ),
         ),
       ],

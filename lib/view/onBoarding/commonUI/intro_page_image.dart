@@ -8,7 +8,7 @@ class IntroPageImage extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 150),
+          margin: const EdgeInsets.only(top: 108),
           width: 100,
           height: 100,
           decoration: ShapeDecoration(

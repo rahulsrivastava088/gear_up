@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
+import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/back_icon.dart';
-
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/onBoarding_big_button.dart';
@@ -21,20 +21,19 @@ class _SetAgeScreen extends State<SetAgeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: onBoardingAppBar(context),
       body: Padding(
-        padding: const EdgeInsets.only(top: 71, left: 24, right: 24),
+        padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const BackIcon(),
-            const SizedBox(height: 24),
             const LoginHeaderText(text: Strings.setUpProfile),
             const SizedBox(height: 6),
             const LoginSubHeaderText(text: Strings.findBestPartnersNearYou),
             const SizedBox(height: 32),
             const ProfileSetUpSubHeading(text: Strings.whatsYourAge),
             const SizedBox(height: 16),
-            const CustomTextField(hintText: 'DD/MM/YYYY'),
+            const Expanded(child: CustomTextField(hintText: 'DD/MM/YYYY')),
             const Spacer(),
             OnBoardingBigButton(
               onTap: () {

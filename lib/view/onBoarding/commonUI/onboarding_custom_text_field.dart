@@ -34,39 +34,37 @@ class _CustomTextField extends State<CustomTextField> {
                       : const Color(0xFF333333)),
             ),
           ),
-          child: Flexible(
-            child: TextField(
-              onTapOutside: (event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-                setState(() {
-                  isFocussed = false;
-                });
-              },
-              onTap: () {
-                setState(() {
-                  isFocussed = true;
-                });
-              },
-              maxLines: 1,
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                color: Colors.white,
+          child: TextField(
+            onTapOutside: (event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+              setState(() {
+                isFocussed = false;
+              });
+            },
+            onTap: () {
+              setState(() {
+                isFocussed = true;
+              });
+            },
+            maxLines: 1,
+            textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: 'Space Mono',
+              fontWeight: FontWeight.w400,
+            ),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              isDense: true,
+              border: InputBorder.none,
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(
+                color: Color(0x40FFFFFF),
                 fontSize: 18,
-                fontFamily: 'Space Mono',
+                fontFamily: 'Space Grotesk',
                 fontWeight: FontWeight.w400,
-              ),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.zero,
-                isDense: true,
-                border: InputBorder.none,
-                hintText: widget.hintText,
-                hintStyle: const TextStyle(
-                  color: Color(0x40FFFFFF),
-                  fontSize: 18,
-                  fontFamily: 'Space Grotesk',
-                  fontWeight: FontWeight.w400,
-                ),
               ),
             ),
           ),

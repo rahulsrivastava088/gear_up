@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:gear_up/data/app_exceptions.dart';
-import 'package:gear_up/data/network/BaseApiServices.dart';
+import 'package:gear_up/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkApiServices extends BaseApiServices {
-
   @override
   Future getGetApiResponse(String url) async {
     dynamic responseJson;
@@ -25,10 +24,7 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
     try {
       http.Response response = await http
-          .post(
-            Uri.parse(url), 
-            body: data
-            )
+          .post(Uri.parse(url), body: data)
           .timeout(const Duration(seconds: 7));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -87,16 +83,14 @@ class NetworkApiServices extends BaseApiServices {
   Future userGetApiResponse(String url, String token) async {
     dynamic responseJson;
     try {
-      http.Response response = await http
-          .get(
-            Uri.parse(url),
-            headers: {
-              'Content-type': 'application/json',
-              'Authorization': 'Bearer $token',
-            },
-            // encoding: Encoding.getByName("utf-8"),
-          )
-          .timeout(const Duration(seconds: 7));
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        // encoding: Encoding.getByName("utf-8"),
+      ).timeout(const Duration(seconds: 7));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -119,5 +113,4 @@ class NetworkApiServices extends BaseApiServices {
             'Error occured with status code: ${response.statusCode}');
     }
   }
-
 }
