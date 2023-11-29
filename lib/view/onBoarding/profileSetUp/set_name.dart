@@ -9,6 +9,7 @@ import 'package:gear_up/view/onBoarding/commonUI/onBoarding_big_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/onBoarding_custom_text_field.dart';
 import 'package:gear_up/view/onBoarding/commonUI/profile_set_up_sub_heading_text.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gear_up/view/onBoarding/commonUI/intro_page_get_started_button.dart';
 
 class SetNameScreen extends StatefulWidget {
   const SetNameScreen({super.key});

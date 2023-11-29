@@ -5,6 +5,7 @@ import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/back_icon.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
+import 'package:gear_up/view/onBoarding/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/onBoarding_big_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/onboarding_custom_text_field.dart';
 import 'package:gear_up/view/onBoarding/commonUI/profile_set_up_sub_heading_text.dart';

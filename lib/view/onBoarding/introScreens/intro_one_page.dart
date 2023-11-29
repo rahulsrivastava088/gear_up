@@ -33,7 +33,13 @@ class IntroOnePage extends StatelessWidget {
                       .pushNamed(RouteConstants.introPage2RouteName);
                 },
               ),
-              const IntroPageGetStartedButton()
+              OnBoardingBigButton(
+                text: Strings.getStarted,
+                onTap: () {
+                  GoRouter.of(context)
+                      .replaceNamed(RouteConstants.loginPageRouteName);
+                },
+              )
             ],
           ),
         ),

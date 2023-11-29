@@ -10,6 +10,7 @@ import 'package:gear_up/view/onBoarding/commonUI/profile_set_up_sub_heading_text
 import 'package:gear_up/view/onBoarding/commonUI/select_level.dart';
 import 'package:gear_up/view/onBoarding/commonUI/select_sports_check_box.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gear_up/view/onBoarding/commonUI/intro_page_get_started_button.dart';
 
 class SetLevelScreen extends StatefulWidget {
   const SetLevelScreen({super.key});
