@@ -3,7 +3,7 @@ import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/check_box.dart';
-import 'package:gear_up/view/onBoarding/commonUI/get_otp_button.dart';
+import 'package:gear_up/view/onBoarding/commonUI/custom_snackbar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
@@ -11,8 +11,15 @@ import 'package:gear_up/view/onBoarding/commonUI/phone_number_text_field.dart';
 import 'package:gear_up/view/onBoarding/commonUI/select_country_code.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController numberTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,9 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 32),
             const SelectCountryCode(),
             const SizedBox(height: 24),
-            const PhoneNumber(),
+            PhoneNumber(
+              textEditingController: numberTextEditingController,
+            ),
             const SizedBox(height: 32),
             const Padding(
               padding:
@@ -54,7 +63,12 @@ class LoginScreen extends StatelessWidget {
             OnBoardingBigButton(
               text: Strings.getOtp,
               onTap: () {
-                GoRouter.of(context).pushNamed(RouteConstants.otpPageRouteName);
+                if (numberTextEditingController.text.length == 10) {
+                  GoRouter.of(context)
+                      .pushNamed(RouteConstants.otpPageRouteName);
+                } else {
+                  customSnackBar(context, 'Invalid number');
+                }
               },
             )
           ],

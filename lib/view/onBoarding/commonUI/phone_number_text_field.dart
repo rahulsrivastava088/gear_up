@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class PhoneNumber extends StatefulWidget {
-  const PhoneNumber({super.key});
+  const PhoneNumber({super.key, required this.textEditingController});
+  final TextEditingController textEditingController;
 
   @override
   State<PhoneNumber> createState() => _PhoneNumber();
@@ -21,7 +22,7 @@ class _PhoneNumber extends State<PhoneNumber> {
             top: 8,
             left: 12,
             right: 12,
-            bottom: 12,
+            bottom: 8,
           ),
           decoration: BoxDecoration(
             color: const Color(0xFF1E1E1E),
@@ -63,7 +64,7 @@ class _PhoneNumber extends State<PhoneNumber> {
                     });
                   },
                   maxLines: 1,
-                  textAlignVertical: TextAlignVertical.center,
+                  // textAlignVertical: TextAlignVertical.center,
                   textAlign: TextAlign.start,
                   style: const TextStyle(
                     color: Colors.white,
@@ -88,6 +89,7 @@ class _PhoneNumber extends State<PhoneNumber> {
                     LengthLimitingTextInputFormatter(10),
                     FilteringTextInputFormatter.digitsOnly
                   ],
+                  controller: widget.textEditingController,
                 ),
               ),
             ],

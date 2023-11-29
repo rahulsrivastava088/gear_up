@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
+import 'package:gear_up/view/onBoarding/commonUI/custom_snackbar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/otp_status_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/otp_text_field.dart';
-import 'package:gear_up/view/onBoarding/commonUI/onBoarding_big_button.dart';
 import 'package:go_router/go_router.dart';
 
-class OtpScreen extends StatelessWidget {
+class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
+
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  TextEditingController otpTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +33,18 @@ class OtpScreen extends StatelessWidget {
             const SizedBox(height: 6),
             const LoginSubHeaderText(text: Strings.otpSentText),
             const SizedBox(height: 32),
-            const OTPTextField(),
+            OTPTextField(textEditingController: otpTextEditingController),
             const SizedBox(height: 12),
             const OTPStatusText(message: 'Resend OTP'),
             const SizedBox(height: 24),
             OnBoardingBigButton(
               onTap: () {
-                GoRouter.of(context)
-                    .pushNamed(RouteConstants.selectSportsPageRouteName);
+                if (otpTextEditingController.text.isNotEmpty) {
+                  GoRouter.of(context)
+                      .pushNamed(RouteConstants.selectSportsPageRouteName);
+                } else {
+                  customSnackBar(context, 'Enter OTP');
+                }
               },
               text: Strings.verify,
             )

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OTPTextField extends StatefulWidget {
-  const OTPTextField({super.key});
+  final TextEditingController textEditingController;
+  const OTPTextField({super.key, required this.textEditingController});
 
   @override
   State<OTPTextField> createState() => _OTPTextField();
@@ -34,6 +35,7 @@ class _OTPTextField extends State<OTPTextField> {
             ),
           ),
           child: TextField(
+            controller: widget.textEditingController,
             onTapOutside: (event) {
               setState(() {
                 isFocussed = false;

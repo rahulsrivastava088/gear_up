@@ -78,7 +78,6 @@ List<Widget> getList() {
   List<Widget> childs = [];
   for (final level in Strings.levelsList) {
     childs.add(CustomCheckBox(text: level));
-    // childs.add(const SizedBox(width: 6));
   }
   return childs;
 }
