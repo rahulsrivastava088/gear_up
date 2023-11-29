@@ -4,6 +4,7 @@ import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/commonUI/check_box.dart';
 import 'package:gear_up/view/onBoarding/commonUI/get_otp_button.dart';
+import 'package:gear_up/view/onBoarding/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/phone_number_text_field.dart';
@@ -50,7 +51,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            GetOtpButton(
+            OnBoardingBigButton(
+              text: Strings.getOtp,
               onTap: () {
                 GoRouter.of(context).pushNamed(RouteConstants.otpPageRouteName);
               },

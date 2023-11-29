@@ -37,7 +37,7 @@ class IntroThreePage extends StatelessWidget {
                 text: Strings.getStarted,
                 onTap: () {
                   GoRouter.of(context)
-                      .replaceNamed(RouteConstants.loginPageRouteName);
+                      .goNamed(RouteConstants.loginPageRouteName);
                 },
               )
             ],
