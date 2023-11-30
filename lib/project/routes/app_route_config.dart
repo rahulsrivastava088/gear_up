@@ -11,12 +11,13 @@ import 'package:gear_up/view/onBoarding/profileSetUp/set_gender.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_level.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_name.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_objective.dart';
+import 'package:gear_up/view/userProfile/userDetails/main.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static GoRouter returnRouter() {
     GoRouter router = GoRouter(
-        initialLocation: '/intro_page_one',
+        initialLocation: '/user_profile_page',
         routes: [
           GoRoute(
             name: RouteConstants.introPage1RouteName,
@@ -99,6 +100,14 @@ class AppRouter {
             pageBuilder: (context, state) {
               return const MaterialPage(
                   child: SafeArea(child: SetGenderScreen()));
+            },
+          ),
+          GoRoute(
+            name: RouteConstants.userProfilePageRouteNmae,
+            path: '/user_profile_page',
+            pageBuilder: (context, state) {
+              return const MaterialPage(
+                  child: SafeArea(child: UserProfileScreen()));
             },
           )
         ],
