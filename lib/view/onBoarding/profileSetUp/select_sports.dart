@@ -32,7 +32,10 @@ class _SelectSportsScreenState extends State<SelectSportsScreen> {
             const SizedBox(height: 32),
             const ProfileSetUpSubHeading(text: Strings.chooseYourFavSports),
             const SizedBox(height: 16),
-            Column(
+            ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: getList(),
             ),
             const Spacer(),

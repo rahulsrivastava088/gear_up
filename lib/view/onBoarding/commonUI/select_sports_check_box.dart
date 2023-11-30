@@ -17,7 +17,6 @@ class _SelectSportsCheckBox extends State<SelectSportsCheckBox> {
       data: ThemeData(unselectedWidgetColor: Colors.transparent),
       child: CheckboxListTile(
         activeColor: Colors.transparent,
-        // hoverColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -43,6 +42,7 @@ class _SelectSportsCheckBox extends State<SelectSportsCheckBox> {
         selected: _value,
         value: _value,
         onChanged: (value) {
+          //send clicked item to data manager from here
           setState(() {
             _value = value!;
           });

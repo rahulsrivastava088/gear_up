@@ -16,6 +16,7 @@ class _CustomCheckBox extends State<CustomCheckBox> {
       data: ThemeData(unselectedWidgetColor: Colors.transparent),
       child: InkWell(
         onTap: () {
+          // set level here
           setState(() {
             _value = !_value;
           });

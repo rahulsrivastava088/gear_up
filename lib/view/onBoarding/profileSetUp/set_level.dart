@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/commonUI/app_bar.dart';
-import 'package:gear_up/view/onBoarding/commonUI/back_icon.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/login_sub_header_text.dart';
-import 'package:gear_up/view/onBoarding/commonUI/onBoarding_big_button.dart';
 import 'package:gear_up/view/onBoarding/commonUI/profile_set_up_sub_heading_text.dart';
 import 'package:gear_up/view/onBoarding/commonUI/select_level.dart';
 import 'package:gear_up/view/onBoarding/commonUI/select_sports_check_box.dart';
@@ -20,6 +18,7 @@ class SetLevelScreen extends StatefulWidget {
 }
 
 class _SetLevelScreen extends State<SetLevelScreen> {
+  List<String> selectedSports = [Strings.sportsList[1], Strings.sportsList[2]];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +34,16 @@ class _SetLevelScreen extends State<SetLevelScreen> {
             const SizedBox(height: 32),
             const ProfileSetUpSubHeading(text: Strings.chooseYourFavSports),
             const SizedBox(height: 16),
-            SelectLevelWidget(sportName: Strings.sportsList[0]),
-            const SizedBox(height: 16),
-            SelectLevelWidget(sportName: Strings.sportsList[1]),
-            const Spacer(),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: selectedSports.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return SelectLevelWidget(sportName: selectedSports[index]);
+                },
+              ),
+            ),
             OnBoardingBigButton(
               onTap: () {
                 GoRouter.of(context)
