@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/colors/Colors.dart';
 
 class ExpandedTile extends StatefulWidget {
   final String sportsName;
@@ -21,7 +22,7 @@ class _ExpandedTileState extends State<ExpandedTile> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color(0xFF141414),
+      color: cardBgColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8))),
       elevation: 0,

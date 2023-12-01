@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/colors/Colors.dart';
 import 'package:go_router/go_router.dart';
 
 AppBar userProfileAppBar(BuildContext context) {
   return AppBar(
     centerTitle: false,
     toolbarHeight: 68,
-    backgroundColor: const Color(0xFF141414),
+    backgroundColor: cardBgColor,
     automaticallyImplyLeading: false,
     actions: [
       Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/view/userProfile/userDetails/star_display.dart';
 
 class RatingCard extends StatelessWidget {
@@ -14,7 +15,7 @@ class RatingCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: ShapeDecoration(
-        color: const Color(0xFF141414),
+        color: cardBgColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

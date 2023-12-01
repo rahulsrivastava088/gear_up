@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/colors/Colors.dart';
 
 class SocialMediaCard extends StatelessWidget {
   final String text;
@@ -13,7 +14,7 @@ class SocialMediaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: ShapeDecoration(
-        color: const Color(0xFF141414),
+        color: cardBgColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       ),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

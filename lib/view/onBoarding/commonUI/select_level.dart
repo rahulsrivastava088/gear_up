@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/commonUI/select_level_check_box.dart';
 
@@ -20,7 +21,7 @@ class _SelectLevelWidgetState extends State<SelectLevelWidget> {
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-            color: Color(0xFF141414),
+            color: cardBgColor,
           ),
           child: Row(
             children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gear_up/colors/Colors.dart';
 
 class SelectSportsCheckBox extends StatefulWidget {
   final String text;
@@ -31,7 +32,7 @@ class _SelectSportsCheckBox extends State<SelectSportsCheckBox> {
             fontWeight: FontWeight.w400,
           ),
         ),
-        tileColor: const Color(0xFF141414),
+        tileColor: cardBgColor,
         selectedTileColor: const Color(0xFF1E1E1E),
         secondary: SizedBox(
             height: 20,

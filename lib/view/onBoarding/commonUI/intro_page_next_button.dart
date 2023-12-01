@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/Strings.dart';
 
 class IntroPageNextButton extends StatelessWidget {
@@ -18,7 +19,7 @@ class IntroPageNextButton extends StatelessWidget {
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: ShapeDecoration(
-              color: const Color(0xFF141414),
+              color: cardBgColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
             ),
