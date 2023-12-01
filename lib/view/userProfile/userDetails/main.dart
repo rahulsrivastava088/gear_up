@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/view/userProfile/userDetails/about_card.dart';
 import 'package:gear_up/view/userProfile/userDetails/app_bar.dart';
 import 'package:gear_up/view/userProfile/userDetails/details_card.dart';
@@ -130,6 +129,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   review: review3,
                   rating: review3Rating,
                 ),
+                const SizedBox(height: 18)
               ],
             ),
           ),

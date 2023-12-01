@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 AppBar userProfileAppBar(BuildContext context) {
   return AppBar(
+    scrolledUnderElevation: 0.0,
     centerTitle: false,
     toolbarHeight: 68,
     backgroundColor: cardBgColor,
