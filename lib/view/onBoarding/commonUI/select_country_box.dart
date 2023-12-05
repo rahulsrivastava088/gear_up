@@ -42,21 +42,19 @@ class MyWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 6),
-              Container(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const BoxDecoration(),
-                      child: const Stack(children: []),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(),
+                    child: const Stack(children: []),
+                  ),
+                ],
               ),
             ],
           ),

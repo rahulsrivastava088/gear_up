@@ -67,7 +67,9 @@ class _SetObjectiveScreen extends State<SetObjectiveScreen> {
 List<Widget> getObjectiveWidgetList() {
   List<Widget> childs = [];
   for (final sport in Strings.playingObjectiveList) {
-    childs.add(CustomCheckBox(text: sport));
+    childs.add(CustomCheckBox(
+      text: sport,
+    ));
   }
   return childs;
 }
@@ -75,7 +77,9 @@ List<Widget> getObjectiveWidgetList() {
 List<Widget> getPlayingTimeWidgetList() {
   List<Widget> childs = [];
   for (final sport in Strings.playingTimeList) {
-    childs.add(CustomCheckBox(text: sport));
+    childs.add(CustomCheckBox(
+      text: sport,
+    ));
   }
   return childs;
 }

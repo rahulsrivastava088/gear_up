@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/view/userProfile/userDetails/about_card.dart';
 import 'package:gear_up/view/userProfile/userDetails/app_bar.dart';
 import 'package:gear_up/view/userProfile/userDetails/details_card.dart';
+import 'package:gear_up/view/userProfile/userDetails/edit_about_bottom_sheet.dart';
+import 'package:gear_up/view/userProfile/userDetails/edit_play_bottom_sheet.dart';
+import 'package:gear_up/view/userProfile/userDetails/edit_profession_bottom_sheet.dart';
 import 'package:gear_up/view/userProfile/userDetails/plays_card.dart';
 import 'package:gear_up/view/userProfile/userDetails/profession_card.dart';
 import 'package:gear_up/view/userProfile/userDetails/ratings_card.dart';
@@ -68,12 +71,61 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 const SizedBox(height: 8),
                 PlaysCard(
                   sportslist: sportsUserPlays,
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        constraints:
+                            const BoxConstraints(minWidth: double.infinity),
+                        builder: (BuildContext context) {
+                          return const Wrap(children: [
+                            EditPlaysBottomSheet(
+                              sportsLogo: Icons.sports,
+                              sportsName: 'Badminton',
+                              level: 'Intermediate',
+                              enabled: true,
+                            )
+                          ]);
+                        });
+                  },
                 ),
                 const SizedBox(height: 8),
-                AboutCard(text: userAbout, onTap: () {}),
+                AboutCard(
+                    text: userAbout,
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          constraints:
+                              const BoxConstraints(minWidth: double.infinity),
+                          builder: (BuildContext context) {
+                            return Wrap(children: [
+                              EditAboutBottomSheet(
+                                about: userAbout,
+                              )
+                            ]);
+                          });
+                    }),
                 const SizedBox(height: 8),
-                ProfessionCard(text: userProfession, onTap: () {}),
+                ProfessionCard(
+                    text: userProfession,
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          constraints:
+                              const BoxConstraints(minWidth: double.infinity),
+                          builder: (BuildContext context) {
+                            return Wrap(children: [
+                              EditProfessionBottomSheet(
+                                profession: userProfession,
+                              )
+                            ]);
+                          });
+                    }),
                 const SizedBox(height: 32),
                 const TitleText(text: 'Games Stats'),
                 const SizedBox(height: 16),
@@ -129,7 +181,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   review: review3,
                   rating: review3Rating,
                 ),
-                const SizedBox(height: 18)
+                const SizedBox(height: 18),
               ],
             ),
           ),

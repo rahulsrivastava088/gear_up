@@ -37,7 +37,7 @@ class _ExpandedTileState extends State<ExpandedTile> {
               });
             },
             title: _unexpandedState(),
-            trailing: const SizedBox(height: 26),
+            // trailing: const SizedBox(height: 26),
             children: [
               Row(
                 children: [
@@ -79,10 +79,10 @@ class _ExpandedTileState extends State<ExpandedTile> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const Spacer(),
-        isExpanded
-            ? const Icon(Icons.arrow_right_sharp, color: Colors.white)
-            : const Icon(Icons.arrow_upward_sharp, color: Colors.white)
+        // const Spacer(),
+        // isExpanded
+        //     ? const Icon(Icons.arrow_right_sharp, color: Colors.white)
+        //     : const Icon(Icons.expand_less, color: Colors.white)
       ],
     );
   }

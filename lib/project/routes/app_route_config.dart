@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
+import 'package:gear_up/view/home/main.dart';
 import 'package:gear_up/view/onBoarding/introScreens/intro_one_page.dart';
 import 'package:gear_up/view/onBoarding/introScreens/intro_three_page.dart';
 import 'package:gear_up/view/onBoarding/introScreens/intro_two_page.dart';
@@ -11,13 +12,14 @@ import 'package:gear_up/view/onBoarding/profileSetUp/set_gender.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_level.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_name.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_objective.dart';
+import 'package:gear_up/view/userProfile/edit/main.dart';
 import 'package:gear_up/view/userProfile/userDetails/main.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static GoRouter returnRouter() {
     GoRouter router = GoRouter(
-        initialLocation: '/user_profile_page',
+        initialLocation: '/home_page',
         routes: [
           GoRoute(
             name: RouteConstants.introPage1RouteName,
@@ -103,11 +105,26 @@ class AppRouter {
             },
           ),
           GoRoute(
-            name: RouteConstants.userProfilePageRouteNmae,
+            name: RouteConstants.userProfilePageRouteName,
             path: '/user_profile_page',
             pageBuilder: (context, state) {
               return const MaterialPage(
                   child: SafeArea(child: UserProfileScreen()));
+            },
+          ),
+          GoRoute(
+            name: RouteConstants.editUserProfilePageRouteName,
+            path: '/edit_user_profile_page',
+            pageBuilder: (context, state) {
+              return const MaterialPage(
+                  child: SafeArea(child: EditUserProfileScreen()));
+            },
+          ),
+          GoRoute(
+            name: RouteConstants.homePageRouteName,
+            path: '/home_page',
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: SafeArea(child: HomeScreen()));
             },
           )
         ],

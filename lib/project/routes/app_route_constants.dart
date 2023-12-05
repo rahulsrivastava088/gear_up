@@ -13,5 +13,8 @@ class RouteConstants {
   static const String setAgePageRouteName = 'SetAgeRouteName';
   static const String setGenderPageRouteName = 'SetGenderPageRouteName';
   // user profile
-  static const String userProfilePageRouteNmae = 'UserProfilePage';
+  static const String userProfilePageRouteName = 'UserProfilePage';
+  static const String editUserProfilePageRouteName = 'EditUserProfilePage';
+  // home
+  static const String homePageRouteName = 'HomePage';
 }

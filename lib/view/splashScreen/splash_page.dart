@@ -38,8 +38,6 @@ class SplashScreenText extends StatelessWidget {
         fontStyle: FontStyle.italic,
         fontFamily: 'General Sans',
         fontWeight: FontWeight.w700,
-        height: 0,
-        letterSpacing: -0.41,
       ),
     );
   }

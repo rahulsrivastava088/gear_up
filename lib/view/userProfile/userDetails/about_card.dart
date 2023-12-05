@@ -27,7 +27,7 @@ class AboutCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Plays',
+            'About',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -50,13 +50,14 @@ class AboutCard extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                  onTap: () {
-                    onTap;
-                  },
-                  child: const Icon(
-                    Icons.add_circle_outline,
-                    size: 20,
-                  ))
+                onTap: () {
+                  onTap();
+                },
+                child: const Icon(
+                  Icons.add_circle_outline,
+                  size: 20,
+                ),
+              )
             ],
           )
         ],

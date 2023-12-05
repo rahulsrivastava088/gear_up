@@ -21,10 +21,12 @@ class UserDetailsCard extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          ClipOval(
-            child: SizedBox.fromSize(
-              size: const Size.fromRadius(80), // Image radius
-              child: Image.network(userImage, fit: BoxFit.cover),
+          Center(
+            child: ClipOval(
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(80), // Image radius
+                child: Image.network(userImage, fit: BoxFit.cover),
+              ),
             ),
           ),
           const SizedBox(height: 32),

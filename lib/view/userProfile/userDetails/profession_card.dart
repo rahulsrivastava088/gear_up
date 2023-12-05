@@ -51,7 +51,7 @@ class ProfessionCard extends StatelessWidget {
               ),
               GestureDetector(
                   onTap: () {
-                    onTap;
+                    onTap();
                   },
                   child: const Icon(
                     Icons.add_circle_outline,

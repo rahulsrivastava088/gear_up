@@ -51,7 +51,7 @@ class PlaysCard extends StatelessWidget {
               ),
               GestureDetector(
                   onTap: () {
-                    onTap;
+                    onTap();
                   },
                   child: const Icon(
                     Icons.edit_outlined,

@@ -52,7 +52,9 @@ class _SetGenderScreen extends State<SetGenderScreen> {
 List<Widget> getGenderWidgetList() {
   List<Widget> childs = [];
   for (final gender in Strings.genderList) {
-    childs.add(CustomCheckBox(text: gender));
+    childs.add(CustomCheckBox(
+      text: gender,
+    ));
   }
   return childs;
 }
