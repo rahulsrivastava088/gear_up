@@ -3,6 +3,8 @@ import 'package:gear_up/utils/strings.dart';
 
 enum Gender { allGender, male }
 
+enum Sports { badminton, tableTennis, lawnTennis, squash, pool }
+
 class FilterBottomSheet extends StatefulWidget {
   const FilterBottomSheet({
     super.key,
@@ -13,7 +15,6 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheet extends State<FilterBottomSheet> {
-  String selectedSports = Strings.sportsList[0];
   double selectedDistance = 10;
   double minimumDistance = 0;
   double maximumDistance = 50;
@@ -24,6 +25,7 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
   double selectedEndAge = 24;
 
   var selectedGender = Gender.allGender;
+  var selectedSports = Sports.badminton;
 
   @override
   Widget build(BuildContext context) {
@@ -87,26 +89,14 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 16),
               Column(
                 children: [
-                  Text(Strings.sportsList[0]),
-                  Text(Strings.sportsList[1]),
-                  Text(Strings.sportsList[2]),
-                  Text(Strings.sportsList[3]),
-                  Text(Strings.sportsList[4])
-                  // ListTile(
-                  //   title: Text(Strings.sportsList[0]),
-                  //   leading: Radio(
-                  //     value: Text(Strings.sportsList[0]),
-                  //     groupValue: selectedSports,
-                  //     onChanged: (value) {
-                  //       setState(() {
-                  //         selectedSports = value;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
+                  const SizedBox(height: 8),
+                  sportsRadioButtonWidget("Badminton", Sports.badminton),
+                  sportsRadioButtonWidget("Table Tennis", Sports.tableTennis),
+                  sportsRadioButtonWidget("Lawn Tennis", Sports.lawnTennis),
+                  sportsRadioButtonWidget("Squash", Sports.squash),
+                  sportsRadioButtonWidget("Pool/Snooker", Sports.pool)
                 ],
               ),
               const SizedBox(height: 42),
@@ -250,29 +240,60 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
               ),
               Column(
                 children: [
+                  const SizedBox(height: 8),
                   ListTile(
-                    title: const Text("All Gender"),
+                    visualDensity:
+                        const VisualDensity(horizontal: 0, vertical: -4),
+                    contentPadding: EdgeInsets.zero,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        "All Gender",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Space Grotesk',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
                     leading: Radio(
+                      activeColor: Colors.black,
                       value: Gender.allGender,
                       groupValue: selectedGender,
-                      onChanged: (gender) {
+                      onChanged: (value) {
                         setState(
                           () {
-                            selectedGender = gender!;
+                            selectedGender = value!;
                           },
                         );
                       },
                     ),
                   ),
                   ListTile(
-                    title: const Text("Male"),
+                    visualDensity:
+                        const VisualDensity(horizontal: 0, vertical: -4),
+                    contentPadding: EdgeInsets.zero,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        "Male",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Space Grotesk',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
                     leading: Radio(
+                      activeColor: Colors.black,
                       value: Gender.male,
                       groupValue: selectedGender,
-                      onChanged: (gender) {
+                      onChanged: (value) {
                         setState(
                           () {
-                            selectedGender = gender!;
+                            selectedGender = value!;
                           },
                         );
                       },
@@ -344,6 +365,37 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
           ),
         ),
       ],
+    );
+  }
+
+  ListTile sportsRadioButtonWidget(String text, Sports value) {
+    return ListTile(
+      visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+      contentPadding: EdgeInsets.zero,
+      title: Transform.translate(
+        offset: const Offset(-16, 0),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontFamily: 'Space Grotesk',
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+      leading: Radio(
+        activeColor: Colors.black,
+        value: value,
+        groupValue: selectedSports,
+        onChanged: (value) {
+          setState(
+            () {
+              selectedSports = value!;
+            },
+          );
+        },
+      ),
     );
   }
 }
