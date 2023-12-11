@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
-import 'package:gear_up/view/home/main.dart';
+import 'package:gear_up/view/bottomNavigation/main.dart';
 import 'package:gear_up/view/onBoarding/introScreens/intro_one_page.dart';
 import 'package:gear_up/view/onBoarding/introScreens/intro_three_page.dart';
 import 'package:gear_up/view/onBoarding/introScreens/intro_two_page.dart';
@@ -12,6 +12,7 @@ import 'package:gear_up/view/onBoarding/profileSetUp/set_gender.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_level.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_name.dart';
 import 'package:gear_up/view/onBoarding/profileSetUp/set_objective.dart';
+import 'package:gear_up/view/partners/main.dart';
 import 'package:gear_up/view/userProfile/edit/main.dart';
 import 'package:gear_up/view/userProfile/userDetails/main.dart';
 import 'package:go_router/go_router.dart';
@@ -124,7 +125,21 @@ class AppRouter {
             name: RouteConstants.homePageRouteName,
             path: '/home_page',
             pageBuilder: (context, state) {
-              return const MaterialPage(child: SafeArea(child: HomeScreen()));
+              return const MaterialPage(
+                child: SafeArea(
+                  child: MainScreen(
+                    initialIndex: 0,
+                  ),
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            name: RouteConstants.partnersPageRouteName,
+            path: '/partners_page',
+            pageBuilder: (context, state) {
+              return const MaterialPage(
+                  child: SafeArea(child: PartnersScreen()));
             },
           )
         ],

@@ -17,4 +17,5 @@ class RouteConstants {
   static const String editUserProfilePageRouteName = 'EditUserProfilePage';
   // home
   static const String homePageRouteName = 'HomePage';
+  static const String partnersPageRouteName = 'PartnersPage';
 }

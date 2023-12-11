@@ -242,13 +242,6 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                 children: [
                   const SizedBox(height: 8),
                   ListTile(
-                    onTap: () {
-                      setState(
-                        () {
-                          selectedGender = Gender.allGender;
-                        },
-                      );
-                    },
                     visualDensity:
                         const VisualDensity(horizontal: 0, vertical: -4),
                     contentPadding: EdgeInsets.zero,
@@ -268,17 +261,16 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                       activeColor: Colors.black,
                       value: Gender.allGender,
                       groupValue: selectedGender,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            selectedGender = value!;
+                          },
+                        );
+                      },
                     ),
                   ),
                   ListTile(
-                    onTap: () {
-                      setState(
-                        () {
-                          selectedGender = Gender.male;
-                        },
-                      );
-                    },
                     visualDensity:
                         const VisualDensity(horizontal: 0, vertical: -4),
                     contentPadding: EdgeInsets.zero,
@@ -298,7 +290,13 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                       activeColor: Colors.black,
                       value: Gender.male,
                       groupValue: selectedGender,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            selectedGender = value!;
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -372,13 +370,6 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
 
   ListTile sportsRadioButtonWidget(String text, Sports value) {
     return ListTile(
-      onTap: () {
-        setState(
-          () {
-            selectedSports = value;
-          },
-        );
-      },
       visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
       contentPadding: EdgeInsets.zero,
       title: Transform.translate(
@@ -398,11 +389,11 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
         value: value,
         groupValue: selectedSports,
         onChanged: (value) {
-          // setState(
-          //   () {
-          //     selectedSports = value!;
-          //   },
-          // );
+          setState(
+            () {
+              selectedSports = value!;
+            },
+          );
         },
       ),
     );
