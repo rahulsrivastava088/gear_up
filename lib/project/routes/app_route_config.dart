@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/view/bottomNavigation/main.dart';
-import 'package:gear_up/view/onBoarding/introScreens/intro_one_page.dart';
-import 'package:gear_up/view/onBoarding/introScreens/intro_three_page.dart';
-import 'package:gear_up/view/onBoarding/introScreens/intro_two_page.dart';
-import 'package:gear_up/view/onBoarding/login/login_page.dart';
-import 'package:gear_up/view/onBoarding/login/otp_page.dart';
-import 'package:gear_up/view/onBoarding/profileSetUp/select_sports.dart';
-import 'package:gear_up/view/onBoarding/profileSetUp/set_age.dart';
-import 'package:gear_up/view/onBoarding/profileSetUp/set_gender.dart';
-import 'package:gear_up/view/onBoarding/profileSetUp/set_level.dart';
-import 'package:gear_up/view/onBoarding/profileSetUp/set_name.dart';
-import 'package:gear_up/view/onBoarding/profileSetUp/set_objective.dart';
+import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_one_page.dart';
+import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_three_page.dart';
+import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_two_page.dart';
+import 'package:gear_up/view/onBoarding/loginUi/login/login_page.dart';
+import 'package:gear_up/view/onBoarding/loginUi/login/otp_page.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/select_sports.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_age.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_gender.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_level.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_name.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_objective.dart';
 import 'package:gear_up/view/partners/main.dart';
+import 'package:gear_up/view/splashScreen/splash_page.dart';
 import 'package:gear_up/view/userProfile/edit/main.dart';
 import 'package:gear_up/view/userProfile/userDetails/main.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,13 @@ class AppRouter {
     GoRouter router = GoRouter(
         initialLocation: '/home_page',
         routes: [
+          GoRoute(
+            name: RouteConstants.splashPageRouteName,
+            path: '/splash_screen',
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: SafeArea(child: SplashScreen()));
+            },
+          ),
           GoRoute(
             name: RouteConstants.introPage1RouteName,
             path: '/intro_page_one',

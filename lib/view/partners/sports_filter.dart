@@ -16,7 +16,6 @@ class _SportsFilter extends State<SportsFilter> {
       data: ThemeData(unselectedWidgetColor: Colors.transparent),
       child: InkWell(
         onTap: () {
-          // set level here
           setState(() {
             _value = !_value;
           });

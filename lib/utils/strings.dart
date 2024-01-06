@@ -12,8 +12,9 @@ class Strings {
   static const String enterYourAadharLinkedMobileNumber =
       'Enter your Aadhar linked Mobile number';
   static const String getOtp = 'Get OTP';
+  static const String sendingOTP = 'Sending OTP';
   static const String enterOtp = 'Enter OTP';
-  static const String otpSentText = 'A 4 digit OTP has been sent to 9599517944';
+  static const String otpSentText = 'A 4 digit OTP has been sent to ';
   static const String verify = 'Verify';
   static const String setUpProfile = 'Set Up Profile';
   static const String findBestPartnersNearYou =
@@ -45,6 +46,10 @@ class Strings {
   static const List<String> playingTimeList = ['Weekends', 'Daily', 'Any Time'];
   static const String whatsYourName = 'What\'s your full name?';
   static const String whatsYourAge = 'What\'s your age?';
+  static const String whatsYourDOB = 'What\'s your date of birth?';
   static const String whatsYourGender = 'Your gender?';
   static const List<String> genderList = ['Male', 'Female', 'Others'];
+
+  // OnBoarding
+  static const String otpNotSentMessage = 'Could not send OTP, Please retry!';
 }

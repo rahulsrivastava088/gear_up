@@ -42,6 +42,20 @@ dependencies:
   intl: ^0.18.1
   flutter_rating_bar: ^4.0.1
 
+  #state management
+  stacked: ^3.4.1
+
+  #navigation
+  auto_route: ^6.4.0
+  stacked_services: ^1.0.2
+  shared_preferences: ^2.2.2
+  after_layout: ^1.2.0
+  logger: ^2.0.2+1
+  provider: ^6.1.1
+  flutter_datetime_picker_plus: ^2.1.0
+  date_format_field: ^0.0.4
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

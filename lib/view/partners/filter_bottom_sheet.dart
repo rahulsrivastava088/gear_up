@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/utils/strings.dart';
+import 'package:go_router/go_router.dart';
 
 enum Gender { allGender, male }
 
@@ -309,7 +309,9 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                   Expanded(
                     child: TextButton(
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pop();
+                      },
                       child: Container(
                         height: 48,
                         width: double.infinity,

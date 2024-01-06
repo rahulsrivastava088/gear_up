@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/home/main.dart';
+import 'package:gear_up/view/home/ui/main.dart';
 import 'package:gear_up/view/myGames/main.dart';
 import 'package:gear_up/view/partners/main.dart';
 import 'package:gear_up/view/userProfile/userDetails/main.dart';

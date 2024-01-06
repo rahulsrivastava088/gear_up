@@ -1,4 +1,6 @@
 class RouteConstants {
+  // splash scren
+  static const String splashPageRouteName = "SplashScreen";
   // on boarding
   static const String introPage1RouteName = 'IntroPageOne';
   static const String introPage2RouteName = 'IntroPageTwo';

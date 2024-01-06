@@ -23,57 +23,7 @@ class PartnersScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
         child: Column(
           children: [
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 32,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: getList(),
-                      ),
-                    ),
-                  ),
-                  const VerticalDivider(
-                    width: 1,
-                    color: Color(0xFF333333),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          constraints:
-                              const BoxConstraints(minWidth: double.infinity),
-                          builder: (BuildContext context) {
-                            return const Wrap(children: [FilterBottomSheet()]);
-                          });
-                    },
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      alignment: Alignment.center,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 1, color: Color(0xFF333333)),
-                          borderRadius: BorderRadius.circular(80),
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.filter_alt_outlined,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            filterWidget(context),
             const SizedBox(
               height: 24,
             ),
@@ -209,6 +159,58 @@ class PartnersScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  IntrinsicHeight filterWidget(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 32,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: getList(),
+              ),
+            ),
+          ),
+          const VerticalDivider(
+            width: 1,
+            color: Color(0xFF333333),
+          ),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  builder: (BuildContext context) {
+                    return const Wrap(children: [FilterBottomSheet()]);
+                  });
+            },
+            child: Container(
+              width: 36,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(width: 1, color: Color(0xFF333333)),
+                  borderRadius: BorderRadius.circular(80),
+                ),
+              ),
+              child: const Icon(
+                Icons.filter_alt_outlined,
+                color: Colors.white,
+                size: 16,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
