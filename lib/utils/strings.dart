@@ -52,4 +52,14 @@ class Strings {
 
   // OnBoarding
   static const String otpNotSentMessage = 'Could not send OTP, Please retry!';
+  // Posh
+  static const String whatIsPoshTraining = "What is POSH Training?";
+  static const String whatIsPoshTrainingText =
+      "POSH training, or Prevention of Sexual Harassment, is a targeted program fostering awareness and skills to recognise, prevent, and address sexual harassment. This training empowers individuals to contribute to safe and inclusive environments by promoting respect and understanding.";
+  static const String earnBadgeText =
+      "Earn a SafeSpaceAdvocate Badge on completion of this assessment";
+
+  // API
+  static const String apiErrorMessage =
+      'We are facing an issue, please retry after some time!';
 }

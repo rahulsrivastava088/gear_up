@@ -9,23 +9,27 @@ class VerifyUser {
   String? status;
   User? user;
   String? token;
+  String? message;
 
   VerifyUser({
     this.status,
     this.user,
     this.token,
+    this.message,
   });
 
   factory VerifyUser.fromJson(Map<String, dynamic> json) => VerifyUser(
         status: json["status"],
         user: User.fromJson(json["user"]),
         token: json["token"],
+        message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "user": user?.toJson(),
         "token": token,
+        "message": message,
       };
 }
 

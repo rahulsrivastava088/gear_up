@@ -16,8 +16,14 @@ class RouteConstants {
   static const String setGenderPageRouteName = 'SetGenderPageRouteName';
   // user profile
   static const String userProfilePageRouteName = 'UserProfilePage';
+  static const String otherUserProfilePageRouteName = 'OtherUserProfilePage';
   static const String editUserProfilePageRouteName = 'EditUserProfilePage';
   // home
   static const String homePageRouteName = 'HomePage';
   static const String partnersPageRouteName = 'PartnersPage';
+  // posh
+  static const String poshPageRouteName = 'PostPage';
+  static const String poshInformationPageRouteName = 'PostInformationPage';
+  // game card
+  static const String gameCardPageRouteName = 'GameCardPage';
 }

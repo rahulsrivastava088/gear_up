@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/home/ui/main.dart';
-import 'package:gear_up/view/myGames/main.dart';
-import 'package:gear_up/view/partners/main.dart';
-import 'package:gear_up/view/userProfile/userDetails/main.dart';
+import 'package:gear_up/view/home/model/response/players_list_response.dart';
+import 'package:gear_up/view/home/ui/home_page_main.dart';
+import 'package:gear_up/view/myGames/my_games_page_main.dart';
+import 'package:gear_up/view/partners/ui/partners_page_main.dart';
+import 'package:gear_up/view/userProfile/ui/user_profile/own_user_page_main.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialIndex;
@@ -20,11 +21,11 @@ class _MainScreen extends State<MainScreen> {
   }
 
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    PartnersScreen(),
-    MyGamesScreen(),
-    UserProfileScreen()
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
+    const PartnersScreen(),
+    const MyGamesScreen(),
+    UserProfileScreen(player: PlayersWithConnection())
   ];
   @override
   Widget build(BuildContext context) {

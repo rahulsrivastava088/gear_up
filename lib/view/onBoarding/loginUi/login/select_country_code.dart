@@ -11,6 +11,7 @@ class SelectCountryCode extends StatelessWidget {
         InkWell(
           onTap: () {
             showModalBottomSheet(
+                useRootNavigator: true,
                 context: context,
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
