@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/view/bottomNavigation/main.dart';
-import 'package:gear_up/view/home/model/response/players_list_response.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
 import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_one_page.dart';
 import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_three_page.dart';
@@ -20,7 +19,6 @@ import 'package:gear_up/view/posh/ui/posh_first_page.dart';
 import 'package:gear_up/view/posh/ui/posh_information_page.dart';
 import 'package:gear_up/view/splashScreen/splash_page.dart';
 import 'package:gear_up/view/userProfile/ui/edit_user_profile/main.dart';
-import 'package:gear_up/view/userProfile/ui/player_profile/player_profile_main_page.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/own_user_page_main.dart';
 import '../../view/myGames/gameCard/model/response/games_list_response.dart';
 
@@ -130,8 +128,7 @@ final routes = [
     name: RouteConstants.userProfilePageRouteName,
     path: '/user_profile_page',
     pageBuilder: (context, state) {
-      PlayersWithConnection player = state.extra as PlayersWithConnection;
-      return getPage(state: state, child: UserProfileScreen(player: player));
+      return getPage(state: state, child: const UserProfileScreen());
     },
   ),
   GoRoute(

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-
-enum Level { beginner, intermediate, advance, professional, coach }
+import 'package:gear_up/data/response/api_response.dart';
+import 'package:gear_up/view/filter/filter_view_model.dart';
+import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
+import 'package:provider/provider.dart';
+import '../../../utils/Strings.dart';
+import '../../partners/ui/filter_bottom_sheet.dart';
 
 class PartnerLevelBottomSheet extends StatefulWidget {
+  final int selectedSportIndex;
   const PartnerLevelBottomSheet({
     super.key,
+    required this.selectedSportIndex,
   });
 
   @override
@@ -16,6 +22,8 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<FilterViewModel>(context);
+    final playerViewModel = Provider.of<PlayersViewModel>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -45,9 +53,9 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Sport Selected',
-                      style: TextStyle(
+                    Text(
+                      Strings.sportsList[widget.selectedSportIndex],
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 24,
                         fontFamily: 'General Sans',
@@ -68,7 +76,7 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Select Partner\'s Level',
+                'Select Your Level',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -79,11 +87,16 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
               Column(
                 children: [
                   const SizedBox(height: 8),
-                  sportsRadioButtonWidget("Beginner", Level.beginner),
-                  sportsRadioButtonWidget("Intermediate", Level.intermediate),
-                  sportsRadioButtonWidget("Advance", Level.advance),
-                  sportsRadioButtonWidget("Professional", Level.professional),
-                  sportsRadioButtonWidget("Coach/Trainer", Level.coach)
+                  sportsRadioButtonWidget(
+                      "Beginner", Level.beginner, model, playerViewModel),
+                  sportsRadioButtonWidget("Intermediate", Level.intermediate,
+                      model, playerViewModel),
+                  sportsRadioButtonWidget(
+                      "Advance", Level.advance, model, playerViewModel),
+                  sportsRadioButtonWidget("Professional", Level.professional,
+                      model, playerViewModel),
+                  sportsRadioButtonWidget("Coach/Trainer", Level.coachTrainer,
+                      model, playerViewModel)
                 ],
               ),
             ],
@@ -93,12 +106,18 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
     );
   }
 
-  ListTile sportsRadioButtonWidget(String text, Level value) {
+  ListTile sportsRadioButtonWidget(String text, Level value,
+      FilterViewModel model, PlayersViewModel playerViewModel) {
     return ListTile(
       onTap: () {
         setState(
           () {
             selectedLevel = value;
+            model.favouriteSport = Sports.values[widget.selectedSportIndex];
+            model.favouriteSportLevel = value;
+            playerViewModel.playersListResponse = ApiResponse.idle();
+            playerViewModel.notifyListeners();
+            Navigator.pop(context);
           },
         );
       },

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/utils/strings.dart';
+import 'package:gear_up/view/filter/filter_view_model.dart';
+import 'package:gear_up/view/home/ui/partner_level_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import '../../onBoarding/loginUi/commonUI/list_item.dart';
 
 class HomeSelectSportsWidget extends StatefulWidget {
@@ -34,6 +37,20 @@ class _ListViewState extends State<HomeSelectSportsWidget> {
                 item.isSelected = false;
               }
               items[index].isSelected = true;
+              showModalBottomSheet(
+                useRootNavigator: true,
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                constraints: const BoxConstraints(minWidth: double.infinity),
+                builder: (BuildContext context) {
+                  return Wrap(
+                    children: [
+                      PartnerLevelBottomSheet(selectedSportIndex: index)
+                    ],
+                  );
+                },
+              );
             });
           },
           child: customCheckBoxContainer(index, items[index]),

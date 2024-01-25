@@ -13,7 +13,7 @@ class UserDetailsCard extends StatelessWidget {
 
   final String? userImage;
   final String? userName;
-  final String? userAge;
+  final int? userAge;
   final String? userGender;
   final String? userLocation;
 
@@ -39,7 +39,7 @@ class UserDetailsCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '$userAge, $userGender',
+                  '${userAge ?? '-'}, ${userGender ?? '-'}',
                   style: const TextStyle(
                       color: Color(0xFFCBCBCB),
                       fontSize: 12,

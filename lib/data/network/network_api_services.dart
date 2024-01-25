@@ -36,6 +36,7 @@ class NetworkApiServices extends BaseApiServices {
             encoding: Encoding.getByName("utf-8"),
           )
           .timeout(const Duration(seconds: 7));
+      print(response.body);
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -94,5 +95,29 @@ class NetworkApiServices extends BaseApiServices {
         throw FetchDataException(
             'Error occured with status code: ${response.statusCode}');
     }
+  }
+
+  @override
+  Future getGetApiResponseTokenisedAndData(
+      String url, data, String token) async {
+    dynamic responseJson;
+    final msg = jsonEncode(data);
+    try {
+      final response = await http
+          .post(
+            Uri.parse(url),
+            body: msg,
+            headers: {
+              'Content-type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            encoding: Encoding.getByName("utf-8"),
+          )
+          .timeout(const Duration(seconds: 7));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
   }
 }

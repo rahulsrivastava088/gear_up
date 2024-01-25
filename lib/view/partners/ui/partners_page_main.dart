@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/data/response/api_response.dart';
 import 'package:gear_up/utils/strings.dart';
+import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
 import 'package:gear_up/view/partners/ui/app_bar.dart';
 import 'package:gear_up/view/partners/ui/filter_bottom_sheet.dart';
 import 'package:gear_up/view/partners/ui/sports_filter.dart';
-import 'package:gear_up/view/partners/viewModel/partners_page_viewmodel.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../data/response/status.dart';
-import '../../../project/routes/app_route_constants.dart';
 import '../../bottomNavigation/custom.dart';
+import '../../filter/filter_view_model.dart';
+import '../../home/ui/select_sports_widget.dart';
 
 class PartnersScreen extends StatefulWidget {
   const PartnersScreen({super.key});
@@ -23,18 +24,57 @@ class _PartnersScreenState extends State<PartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<PartnersPageViewModel>(context);
-    // return _shimmerUi(context);
-    if (!model.apiCalled) {
-      model.fetchAllPlayers(context);
+    final model = Provider.of<PlayersViewModel>(context);
+    final filterViewModel = Provider.of<FilterViewModel>(context);
+    if (model.playersListResponse.status == Status.IDLE) {
+      model.fetchPlayers(context, filterViewModel.getPlayersListRequestBody());
       return _shimmerUi(context);
     } else if (model.playersListResponse.status == Status.LOADING) {
       return _shimmerUi(context);
+    } else if (model.playersListResponse.status == Status.ERROR) {
+      return errorUI(model);
+    } else if (model.playersListResponse.status == Status.COMPLETED) {
+      return ui(context, model, filterViewModel);
     } else {
-      return ui(context, model);
+      return errorUI(model);
     }
   }
-  //
+
+  Scaffold errorUI(PlayersViewModel model) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Couldn't fetch players due to some issue, kindly retry",
+              style: TextStyle(
+                color: Color(0xFFAFAFAF),
+                fontSize: 16,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                model.playersListResponse = ApiResponse.idle();
+                model.notifyListeners();
+              },
+              child: const Icon(
+                Icons.refresh,
+                size: 32,
+                color: Color(0xFFAFAFAF),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   Scaffold _shimmerUi(BuildContext context) {
     return Scaffold(
@@ -146,131 +186,170 @@ class _PartnersScreenState extends State<PartnersScreen> {
         ),
       );
 
-  Scaffold ui(BuildContext context, PartnersPageViewModel model) {
+  Scaffold ui(BuildContext context, PlayersViewModel model,
+      FilterViewModel filterViewModel) {
     return Scaffold(
       appBar: partnersAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
-        child: Column(children: [
-          filterWidget(context),
-          const SizedBox(height: 24),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: model.playersListResponse.data?.playersWithConnections
-                      ?.length ??
-                  0,
-              // controller: PageController(viewportFraction: 0.8),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      CustomNavigationHelper.router.push(
-                          CustomNavigationHelper.playerProfilePath,
-                          extra: model.playersListResponse.data
-                              ?.playersWithConnections?[index].id);
-                    },
-                    child: Row(
-                      children: [
-                        Center(
-                          child: ClipOval(
-                            child: SizedBox.fromSize(
-                              size: const Size.fromRadius(24), // Image radius
-                              child: FadeInImage.assetNetwork(
-                                placeholder: 'assets/images/person_image.png',
-                                image: model.playersListResponse.data
-                                        ?.playersWithConnections?[index].img ??
-                                    '',
-                                fit: BoxFit.cover,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  return Image.asset(
-                                    "assets/images/person_image.png",
-                                    width: 100,
-                                    height: 100,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                    width: 1, color: Color(0xFF333333)),
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 24),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  model
-                                          .playersListResponse
-                                          .data
-                                          ?.playersWithConnections?[index]
-                                          .firstName ??
-                                      "-",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontFamily: 'General Sans',
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '22, ${model.playersListResponse.data?.playersWithConnections?[index].gender ?? "-"} • ${model.playersListResponse.data?.playersWithConnections?[index].distance ?? '-' 'km away'}',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontFamily: 'Space Grotesk',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '$userRating ★',
-                                      style: const TextStyle(
-                                        color: Color(0xFFAFAFAF),
-                                        fontSize: 12,
-                                        fontFamily: 'Space Grotesk',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ));
-              },
+      body: playersListWidget(context, model, filterViewModel),
+    );
+  }
+
+  Padding playersListWidget(BuildContext context, PlayersViewModel model,
+      FilterViewModel filterViewModel) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
+      child: Column(children: [
+        filterWidget(context, model, filterViewModel),
+        const SizedBox(height: 24),
+        playersListListView(model),
+      ]),
+    );
+  }
+
+  Widget playersListListView(PlayersViewModel model) {
+    if (model.playersLengthCount() == 0) {
+      return _emptyStateUi();
+    } else {
+      return Expanded(
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: model.playersLengthCount() ?? 0,
+          itemBuilder: (context, index) {
+            return _playerCard(model, index);
+          },
+        ),
+      );
+    }
+  }
+
+  Widget _emptyStateUi() {
+    return const Expanded(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(flex: 2),
+            Text(
+              'No results',
+              style: TextStyle(
+                color: Color(0xFFAFAFAF),
+                fontSize: 16,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w800,
+              ),
             ),
-          ),
-        ]),
+            SizedBox(height: 16),
+            Text(
+              'Explore additional players\nby adjusting the filter',
+              style: TextStyle(
+                color: Color(0xFFAFAFAF),
+                fontSize: 16,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Spacer(flex: 3)
+          ],
+        ),
       ),
     );
   }
 
-  IntrinsicHeight filterWidget(BuildContext context) {
+  GestureDetector _playerCard(PlayersViewModel model, int index) {
+    return GestureDetector(
+      onTap: () {
+        CustomNavigationHelper.router.push(
+            CustomNavigationHelper.playerProfilePath,
+            extra: model.playersListResponse.data?.players?[index].id);
+      },
+      child: Row(
+        children: [
+          Center(
+            child: ClipOval(
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(24), // Image radius
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/person_image.png',
+                  image:
+                      model.playersListResponse.data?.players?[index].img ?? '',
+                  fit: BoxFit.cover,
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      "assets/images/person_image.png",
+                      width: 100,
+                      height: 100,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 1, color: Color(0xFF333333)),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.playersListResponse.data?.players?[index].name ?? "-",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: 'General Sans',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Text(
+                        '${model.playersListResponse.data?.players?[index].age ?? "-"}, ${model.playersListResponse.data?.players?[index].gender ?? "-"} • ${model.playersListResponse.data?.players?[index].distance ?? '-' 'km away'}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontFamily: 'Space Grotesk',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        '${model.playersListResponse.data?.players?[index].rating ?? "-"} ★',
+                        style: const TextStyle(
+                          color: Color(0xFFAFAFAF),
+                          fontSize: 12,
+                          fontFamily: 'Space Grotesk',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  IntrinsicHeight filterWidget(BuildContext context, PlayersViewModel model,
+      FilterViewModel filterViewModel) {
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(
+          const Expanded(
             child: SizedBox(
               height: 32,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: getList(),
-              ),
+              child: HomeSelectSportsWidget(),
             ),
           ),
           const VerticalDivider(
@@ -287,7 +366,21 @@ class _PartnersScreenState extends State<PartnersScreen> {
                 backgroundColor: Colors.transparent,
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 builder: (BuildContext context) {
-                  return const Wrap(children: [FilterBottomSheet()]);
+                  return Wrap(children: [
+                    FilterBottomSheet(
+                      onTap: () {
+                        setState(() {
+                          model.playersListResponse = ApiResponse.idle();
+                        });
+                      },
+                      selectedDistance: filterViewModel.range.toDouble(),
+                      selectedStartAge: filterViewModel.minAge.toDouble(),
+                      selectedEndAge: filterViewModel.maxAge.toDouble(),
+                      selectedGender: filterViewModel.gender,
+                      selectedSports: filterViewModel.favouriteSport,
+                      selectedLevel: filterViewModel.favouriteSportLevel,
+                    )
+                  ]);
                 },
               );
             },

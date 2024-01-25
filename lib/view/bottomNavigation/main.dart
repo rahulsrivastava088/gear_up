@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/home/model/response/players_list_response.dart';
 import 'package:gear_up/view/home/ui/home_page_main.dart';
 import 'package:gear_up/view/myGames/my_games_page_main.dart';
 import 'package:gear_up/view/partners/ui/partners_page_main.dart';
@@ -25,7 +24,7 @@ class _MainScreen extends State<MainScreen> {
     const HomeScreen(),
     const PartnersScreen(),
     const MyGamesScreen(),
-    UserProfileScreen(player: PlayersWithConnection())
+    const UserProfileScreen()
   ];
   @override
   Widget build(BuildContext context) {

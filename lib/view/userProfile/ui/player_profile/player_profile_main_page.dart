@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
+import 'package:gear_up/view/myGames/gameCard/model/response/games_list_response.dart';
 import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/about_card.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/details_card.dart';
@@ -29,7 +30,6 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<ProfileViewModel>(context);
-    print("api called status: ${model.playerProfileApiCalled}");
     if (!model.playerProfileApiCalled) {
       model.fetchPlayerProfile(context, widget.playerID);
       return const Center(child: CircularProgressIndicator());
@@ -38,11 +38,6 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
     } else {
       return ui(context, model);
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Scaffold ui(BuildContext context, ProfileViewModel model) {
@@ -56,8 +51,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
             children: [
               UserDetailsCard(
                 userImage: model.playerProfileReponse.data?.user?.img,
-                userName: model.playerProfileReponse.data?.user?.firstName,
-                userAge: '22', //model.playerProfileReponse.data?.user?.age,
+                userName: model.playerProfileReponse.data?.user?.name,
+                userAge: model.playerProfileReponse.data?.user?.age,
                 userGender: model.playerProfileReponse.data?.user?.gender,
                 userLocation:
                     model.playerProfileReponse.data?.user?.currentAddress?.name,
@@ -83,13 +78,22 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
               const SizedBox(height: 32),
               const TitleText(text: 'Games Stats'),
               const SizedBox(height: 16),
-              const ExpandedTile(
-                  sportsName: 'Badminton', played: 'NA', won: 'NA', rate: '-'),
-              const ExpandedTile(
-                  sportsName: 'Table Tennis',
-                  played: 'NA',
-                  won: 'NA',
-                  rate: '-'),
+              SizedBox(
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: model
+                          .playerProfileReponse.data?.user?.gameStats?.length ??
+                      0,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ExpandedTile(
+                      gameStat: model.playerProfileReponse.data?.user
+                              ?.gameStats?[index] ??
+                          GameStat(),
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 32),
               const TitleText(text: 'Social Media'),
               const SizedBox(height: 16),
@@ -119,27 +123,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                   icon: Icons.facebook,
                   isEditable: false,
                   link: model
-                      .playerProfileReponse.data?.user?.socialMedia?.youtube),
+                      .playerProfileReponse.data?.user?.socialMedia?.twitter),
               const SizedBox(height: 8),
               const SizedBox(height: 32),
-              const TitleText(text: 'Reviews and Ratings'),
-              const SizedBox(height: 16),
-              SizedBox(
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount:
-                      model.playerProfileReponse.data?.user?.ratings?.length ??
-                          0,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return ReviewCard(
-                      rating: model.playerProfileReponse.data?.user
-                              ?.ratings?[index] ??
-                          Rating(),
-                    );
-                  },
-                ),
-              ),
+              reviewsAndRatingsWidget(model),
               const SizedBox(height: 18),
               model.playerProfileReponse.data?.user?.connectionData
                           ?.connection ==
@@ -152,6 +139,36 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         ),
       ),
     );
+  }
+
+  Widget reviewsAndRatingsWidget(ProfileViewModel model) {
+    final ratings = model.playerProfileReponse.data?.user?.ratings;
+    if (ratings == null || ratings.isEmpty) {
+      return Container();
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const TitleText(text: 'Reviews and Ratings'),
+          const SizedBox(height: 16),
+          SizedBox(
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount:
+                  model.playerProfileReponse.data?.user?.ratings?.length ?? 0,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return ReviewCard(
+                  rating:
+                      model.playerProfileReponse.data?.user?.ratings?[index] ??
+                          Rating(),
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   AppBar otherUserProfileAppBar(BuildContext context, ProfileViewModel model) {

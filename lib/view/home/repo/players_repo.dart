@@ -6,15 +6,15 @@ import '../../../data/network/base_api_services.dart';
 import '../../../data/network/network_api_services.dart';
 import '../../../utils/shared_preferences.dart';
 
-class HomePageRepository {
+class PlayersRepository {
   final BaseApiServices _apiServices = NetworkApiServices();
 
-  Future<PlayersList> fetchAllPlayers() async {
+  Future<PlayersList> fetchPlayers(dynamic data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(SharedPreferenceConstants.token) ?? "";
     try {
-      dynamic response = await _apiServices.getGetApiResponseTokenised(
-          fetchAllPlayersUrl, token);
+      dynamic response = await _apiServices.getPostApiResponseTokenised(
+          fetchAllPlayersUrl, data, token);
       Logger().d(response);
       var res = PlayersList.fromJson(response);
       return res;

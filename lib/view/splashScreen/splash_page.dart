@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
-import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/utils/shared_preferences.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gear_up/view/bottomNavigation/custom.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,6 +16,8 @@ class SplashScreen extends StatefulWidget {
 
 class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
   Future checkFirstSeen() async {
+    await Future.delayed(const Duration(seconds: 1));
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(SharedPreferenceConstants.token);
     if (token != null) {
@@ -24,9 +25,9 @@ class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
           prefs.getBool(SharedPreferenceConstants.isNewUser) ?? false;
 
       if (isNewUser) {
-        moveToScreen(RouteConstants.selectSportsPageRouteName);
+        moveToScreen(CustomNavigationHelper.selectSportsPath);
       } else {
-        moveToScreen(RouteConstants.homePageRouteName);
+        moveToScreen(CustomNavigationHelper.myProfilePath);
       }
     } else {
       bool introScreenVisited =
@@ -42,7 +43,7 @@ class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
 
   void moveToScreen(String routeName) {
     if (mounted) {
-      GoRouter.of(context).goNamed(routeName);
+      CustomNavigationHelper.router.go(routeName);
     }
   }
 
@@ -70,15 +71,11 @@ class SplashScreenText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      Strings.splashScreenText,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 32,
-        fontStyle: FontStyle.italic,
-        fontFamily: 'General Sans',
-        fontWeight: FontWeight.w700,
-      ),
+    return Column(
+      children: [
+        Lottie.asset('assets/lottie/gear_up_lottie_animation.json',
+            width: 400, height: 400)
+      ],
     );
   }
 }

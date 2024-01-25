@@ -20,7 +20,6 @@ class SocialMediaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("lnik: $link");
         if (link != null) {
           hitSocialMediaLink(link!);
         }

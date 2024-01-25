@@ -1,34 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/view/filter/filter_view_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-enum Gender { allGender, male }
+enum Gender { All, Male }
 
 enum Sports { badminton, tableTennis, lawnTennis, squash, pool }
 
+enum Level { beginner, intermediate, advance, professional, coachTrainer }
+
 class FilterBottomSheet extends StatefulWidget {
-  const FilterBottomSheet({
-    super.key,
-  });
+  final Function onTap;
+  final double selectedDistance;
+  final double selectedStartAge;
+  final double selectedEndAge;
+  final Gender selectedGender;
+  final Sports selectedSports;
+  final Level selectedLevel;
+
+  const FilterBottomSheet(
+      {super.key,
+      required this.onTap,
+      required this.selectedDistance,
+      required this.selectedStartAge,
+      required this.selectedEndAge,
+      required this.selectedGender,
+      required this.selectedSports,
+      required this.selectedLevel});
 
   @override
-  State<FilterBottomSheet> createState() => _FilterBottomSheet();
+  State<FilterBottomSheet> createState() {
+    return _FilterBottomSheet();
+  }
 }
 
 class _FilterBottomSheet extends State<FilterBottomSheet> {
-  double selectedDistance = 10;
   double minimumDistance = 0;
   double maximumDistance = 50;
-
   double minAge = 18;
   double maxAge = 60;
+
+  double selectedDistance = 10;
   double selectedStartAge = 18;
   double selectedEndAge = 24;
-
-  var selectedGender = Gender.allGender;
+  var selectedGender = Gender.All;
   var selectedSports = Sports.badminton;
+  var selectedLevel = Level.beginner;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDistance = widget.selectedDistance;
+    selectedStartAge = widget.selectedStartAge;
+    selectedEndAge = widget.selectedEndAge;
+    selectedGender = widget.selectedGender;
+    selectedSports = widget.selectedSports;
+    selectedLevel = widget.selectedLevel;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<FilterViewModel>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -245,7 +277,7 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                     onTap: () {
                       setState(
                         () {
-                          selectedGender = Gender.allGender;
+                          selectedGender = Gender.All;
                         },
                       );
                     },
@@ -266,7 +298,7 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                     ),
                     leading: Radio(
                       activeColor: Colors.black,
-                      value: Gender.allGender,
+                      value: Gender.All,
                       groupValue: selectedGender,
                       onChanged: (value) {},
                     ),
@@ -275,7 +307,7 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                     onTap: () {
                       setState(
                         () {
-                          selectedGender = Gender.male;
+                          selectedGender = Gender.Male;
                         },
                       );
                     },
@@ -296,7 +328,7 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                     ),
                     leading: Radio(
                       activeColor: Colors.black,
-                      value: Gender.male,
+                      value: Gender.Male,
                       groupValue: selectedGender,
                       onChanged: (value) {},
                     ),
@@ -339,7 +371,16 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                   Expanded(
                     child: TextButton(
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      onPressed: () {},
+                      onPressed: () {
+                        model.gender = selectedGender;
+                        model.maxAge = maxAge.toInt();
+                        model.minAge = minAge.toInt();
+                        model.range = selectedDistance.toInt();
+                        model.favouriteSport = selectedSports;
+                        model.favouriteSportLevel = selectedLevel;
+                        widget.onTap();
+                        Navigator.pop(context);
+                      },
                       child: Container(
                         height: 48,
                         width: double.infinity,

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/Colors.dart';
+import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
+import '../../../../utils/extension_functions.dart';
 
 class ExpandedTile extends StatefulWidget {
-  final String sportsName;
-  final String played;
-  final String won;
-  final String rate;
-  const ExpandedTile(
-      {super.key,
-      required this.sportsName,
-      required this.played,
-      required this.won,
-      required this.rate});
+  final GameStat gameStat;
+  const ExpandedTile({
+    super.key,
+    required this.gameStat,
+  });
 
   @override
   State<ExpandedTile> createState() => _ExpandedTileState();
@@ -37,26 +34,33 @@ class _ExpandedTileState extends State<ExpandedTile> {
               });
             },
             title: _unexpandedState(),
-            // trailing: const SizedBox(height: 26),
             children: [
               Row(
                 children: [
                   const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [_smallText('Played'), _boldText(widget.played)],
+                    children: [
+                      _smallText('Played'),
+                      _boldTextInt(widget.gameStat.matchesPlayed)
+                    ],
                   ),
-                  const Spacer(flex: 3),
+                  const SizedBox(width: 72),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [_smallText('Won'), _boldText(widget.won)],
+                    children: [
+                      _smallText('Won'),
+                      _boldTextInt(widget.gameStat.matchesWon)
+                    ],
                   ),
-                  const Spacer(flex: 3),
+                  const SizedBox(width: 72),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [_smallText('Rates as'), _boldText(widget.rate)],
+                    children: [
+                      _smallText('Rates as'),
+                      _boldText(widget.gameStat.level ?? 'NA')
+                    ],
                   ),
-                  const Spacer(flex: 4),
                 ],
               ),
               const SizedBox(height: 20)
@@ -71,7 +75,7 @@ class _ExpandedTileState extends State<ExpandedTile> {
     return Row(
       children: [
         Text(
-          widget.sportsName,
+          getSportName(widget.gameStat.sportId),
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
@@ -103,6 +107,18 @@ Text _smallText(String text) {
 Text _boldText(String text) {
   return Text(
     text,
+    style: const TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontFamily: 'General Sans',
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+Text _boldTextInt(int? text) {
+  return Text(
+    text == null ? "NA" : text.toString(),
     style: const TextStyle(
       color: Colors.white,
       fontSize: 16,

@@ -34,26 +34,26 @@ class User {
   SocialMedia? socialMedia;
   dynamic bio;
   dynamic profession;
+  dynamic poshScore;
+  ConnectionData? connectionData;
   String? id;
   int? mobileNumber;
   List<FavoriteSport>? favoriteSports;
   String? country;
   bool? newUser;
   String? referralCode;
+  List<Address>? addresses;
   List<Token>? tokens;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
-  List<Address>? addresses;
-  String? firstName;
-  String? lastName;
+  int? bucks;
   String? gender;
   String? img;
-  int? birthday;
   List<dynamic>? connections;
-  int? bucks;
+  String? name;
+  int? age;
   dynamic rating;
-  ConnectionData? connectionData;
   List<Rating>? ratings;
   List<GameStat>? gameStats;
 
@@ -62,26 +62,26 @@ class User {
     this.socialMedia,
     this.bio,
     this.profession,
+    this.poshScore,
+    this.connectionData,
     this.id,
     this.mobileNumber,
     this.favoriteSports,
     this.country,
     this.newUser,
     this.referralCode,
+    this.addresses,
     this.tokens,
     this.createdAt,
     this.updatedAt,
     this.v,
-    this.addresses,
-    this.firstName,
-    this.lastName,
+    this.bucks,
     this.gender,
     this.img,
-    this.birthday,
     this.connections,
-    this.bucks,
+    this.name,
+    this.age,
     this.rating,
-    this.connectionData,
     this.ratings,
     this.gameStats,
   });
@@ -95,6 +95,10 @@ class User {
             : SocialMedia.fromJson(json["social_media"]),
         bio: json["bio"],
         profession: json["profession"],
+        poshScore: json["posh_score"],
+        connectionData: json["connection_data"] == null
+            ? null
+            : ConnectionData.fromJson(json["connection_data"]),
         id: json["_id"],
         mobileNumber: json["mobileNumber"],
         favoriteSports: json["favorite_sports"] == null
@@ -104,6 +108,10 @@ class User {
         country: json["country"],
         newUser: json["new_user"],
         referralCode: json["referral_code"],
+        addresses: json["addresses"] == null
+            ? []
+            : List<Address>.from(
+                json["addresses"]!.map((x) => Address.fromJson(x))),
         tokens: json["tokens"] == null
             ? []
             : List<Token>.from(json["tokens"]!.map((x) => Token.fromJson(x))),
@@ -114,23 +122,15 @@ class User {
             ? null
             : DateTime.parse(json["updatedAt"]),
         v: json["__v"],
-        addresses: json["addresses"] == null
-            ? []
-            : List<Address>.from(
-                json["addresses"]!.map((x) => Address.fromJson(x))),
-        firstName: json["first_name"],
-        lastName: json["last_name"],
+        bucks: json["bucks"],
         gender: json["gender"],
         img: json["img"],
-        birthday: json["birthday"],
         connections: json["connections"] == null
             ? []
             : List<dynamic>.from(json["connections"]!.map((x) => x)),
-        bucks: json["bucks"],
+        name: json["name"],
+        age: json["age"],
         rating: json["rating"],
-        connectionData: json["connection_data"] == null
-            ? null
-            : ConnectionData.fromJson(json["connection_data"]),
         ratings: json["ratings"] == null
             ? []
             : List<Rating>.from(
@@ -146,6 +146,8 @@ class User {
         "social_media": socialMedia?.toJson(),
         "bio": bio,
         "profession": profession,
+        "posh_score": poshScore,
+        "connection_data": connectionData?.toJson(),
         "_id": id,
         "mobileNumber": mobileNumber,
         "favorite_sports": favoriteSports == null
@@ -154,26 +156,24 @@ class User {
         "country": country,
         "new_user": newUser,
         "referral_code": referralCode,
+        "addresses": addresses == null
+            ? []
+            : List<dynamic>.from(addresses!.map((x) => x.toJson())),
         "tokens": tokens == null
             ? []
             : List<dynamic>.from(tokens!.map((x) => x.toJson())),
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
-        "addresses": addresses == null
-            ? []
-            : List<dynamic>.from(addresses!.map((x) => x.toJson())),
-        "first_name": firstName,
-        "last_name": lastName,
+        "bucks": bucks,
         "gender": gender,
         "img": img,
-        "birthday": birthday,
         "connections": connections == null
             ? []
             : List<dynamic>.from(connections!.map((x) => x)),
-        "bucks": bucks,
+        "name": name,
+        "age": age,
         "rating": rating,
-        "connection_data": connectionData?.toJson(),
         "ratings": ratings == null
             ? []
             : List<dynamic>.from(ratings!.map((x) => x.toJson())),
@@ -336,12 +336,14 @@ class Rating {
 }
 
 class SocialMedia {
+  dynamic twitter;
   String? instagram;
   dynamic facebook;
   dynamic linkedin;
   dynamic youtube;
 
   SocialMedia({
+    this.twitter,
     this.instagram,
     this.facebook,
     this.linkedin,
@@ -349,6 +351,7 @@ class SocialMedia {
   });
 
   factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
+        twitter: json["twitter"],
         instagram: json["instagram"],
         facebook: json["facebook"],
         linkedin: json["linkedin"],
@@ -356,6 +359,7 @@ class SocialMedia {
       );
 
   Map<String, dynamic> toJson() => {
+        "twitter": twitter,
         "instagram": instagram,
         "facebook": facebook,
         "linkedin": linkedin,

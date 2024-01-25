@@ -40,7 +40,8 @@ class _PoshScreenState extends State<PoshScreen> {
                       GoRouter.of(context).pushNamed(
                           RouteConstants.poshInformationPageRouteName);
                     },
-                    text: "Let's Start")
+                    text: "Let's Start"),
+                const SizedBox(height: 32)
               ],
             ),
           ),

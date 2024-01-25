@@ -1,33 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gear_up/utils/extension_functions.dart';
-import 'package:gear_up/view/home/model/response/players_list_response.dart';
-import 'package:gear_up/view/home/repo/home_page_repo.dart';
+import 'package:gear_up/view/home/model/request/players_list_request_body.dart';
+import 'package:gear_up/view/home/repo/players_repo.dart';
 import 'package:stacked/stacked.dart';
-
 import '../../../data/response/api_response.dart';
-import '../../../utils/utilities.dart';
+import '../model/response/players_list_response.dart';
 
-class HomePageViewModel extends BaseViewModel {
-  final _repo = HomePageRepository();
-  bool apiCalled = false;
+class PlayersViewModel extends BaseViewModel {
+  final _repo = PlayersRepository();
 
   ApiResponse<PlayersList> playersListResponse = ApiResponse.idle();
 
-  fetchAllPlayers(BuildContext context) async {
+  fetchPlayers(BuildContext context,
+      PlayersListRequestBody playersListRequestBody) async {
+    dynamic data = playersListRequestBody.toJson();
     playersListResponse = ApiResponse.loading();
     _repo
-        .fetchAllPlayers()
+        .fetchPlayers(data)
         .then(
           (value) => {
             if (value.status.toString().isSuccess())
               {
                 playersListResponse = ApiResponse.completed(value),
-                apiCalled = true
               }
             else
               {
                 playersListResponse = ApiResponse.error(""),
-                showSnackBar(context, "There is some issue at our end"),
               },
             notifyListeners()
           },
@@ -35,13 +33,12 @@ class HomePageViewModel extends BaseViewModel {
         .onError(
           (error, stackTrace) => {
             playersListResponse = ApiResponse.error(""),
-            showSnackBar(context, "There is some issue at our end, please ret"),
-            notifyListeners()
+            notifyListeners(),
           },
         );
   }
 
   playersLengthCount() {
-    return playersListResponse.data?.playersWithConnections?.length;
+    return playersListResponse.data?.players?.length;
   }
 }

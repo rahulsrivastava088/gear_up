@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/view/bottomNavigation/custom.dart';
 import 'package:gear_up/view/myGames/gameCard/model/response/games_list_response.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../project/routes/app_route_constants.dart';
 import '../../../../utils/extension_functions.dart';
 
 class GameCard extends StatefulWidget {
@@ -17,8 +16,8 @@ class _GameCard extends State<GameCard> {
     // final model = Provider.of<GameCardViewModel>(context);
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).pushNamed(
-          RouteConstants.gameCardPageRouteName,
+        CustomNavigationHelper.router.go(
+          CustomNavigationHelper.gameDetailPath,
           extra: widget.game,
         );
       },
