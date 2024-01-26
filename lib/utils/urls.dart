@@ -17,3 +17,6 @@ const String fetchMyUpcomingGamesUrl = "$baseUrl//game/upcomingGames";
 // Profile
 const String fetchPlayerProfileDataUrl = "$baseUrl/user/getAnyPlayer";
 const String fetchUserProfileDataUrl = "$baseUrl/user/mydata";
+
+//Chat
+const String getAllMessages = "$baseUrl/message/getMessages";

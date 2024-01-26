@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/view/bottomNavigation/custom.dart';
 import 'package:gear_up/view/filter/filter_view_model.dart';
 import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
+import 'package:gear_up/view/myChats/viewmodel/chatScreen_viewModel.dart';
 import 'package:gear_up/view/myGames/gameCard/viewmodel/game_card_viewmodel.dart';
 import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
@@ -29,6 +30,7 @@ class GearUpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
         ChangeNotifierProvider(create: (context) => MyProfileViewModel()),
         ChangeNotifierProvider(create: (context) => FilterViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatViewModel()),
       ],
       child: MaterialApp.router(
         theme: ThemeData.dark(useMaterial3: true)

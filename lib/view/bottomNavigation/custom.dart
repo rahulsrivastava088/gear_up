@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/view/bottomNavigation/page.dart';
 import 'package:gear_up/view/home/ui/home_page_main.dart';
+import 'package:gear_up/view/myChats/ui/chatScreen_view.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
 import 'package:gear_up/view/myGames/my_games_page_main.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/select_sports.dart';
@@ -46,6 +47,7 @@ class CustomNavigationHelper {
   static const String myProfilePath = '/my_profile';
   static const String splashPath = '/splash';
   static const String poshPath = '/posh';
+  static const String myChatPath = '/chat';
 
   static const String selectSportsPath = '/select_sports';
   static const String gameDetailPath = '/game_detail';
@@ -187,11 +189,21 @@ class CustomNavigationHelper {
           );
         },
       ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: myChatPath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const ChatScreen(),
+            state: state,
+          );
+        },
+      ),
     ];
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: myProfilePath,
+      initialLocation: myChatPath,
       routes: routes,
     );
   }
