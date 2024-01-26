@@ -15,12 +15,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final model = Provider.of<ChatViewModel>(context);
     return Scaffold(
@@ -30,54 +24,96 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<List<Message>>(
-              stream: model.messages,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Text('No messages'),
-                  );
-                }
+            child: !model.chatFetched
+                ? FutureBuilder<List<Message>>(
+                    future: model.fetchAllMessages(context),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return Center(
+                          child: Text('No messages'),
+                        );
+                      }
 
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final message = snapshot.data![index];
-                    final isCurrentUser = message.sender == model.senderId;
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final message = snapshot.data![index];
+                          final isCurrentUser =
+                              message.sender == model.senderId;
 
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 5.0),
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color:
-                            isCurrentUser ? Colors.green : Colors.amberAccent,
-                        borderRadius: BorderRadius.only(
-                          topLeft: isCurrentUser
-                              ? Radius.circular(15.0)
-                              : Radius.circular(0.0),
-                          topRight: isCurrentUser
-                              ? Radius.circular(0.0)
-                              : Radius.circular(15.0),
-                          bottomLeft: Radius.circular(15.0),
-                          bottomRight: Radius.circular(15.0),
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 5.0),
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: isCurrentUser
+                                  ? Colors.green
+                                  : Colors.amberAccent,
+                              borderRadius: BorderRadius.only(
+                                topLeft: isCurrentUser
+                                    ? Radius.circular(15.0)
+                                    : Radius.circular(0.0),
+                                topRight: isCurrentUser
+                                    ? Radius.circular(0.0)
+                                    : Radius.circular(15.0),
+                                bottomLeft: Radius.circular(15.0),
+                                bottomRight: Radius.circular(15.0),
+                              ),
+                            ),
+                            child: Align(
+                              alignment: isCurrentUser
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: Text(
+                                message.content ?? '',
+                                style: TextStyle(
+                                    color: isCurrentUser
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  )
+                : ListView.builder(
+                    itemCount: model.messages.length,
+                    itemBuilder: (context, index) {
+                      final message = model.messages[index];
+                      final isCurrentUser = message.sender == model.senderId;
+
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color:
+                              isCurrentUser ? Colors.green : Colors.amberAccent,
+                          borderRadius: BorderRadius.only(
+                            topLeft: isCurrentUser
+                                ? Radius.circular(15.0)
+                                : Radius.circular(0.0),
+                            topRight: isCurrentUser
+                                ? Radius.circular(0.0)
+                                : Radius.circular(15.0),
+                            bottomLeft: Radius.circular(15.0),
+                            bottomRight: Radius.circular(15.0),
+                          ),
                         ),
-                      ),
-                      child: Align(
-                        alignment: isCurrentUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Text(
-                          message.content ?? '',
-                          style: TextStyle(
-                              color:
-                                  isCurrentUser ? Colors.white : Colors.black),
+                        child: Align(
+                          alignment: isCurrentUser
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Text(
+                            message.content ?? '',
+                            style: TextStyle(
+                                color: isCurrentUser
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+                      );
+                    },
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
