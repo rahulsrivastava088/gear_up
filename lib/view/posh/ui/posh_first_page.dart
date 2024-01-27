@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/colors/colors.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/strings.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
+import 'package:gear_up/view/bottomNavigation/custom.dart';
 import 'package:go_router/go_router.dart';
 
 class PoshScreen extends StatefulWidget {
@@ -18,32 +20,29 @@ class _PoshScreenState extends State<PoshScreen> {
     return Scaffold(
         appBar: poshAppBar(),
         body: Padding(
-          padding: const EdgeInsets.only(top: 28),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      poshImage(),
-                      const SizedBox(height: 68),
-                      poshTrainingHeaderText(),
-                      const SizedBox(height: 40),
-                      whatIsPoshTrainingCard(),
-                    ],
-                  ),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    poshImage(),
+                    const SizedBox(height: 40),
+                    poshTrainingHeaderText(),
+                    const SizedBox(height: 40),
+                    whatIsPoshTrainingCard(),
+                  ],
                 ),
-                const Spacer(),
-                CustomBigButtonLight(
-                    onTap: () {
-                      GoRouter.of(context).pushNamed(
-                          RouteConstants.poshInformationPageRouteName);
-                    },
-                    text: "Let's Start"),
-                const SizedBox(height: 32)
-              ],
-            ),
+              ),
+              const Spacer(),
+              CustomBigButtonLight(
+                  onTap: () {
+                    CustomNavigationHelper.router
+                        .push(CustomNavigationHelper.poshInformationPath);
+                  },
+                  text: "Let's Start"),
+              const SizedBox(height: 32)
+            ],
           ),
         ));
   }
@@ -58,11 +57,11 @@ class _PoshScreenState extends State<PoshScreen> {
         ),
       ),
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 24),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             Strings.whatIsPoshTraining,
             style: TextStyle(
               color: Colors.white,
@@ -71,8 +70,8 @@ class _PoshScreenState extends State<PoshScreen> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          SizedBox(height: 6),
-          Text(
+          const SizedBox(height: 6),
+          const Text(
             Strings.whatIsPoshTrainingText,
             style: TextStyle(
               color: Colors.white,
@@ -81,15 +80,15 @@ class _PoshScreenState extends State<PoshScreen> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(height: 16),
-          Divider(height: 1, color: Color(0xFF333333)),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
+          const Divider(height: 1, color: Color(0xFF333333)),
+          const SizedBox(height: 16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.abc, size: 20),
-              SizedBox(width: 8),
-              Expanded(
+              SvgPicture.asset('assets/posh/ic_safespace_advocate_badge.svg'),
+              const SizedBox(width: 8),
+              const Expanded(
                 child: Text(
                   Strings.earnBadgeText,
                   style: TextStyle(
@@ -133,12 +132,14 @@ class _PoshScreenState extends State<PoshScreen> {
     );
   }
 
-  Center poshImage() {
-    return const Center(
-      child: CircleAvatar(
-        radius: 90, // Set the radius of the circle avatar
-        backgroundImage: AssetImage(
-            'assets/images/posh_image.png'), // Set the background image
+  Widget poshImage() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 28),
+      decoration:
+          const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+      child: SvgPicture.asset(
+        'assets/posh/ic_posh_illustration.svg',
+        height: 200,
       ),
     );
   }

@@ -6,12 +6,15 @@ import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
 import 'package:gear_up/view/myGames/my_games_page_main.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/select_sports.dart';
 import 'package:gear_up/view/partners/ui/partners_page_main.dart';
+import 'package:gear_up/view/posh/ui/posh_assessment_page.dart';
 import 'package:gear_up/view/posh/ui/posh_first_page.dart';
+import 'package:gear_up/view/posh/ui/posh_results_page.dart';
 import 'package:gear_up/view/splashScreen/splash_page.dart';
 import 'package:gear_up/view/userProfile/ui/player_profile/player_profile_main_page.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/own_user_page_main.dart';
 import 'package:go_router/go_router.dart';
 import '../myGames/gameCard/model/response/games_list_response.dart';
+import '../posh/ui/posh_information_page.dart';
 
 class CustomNavigationHelper {
   static final CustomNavigationHelper _instance =
@@ -47,6 +50,9 @@ class CustomNavigationHelper {
   static const String myProfilePath = '/my_profile';
   static const String splashPath = '/splash';
   static const String poshPath = '/posh';
+  static const String poshInformationPath = '/posh_information';
+  static const String poshAssessmentPath = '/posh_assessment';
+  static const String poshResultsPath = '/posh_results';
   static const String myChatPath = '/chat';
 
   static const String selectSportsPath = '/select_sports';
@@ -191,6 +197,27 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
+        path: poshInformationPath,
+        pageBuilder: (context, state) {
+          return getPage(state: state, child: const PoshInformationScreen());
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: poshAssessmentPath,
+        pageBuilder: (context, state) {
+          return getPage(state: state, child: const PoshAssessmentScreen());
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: poshResultsPath,
+        pageBuilder: (context, state) {
+          return getPage(state: state, child: const PoshResultsScreen());
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
         path: myChatPath,
         pageBuilder: (context, state) {
           return getPage(
@@ -203,7 +230,7 @@ class CustomNavigationHelper {
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: myChatPath,
+      initialLocation: myProfilePath,
       routes: routes,
     );
   }

@@ -346,10 +346,12 @@ class _PartnersScreenState extends State<PartnersScreen> {
     return IntrinsicHeight(
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: SizedBox(
               height: 32,
-              child: HomeSelectSportsWidget(),
+              child: HomeSelectSportsWidget(
+                  lastSelectedIndex:
+                      filterViewModel.currentlySelectedSportIndex),
             ),
           ),
           const VerticalDivider(

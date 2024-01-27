@@ -10,9 +10,11 @@ class FilterViewModel extends BaseViewModel {
   int maxAge = 24;
   Gender gender = Gender.All;
 
+  int currentlySelectedSportIndex = -1;
+
   getPlayersListRequestBody() {
     PlayersListRequestBody playersListRequestBody = PlayersListRequestBody();
-    // playersListRequestBody.range = range;
+    playersListRequestBody.range = range;
     // playersListRequestBody.maxAge = maxAge;
     playersListRequestBody.gender = gender.name;
     // playersListRequestBody.favouriteSport = favouriteSport;

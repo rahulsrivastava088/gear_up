@@ -376,10 +376,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: SizedBox(
                 height: 32,
-                child: HomeSelectSportsWidget(),
+                child: HomeSelectSportsWidget(
+                    lastSelectedIndex:
+                        filterViewModel.currentlySelectedSportIndex),
               ),
             ),
             const VerticalDivider(

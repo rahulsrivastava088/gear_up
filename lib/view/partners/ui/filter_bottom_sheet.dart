@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 enum Gender { All, Male }
 
-enum Sports { badminton, tableTennis, lawnTennis, squash, pool }
+enum Sports { badminton, tableTennis, pool, lawnTennis, squash }
 
 enum Level { beginner, intermediate, advance, professional, coachTrainer }
 
@@ -126,9 +126,9 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                   const SizedBox(height: 8),
                   sportsRadioButtonWidget("Badminton", Sports.badminton),
                   sportsRadioButtonWidget("Table Tennis", Sports.tableTennis),
+                  sportsRadioButtonWidget("Pool/Snooker", Sports.pool),
                   sportsRadioButtonWidget("Lawn Tennis", Sports.lawnTennis),
                   sportsRadioButtonWidget("Squash", Sports.squash),
-                  sportsRadioButtonWidget("Pool/Snooker", Sports.pool)
                 ],
               ),
               const SizedBox(height: 42),

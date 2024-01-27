@@ -6,25 +6,30 @@ import 'package:provider/provider.dart';
 import '../../onBoarding/loginUi/commonUI/list_item.dart';
 
 class HomeSelectSportsWidget extends StatefulWidget {
-  // final int pos;
-  const HomeSelectSportsWidget({super.key});
+  final int lastSelectedIndex;
+  const HomeSelectSportsWidget({super.key, required this.lastSelectedIndex});
 
   @override
-  _ListViewState createState() => _ListViewState();
+  ListViewState createState() => ListViewState();
 }
 
-class _ListViewState extends State<HomeSelectSportsWidget> {
+class ListViewState extends State<HomeSelectSportsWidget> {
   List<ListItem> items = [];
   @override
   void initState() {
     super.initState();
     for (int i = 0; i < Strings.sportsList.length; i++) {
-      items.add(ListItem(index: i));
+      if (i == widget.lastSelectedIndex) {
+        items.add(ListItem(index: i, isSelected: true));
+      } else {
+        items.add(ListItem(index: i));
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<FilterViewModel>(context);
     return ListView(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
@@ -32,26 +37,37 @@ class _ListViewState extends State<HomeSelectSportsWidget> {
         items.length,
         (index) => GestureDetector(
           onTap: () {
-            setState(() {
-              for (var item in items) {
-                item.isSelected = false;
-              }
-              items[index].isSelected = true;
-              showModalBottomSheet(
-                useRootNavigator: true,
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                constraints: const BoxConstraints(minWidth: double.infinity),
-                builder: (BuildContext context) {
-                  return Wrap(
-                    children: [
-                      PartnerLevelBottomSheet(selectedSportIndex: index)
-                    ],
+            setState(
+              () {
+                if (items[index].isSelected == true) {
+                  items[index].isSelected = false;
+                } else {
+                  for (var item in items) {
+                    item.isSelected = false;
+                  }
+                  items[index].isSelected = true;
+                  model.currentlySelectedSportIndex = index;
+
+                  showModalBottomSheet(
+                    useRootNavigator: true,
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    constraints:
+                        const BoxConstraints(minWidth: double.infinity),
+                    builder: (BuildContext context) {
+                      return Wrap(
+                        children: [
+                          PartnerLevelBottomSheet(
+                            selectedSportIndex: index,
+                          )
+                        ],
+                      );
+                    },
                   );
-                },
-              );
-            });
+                }
+              },
+            );
           },
           child: customCheckBoxContainer(index, items[index]),
         ),

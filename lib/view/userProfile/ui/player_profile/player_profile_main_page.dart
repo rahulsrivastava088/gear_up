@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
-import 'package:gear_up/view/myGames/gameCard/model/response/games_list_response.dart';
 import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/about_card.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/details_card.dart';

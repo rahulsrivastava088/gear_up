@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/view/chat/schedule_match_bottom_sheet.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/app_bar.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/details_card.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/plays_card.dart';
@@ -13,6 +14,7 @@ import 'package:gear_up/view/userProfile/ui/user_profile/subscription_card.dart'
 import 'package:gear_up/view/userProfile/ui/user_profile/title_text.dart';
 import 'package:gear_up/view/userProfile/viewmodel/my_profile_viewmodel.dart';
 import 'package:provider/provider.dart';
+import '../../../../data/response/api_response.dart';
 import '../../../../data/response/status.dart';
 import '../../model/player_profile_response.dart';
 import 'about_card.dart';
@@ -31,13 +33,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<MyProfileViewModel>(context);
-    if (!model.myProfileApiCalled) {
+    if (model.myProfileReponse.status == Status.IDLE) {
       model.fetchPlayerProfile(context);
       return const Center(child: CircularProgressIndicator());
     } else if (model.myProfileReponse.status == Status.LOADING) {
       return const Center(child: CircularProgressIndicator());
-    } else {
+    } else if (model.myProfileReponse.status == Status.ERROR) {
+      return errorUI(model);
+    } else if (model.myProfileReponse.status == Status.COMPLETED) {
       return ui(context, model);
+    } else {
+      return errorUI(model);
     }
   }
 
@@ -65,22 +71,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   sportslist: model.myProfileReponse.data?.user?.favoriteSports,
                   onTap: () {
                     showModalBottomSheet(
-                        useRootNavigator: true,
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        constraints:
-                            const BoxConstraints(minWidth: double.infinity),
-                        builder: (BuildContext context) {
-                          return const Wrap(children: [
-                            EditPlaysBottomSheet(
-                              sportsLogo: Icons.sports,
-                              sportsName: 'Badminton',
-                              level: 'Intermediate',
-                              enabled: true,
-                            )
-                          ]);
-                        });
+                      useRootNavigator: true,
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      constraints:
+                          const BoxConstraints(minWidth: double.infinity),
+                      builder: (BuildContext context) {
+                        return Wrap(children: [
+                          EditPlaysBottomSheet(
+                            favouriteSports: model.myProfileReponse.data?.user
+                                    ?.favoriteSports ??
+                                <FavoriteSport>[],
+                          )
+                        ]);
+                      },
+                    );
                   },
                   editable: true,
                 ),
@@ -223,5 +229,41 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ],
       );
     }
+  }
+
+  Widget errorUI(MyProfileViewModel model) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Couldn't fetch your profile, kindly retry",
+              style: TextStyle(
+                color: Color(0xFFAFAFAF),
+                fontSize: 16,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                model.myProfileReponse = ApiResponse.idle();
+                model.notifyListeners();
+              },
+              child: const Icon(
+                Icons.refresh,
+                size: 32,
+                color: Color(0xFFAFAFAF),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

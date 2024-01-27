@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/view/home/model/response/players_list_response.dart';
+import 'package:gear_up/view/partners/ui/filter_bottom_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../view/onBoarding/loginUi/commonUI/custom_snackbar.dart';
 
@@ -62,6 +63,21 @@ getSportIconData(String? sportID) {
       return "assets/sport_icons/ic_squash.svg";
   }
   return "";
+}
+
+String getSportIconDataFromSportName(Sports sport) {
+  switch (sport) {
+    case Sports.badminton:
+      return "assets/sport_icons/ic_badminton.svg";
+    case Sports.tableTennis:
+      return "assets/sport_icons/ic_table_tennis.svg";
+    case Sports.pool:
+      return "assets/sport_icons/ic_pool.svg";
+    case Sports.lawnTennis:
+      return "assets/sport_icons/ic_lawn_tennis.svg";
+    case Sports.squash:
+      return "assets/sport_icons/ic_squash.svg";
+  }
 }
 
 String getConnectionUiText(ConnectionData? data) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/colors.dart';
+import 'package:gear_up/utils/uiUtils/big_button.dart';
+import 'package:gear_up/view/bottomNavigation/custom.dart';
 import 'package:gear_up/view/posh/viewmodel/posh_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -21,31 +23,107 @@ class _PoshInformationScreenState extends State<PoshInformationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           headerText(model),
-          Container(
-            margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: ShapeDecoration(
-                      color: cardBgColorLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    padding: const EdgeInsets.only(
-                        left: 24, right: 24, bottom: 24, top: 24),
-                    child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+              width: double.infinity,
+              decoration: ShapeDecoration(
+                color: cardBgColorLight,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: model.topicText[model.selectedIndex].length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: []),
-                  ),
-                ],
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          indexText(index),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                topicText(model, index),
+                                summaryText(model, index),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Column(children: [
+                    SizedBox(height: 20),
+                    Divider(height: .5, color: Color(0xFF333333)),
+                    SizedBox(height: 20),
+                  ]);
+                },
               ),
             ),
           ),
+          // const Spacer(),
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 18, left: 24, right: 24, bottom: 24),
+            child: CustomBigButtonLight(
+              onTap: () {
+                if (model.selectedIndex == model.pageIndexes.length - 1) {
+                  CustomNavigationHelper.router
+                      .push(CustomNavigationHelper.poshAssessmentPath);
+                } else {
+                  model.moveToNextPage();
+                }
+              },
+              text: 'Next',
+            ),
+          )
         ],
+      ),
+    );
+  }
+
+  Text summaryText(PoshViewModel model, int index) {
+    return Text(
+      model.summaryText[model.selectedIndex][index],
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+        fontFamily: 'Space Grotesk',
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  Text topicText(PoshViewModel model, int index) {
+    return Text(
+      model.topicText[model.selectedIndex][index],
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontFamily: 'General Sans',
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Text indexText(int index) {
+    return Text(
+      "${index + 1}.  ",
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontFamily: 'General Sans',
+        fontWeight: FontWeight.w600,
       ),
     );
   }
@@ -68,10 +146,14 @@ class _PoshInformationScreenState extends State<PoshInformationScreen> {
   AppBar appBar(BuildContext context, PoshViewModel model) {
     return AppBar(
       centerTitle: false,
+      automaticallyImplyLeading: false,
       title: InkWell(
         onTap: () {
-          // if()
-          if (context.canPop()) context.pop();
+          if (model.selectedIndex == 0) {
+            if (context.canPop()) context.pop();
+          } else {
+            model.moveToPreviousPage();
+          }
         },
         child: Container(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 12, bottom: 8),

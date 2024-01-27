@@ -22,6 +22,7 @@ class ChatViewModel extends BaseViewModel {
     );
 
     messages.add(newMessage);
+    notifyListeners();
   }
 
   bool chatFetched = false;
@@ -29,9 +30,8 @@ class ChatViewModel extends BaseViewModel {
   ApiResponse<GetAllMessages> myChatData = ApiResponse.idle();
 
   Future<List<Message>> fetchAllMessages(BuildContext context) async {
-
     //initialize senderID with userId here
-    
+
     myChatData = ApiResponse.loading();
     _repo
         .fetchAllMessages("65a5fe63290c3bfe7e36d1bb")
@@ -56,13 +56,13 @@ class ChatViewModel extends BaseViewModel {
         .onError(
           (error, stackTrace) => {
             myChatData = ApiResponse.error(""),
-                chatFetched = false,
-            showSnackBar(
-                context, "There is some issue at our end, please retry"),
+            chatFetched = false,
+            // SnackBar(
+            //     context, "There is some issue at our end, please retry"),
             notifyListeners()
           },
         );
 
-        return messages;
+    return messages;
   }
 }

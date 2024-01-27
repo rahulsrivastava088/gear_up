@@ -8,6 +8,7 @@ import '../../partners/ui/filter_bottom_sheet.dart';
 
 class PartnerLevelBottomSheet extends StatefulWidget {
   final int selectedSportIndex;
+
   const PartnerLevelBottomSheet({
     super.key,
     required this.selectedSportIndex,
@@ -88,15 +89,35 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
                 children: [
                   const SizedBox(height: 8),
                   sportsRadioButtonWidget(
-                      "Beginner", Level.beginner, model, playerViewModel),
-                  sportsRadioButtonWidget("Intermediate", Level.intermediate,
-                      model, playerViewModel),
+                    "Beginner",
+                    Level.beginner,
+                    model,
+                    playerViewModel,
+                  ),
                   sportsRadioButtonWidget(
-                      "Advance", Level.advance, model, playerViewModel),
-                  sportsRadioButtonWidget("Professional", Level.professional,
-                      model, playerViewModel),
-                  sportsRadioButtonWidget("Coach/Trainer", Level.coachTrainer,
-                      model, playerViewModel)
+                    "Intermediate",
+                    Level.intermediate,
+                    model,
+                    playerViewModel,
+                  ),
+                  sportsRadioButtonWidget(
+                    "Advance",
+                    Level.advance,
+                    model,
+                    playerViewModel,
+                  ),
+                  sportsRadioButtonWidget(
+                    "Professional",
+                    Level.professional,
+                    model,
+                    playerViewModel,
+                  ),
+                  sportsRadioButtonWidget(
+                    "Coach/Trainer",
+                    Level.coachTrainer,
+                    model,
+                    playerViewModel,
+                  )
                 ],
               ),
             ],
