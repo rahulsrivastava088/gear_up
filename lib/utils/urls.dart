@@ -19,4 +19,5 @@ const String fetchPlayerProfileDataUrl = "$baseUrl/user/getAnyPlayer";
 const String fetchUserProfileDataUrl = "$baseUrl/user/mydata";
 
 //Chat
-const String getAllMessages = "$baseUrl/message/getMessages";
+const String getAllMessagesUrl = "$baseUrl/message/getMessages";
+const String sendMessageUrl = "$baseUrl/message/sendMessage";

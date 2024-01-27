@@ -1,6 +1,8 @@
 // chat_screen.dart
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/myChats/model/getAllMessages_response.dart';
+import 'package:gear_up/view/myChats/model/response/getAllMessages_response.dart';
+import 'package:gear_up/view/myChats/ui/receivingChatComp.dart';
+import 'package:gear_up/view/myChats/ui/sendingChatComp.dart';
 import 'package:gear_up/view/myChats/viewmodel/chatScreen_viewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +28,10 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: !model.chatFetched
                 ? FutureBuilder<List<Message>>(
-                    future: model.fetchAllMessages(context),
+                    future: model.fetchAllMessages(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Text('No messages'),
                         );
                       }
@@ -41,37 +43,10 @@ class _ChatScreenState extends State<ChatScreen> {
                           final isCurrentUser =
                               message.sender == model.senderId;
 
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 5.0),
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: isCurrentUser
-                                  ? Colors.green
-                                  : Colors.amberAccent,
-                              borderRadius: BorderRadius.only(
-                                topLeft: isCurrentUser
-                                    ? Radius.circular(15.0)
-                                    : Radius.circular(0.0),
-                                topRight: isCurrentUser
-                                    ? Radius.circular(0.0)
-                                    : Radius.circular(15.0),
-                                bottomLeft: Radius.circular(15.0),
-                                bottomRight: Radius.circular(15.0),
-                              ),
-                            ),
-                            child: Align(
-                              alignment: isCurrentUser
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: Text(
-                                message.content ?? '',
-                                style: TextStyle(
-                                    color: isCurrentUser
-                                        ? Colors.white
-                                        : Colors.black),
-                              ),
-                            ),
-                          );
+                          return isCurrentUser
+                              ? SendingChatComp(message: message.content ?? '')
+                              : ReceivingChatComp(
+                                  message: message.content ?? '');
                         },
                       );
                     },
@@ -82,38 +57,44 @@ class _ChatScreenState extends State<ChatScreen> {
                       final message = model.messages[index];
                       final isCurrentUser = message.sender == model.senderId;
 
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 5.0),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color:
-                              isCurrentUser ? Colors.green : Colors.amberAccent,
-                          borderRadius: BorderRadius.only(
-                            topLeft: isCurrentUser
-                                ? Radius.circular(15.0)
-                                : Radius.circular(0.0),
-                            topRight: isCurrentUser
-                                ? Radius.circular(0.0)
-                                : Radius.circular(15.0),
-                            bottomLeft: Radius.circular(15.0),
-                            bottomRight: Radius.circular(15.0),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: isCurrentUser
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: Text(
-                            message.content ?? '',
-                            style: TextStyle(
-                                color: isCurrentUser
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
-                        ),
-                      );
+                      return isCurrentUser
+                          ? SendingChatComp(message: message.content ?? '')
+                          : ReceivingChatComp(message: message.content ?? '');
                     },
                   ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 156,
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(width: 1, color: Color(0xFF0095F6)),
+                  borderRadius: BorderRadius.circular(80),
+                ),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Schedule a Match',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF0095F6),
+                      fontSize: 14,
+                      fontFamily: 'Space Grotesk',
+                      fontWeight: FontWeight.w500,
+                      height: 0.10,
+                      letterSpacing: 0.16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -131,7 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   icon: Icon(Icons.send),
                   onPressed: () {
                     if (_messageController.text.isNotEmpty) {
-                      model.sendMessage(
+                      model.sendSingleMessages(
                         _messageController.text,
                       );
                       _messageController.clear();
