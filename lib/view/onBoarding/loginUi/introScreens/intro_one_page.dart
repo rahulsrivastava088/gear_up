@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/utils/shared_preferences.dart';
+import 'package:gear_up/view/bottomNavigation/custom.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_image.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_next_button.dart';
@@ -35,8 +36,8 @@ class IntroOnePage extends StatelessWidget {
                 const Spacer(),
                 IntroPageNextButton(
                   onTap: () {
-                    GoRouter.of(context)
-                        .pushNamed(RouteConstants.introPage2RouteName);
+                    CustomNavigationHelper.router
+                        .push(CustomNavigationHelper.introPage2path);
                   },
                 ),
                 OnBoardingBigButton(

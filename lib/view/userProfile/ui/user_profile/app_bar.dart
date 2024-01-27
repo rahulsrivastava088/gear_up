@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/project/routes/app_route_constants.dart';
+import 'package:gear_up/view/bottomNavigation/custom.dart';
 import 'package:go_router/go_router.dart';
 
 AppBar userProfileAppBar(BuildContext context) {
@@ -14,8 +15,8 @@ AppBar userProfileAppBar(BuildContext context) {
       PopupMenuButton(
         onSelected: (value) {
           if (value == 1) {
-            GoRouter.of(context)
-                .pushNamed(RouteConstants.editUserProfilePageRouteName);
+            CustomNavigationHelper.router
+                .push(CustomNavigationHelper.editProfilePath);
           } else if (value == 2) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Share Option coming in next release"),

@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../utils/shared_preferences.dart';
+import '../../../bottomNavigation/custom.dart';
 
 class IntroTwoPage extends StatelessWidget {
   const IntroTwoPage({super.key});
@@ -32,8 +33,8 @@ class IntroTwoPage extends StatelessWidget {
               const Spacer(),
               IntroPageNextButton(
                 onTap: () {
-                  GoRouter.of(context)
-                      .pushNamed(RouteConstants.introPage3RouteName);
+                  CustomNavigationHelper.router
+                      .push(CustomNavigationHelper.introPage3path);
                 },
               ),
               OnBoardingBigButton(

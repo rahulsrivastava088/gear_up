@@ -9,11 +9,11 @@ class EditUserProfileScreen extends StatefulWidget {
 }
 
 class _EditUserProfileScreen extends State<EditUserProfileScreen> {
-  String userImage =
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww';
-  String userName = 'Amélie';
-  String userDOB = '18/09/2001';
-  String userGender = 'Female';
+  String userImage = '';
+  // 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww';
+  String userName = 'Harsh Agarwal';
+  String userDOB = '18/09/1971';
+  String userGender = 'Male';
   String userPlayingObjective = 'Fun';
   String userPlayTime = 'Daily';
 
@@ -50,7 +50,18 @@ class _EditUserProfileScreen extends State<EditUserProfileScreen> {
               child: ClipOval(
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(48), // Image radius
-                  child: Image.network(userImage, fit: BoxFit.cover),
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/person_image.png',
+                    image: userImage,
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        "assets/images/person_image.png",
+                        width: 100,
+                        height: 100,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

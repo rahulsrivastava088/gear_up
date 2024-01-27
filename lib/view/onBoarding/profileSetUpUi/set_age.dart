@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/utilities.dart';
+import '../../bottomNavigation/custom.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
 class SetAgeScreen extends StatefulWidget {
@@ -51,8 +52,8 @@ class _SetAgeScreen extends State<SetAgeScreen> {
               onTap: () {
                 model.dob = ageTextEditingController.text.toString();
                 if (model.isValidDate(model.dob)) {
-                  GoRouter.of(context)
-                      .pushNamed(RouteConstants.setGenderPageRouteName);
+                  CustomNavigationHelper.router
+                      .push(CustomNavigationHelper.setGender);
                 } else {
                   showSnackBar(context, 'Please enter proper date of birth');
                 }

@@ -14,7 +14,7 @@ class FilterViewModel extends BaseViewModel {
 
   getPlayersListRequestBody() {
     PlayersListRequestBody playersListRequestBody = PlayersListRequestBody();
-    playersListRequestBody.range = range;
+    // playersListRequestBody.range = range;
     // playersListRequestBody.maxAge = maxAge;
     playersListRequestBody.gender = gender.name;
     // playersListRequestBody.favouriteSport = favouriteSport;

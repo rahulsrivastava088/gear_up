@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import '../../../project/routes/app_route_constants.dart';
 import '../../../utils/shared_preferences.dart';
+import '../../bottomNavigation/custom.dart';
 
 class OnBoardingViewModel extends BaseViewModel {
   final _repo = OnBoardingRepository();
@@ -153,15 +154,15 @@ class OnBoardingViewModel extends BaseViewModel {
   }
 
   navigateToOTPScreen(BuildContext context) {
-    GoRouter.of(context).pushNamed(RouteConstants.otpPageRouteName);
+    CustomNavigationHelper.router.push(CustomNavigationHelper.otpPath);
   }
 
   navigateToHomeScreen(BuildContext context) {
-    GoRouter.of(context).pushNamed(RouteConstants.homePageRouteName);
+    CustomNavigationHelper.router.push(CustomNavigationHelper.homePath);
   }
 
   navigateToSetUpProfileScreen(BuildContext context) {
-    GoRouter.of(context).pushNamed(RouteConstants.selectSportsPageRouteName);
+    CustomNavigationHelper.router.push(CustomNavigationHelper.selectSportsPath);
   }
 
   resetOTPPageData() {

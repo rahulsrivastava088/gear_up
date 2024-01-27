@@ -12,6 +12,8 @@ import 'package:go_router/go_router.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:provider/provider.dart';
 
+import '../../bottomNavigation/custom.dart';
+
 class SetLevelScreen extends StatefulWidget {
   const SetLevelScreen({super.key});
 
@@ -46,9 +48,8 @@ class _SetLevelScreen extends State<SetLevelScreen> {
             OnBoardingBigButton(
               onTap: () {
                 if (model.isLevelListValid()) {
-                  GoRouter.of(context).pushNamed(
-                    RouteConstants.setObjectivePageRouteName,
-                  );
+                  CustomNavigationHelper.router
+                      .push(CustomNavigationHelper.setObjective);
                 } else {
                   showSnackBar(context, "Please select level for each Sport!");
                 }
