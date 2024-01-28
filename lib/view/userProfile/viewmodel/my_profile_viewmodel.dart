@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gear_up/utils/extension_functions.dart';
-import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
+import 'package:gear_up/view/userProfile/model/response/player_profile_response.dart';
 import 'package:gear_up/view/userProfile/repo/profile_repo.dart';
 import 'package:stacked/stacked.dart';
 import '../../../data/response/api_response.dart';
@@ -12,6 +12,7 @@ class MyProfileViewModel extends BaseViewModel {
 
   fetchPlayerProfile(BuildContext context) async {
     myProfileReponse = ApiResponse.loading();
+    notifyListeners();
     _repo
         .fetchUserProfileData()
         .then(

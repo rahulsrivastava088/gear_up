@@ -6,6 +6,10 @@ const String updateUserUrl = "$baseUrl/user/update";
 
 // Home
 const String fetchAllPlayersUrl = "$baseUrl/user/getPlayers";
+const String sendConnectionRequestUrl = "$baseUrl/connection/sendRequest";
+const String acceptConnectionRequestUrl = "$baseUrl/connection/acceptRequest";
+const String rejectConnectionRequestUrl = "$baseUrl/connection/rejectRequest";
+const String cancelConnectionRequestUrl = "$baseUrl/connection/removeConnection";
 
 // Games
 const String fetchAllGamesUrl = "$baseUrl/game/games";

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
-import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
+import 'package:gear_up/view/userProfile/model/response/player_profile_response.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/about_card.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/details_card.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/plays_card.dart';
@@ -30,7 +30,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   Widget build(BuildContext context) {
     final model = Provider.of<ProfileViewModel>(context);
     if (!model.playerProfileApiCalled) {
-      model.fetchPlayerProfile(context, widget.playerID);
+      model.fetchPlayerProfile(widget.playerID);
       return const Center(child: CircularProgressIndicator());
     } else if (model.playerProfileReponse.status == Status.LOADING) {
       return const Center(child: CircularProgressIndicator());
@@ -127,17 +127,57 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
               const SizedBox(height: 32),
               reviewsAndRatingsWidget(model),
               const SizedBox(height: 18),
-              model.playerProfileReponse.data?.user?.connectionData
-                          ?.connection ==
-                      true
-                  ? CustomBigButtonDark(onTap: () {}, text: 'Cancel Request')
-                  : CustomBigButtonLight(onTap: () {}, text: 'Connect'),
+              getActionButton(model),
               const SizedBox(height: 16)
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget getActionButton(ProfileViewModel model) {
+    if (model.playerProfileReponse.data?.user?.connectionData?.connection ==
+        false) {
+      return CustomBigButtonLight(
+          onTap: () {
+            model.sendConnectionRequest(widget.playerID);
+          },
+          text:
+              model.userConnectionStatus == 0 ? 'Sending Request' : 'Connect');
+    } else {
+      if (model.playerProfileReponse.data?.user?.connectionData
+              ?.connectionStatus !=
+          'Pending') {
+        return CustomBigButtonLight(onTap: () {}, text: 'Chat');
+      } else if (model
+              .playerProfileReponse.data?.user?.connectionData?.isSender ==
+          true) {
+        return CustomBigButtonDark(
+            onTap: () {
+              model.removeConnectionRequest(widget.playerID);
+            },
+            text: 'Cancel Request');
+      } else {
+        return Column(
+          children: [
+            CustomBigButtonLight(
+                onTap: () {
+                  model.acceptConnectionRequest(widget.playerID);
+                },
+                text: 'Accept'),
+            const SizedBox(
+              height: 8,
+            ),
+            CustomBigButtonDark(
+                onTap: () {
+                  model.rejectConnectionRequest(widget.playerID);
+                },
+                text: 'Reject')
+          ],
+        );
+      }
+    }
   }
 
   Widget reviewsAndRatingsWidget(ProfileViewModel model) {

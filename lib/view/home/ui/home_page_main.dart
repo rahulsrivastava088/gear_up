@@ -236,33 +236,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Spacer(),
-                Container(
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF1E1E1E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.80),
+                InkWell(
+                  onTap: () {
+                    model.sendConnectionRequest(
+                        model.playersListResponse.data?.players?[index].id);
+                  },
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFF1E1E1E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6.80),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    width: double.infinity,
+                    child: Text(
+                      getButtonText(model, index),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'General Sans',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  width: double.infinity,
-                  child: Text(
-                    getConnectionUiText(model.playersListResponse.data
-                        ?.players?[index].connectionData),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'General Sans',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  getButtonText(PlayersViewModel model, int index) {
+    if (!model.userConnectionStatus
+        .containsKey(model.playersListResponse.data?.players?[index].id)) {
+      return 'Connect';
+    } else {
+      switch (model.userConnectionStatus[
+          model.playersListResponse.data?.players?[index].id]) {
+        case 0:
+          return 'Sending Request';
+        case 1:
+          return 'Request Sent';
+        case 2:
+          return 'Connect';
+      }
+    }
   }
 
   GestureDetector viewAllCard(int index) {

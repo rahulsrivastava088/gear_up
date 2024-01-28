@@ -16,7 +16,7 @@ import 'package:gear_up/view/userProfile/viewmodel/my_profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/response/api_response.dart';
 import '../../../../data/response/status.dart';
-import '../../model/player_profile_response.dart';
+import '../../model/response/player_profile_response.dart';
 import 'about_card.dart';
 import 'edit_about_bottom_sheet.dart';
 import 'edit_play_bottom_sheet.dart';

@@ -3,7 +3,7 @@ import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/extension_functions.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/star_display.dart';
 
-import '../../model/player_profile_response.dart';
+import '../../model/response/player_profile_response.dart';
 
 class ReviewCard extends StatelessWidget {
   final Rating rating;

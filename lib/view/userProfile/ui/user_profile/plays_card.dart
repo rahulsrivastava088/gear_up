@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/extension_functions.dart';
-import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
+import 'package:gear_up/view/userProfile/model/response/player_profile_response.dart';
 
 class PlaysCard extends StatelessWidget {
   const PlaysCard({

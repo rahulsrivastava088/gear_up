@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/Colors.dart';
-import 'package:gear_up/view/userProfile/model/player_profile_response.dart';
+import 'package:gear_up/view/userProfile/model/response/player_profile_response.dart';
 import '../../../../utils/extension_functions.dart';
 
 class ExpandedTile extends StatefulWidget {
