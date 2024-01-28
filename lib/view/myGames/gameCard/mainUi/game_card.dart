@@ -16,7 +16,7 @@ class _GameCard extends State<GameCard> {
     // final model = Provider.of<GameCardViewModel>(context);
     return GestureDetector(
       onTap: () {
-        CustomNavigationHelper.router.go(
+        CustomNavigationHelper.router.push(
           CustomNavigationHelper.gameDetailPath,
           extra: widget.game,
         );

@@ -12,6 +12,7 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_
 import 'package:provider/provider.dart';
 
 import '../../../utils/utilities.dart';
+import '../../bottomNavigation/custom.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
 class SetObjectiveScreen extends StatefulWidget {
@@ -52,9 +53,8 @@ class _SetObjectiveScreen extends State<SetObjectiveScreen> {
                     model.selectedPlayTime == -1) {
                   showSnackBar(context, "Please select the available options");
                 } else {
-                  GoRouter.of(context).pushNamed(
-                    RouteConstants.setNamePageRouteName,
-                  );
+                  CustomNavigationHelper.router
+                      .push(CustomNavigationHelper.setName);
                 }
               },
               text: Strings.next,

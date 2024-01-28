@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../utils/shared_preferences.dart';
+import '../../../bottomNavigation/custom.dart';
 
 class IntroThreePage extends StatelessWidget {
   const IntroThreePage({super.key});
@@ -37,8 +38,8 @@ class IntroThreePage extends StatelessWidget {
                   await prefs.setBool(
                       SharedPreferenceConstants.introPageVisited, true);
                   if (context.mounted) {
-                    GoRouter.of(context)
-                        .goNamed(RouteConstants.loginPageRouteName);
+                    CustomNavigationHelper.router
+                        .push(CustomNavigationHelper.loginPath);
                   }
                 },
               ),
@@ -50,8 +51,8 @@ class IntroThreePage extends StatelessWidget {
                   await prefs.setBool(
                       SharedPreferenceConstants.introPageVisited, true);
                   if (context.mounted) {
-                    GoRouter.of(context)
-                        .goNamed(RouteConstants.loginPageRouteName);
+                    CustomNavigationHelper.router
+                        .push(CustomNavigationHelper.loginPath);
                   }
                 },
               )

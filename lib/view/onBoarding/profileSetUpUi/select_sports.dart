@@ -11,6 +11,8 @@ import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../bottomNavigation/custom.dart';
+
 class SelectSportsScreen extends StatefulWidget {
   const SelectSportsScreen({super.key});
 
@@ -50,8 +52,8 @@ class _SelectSportsScreenState extends State<SelectSportsScreen> {
                 if (model.selectedSports.isEmpty) {
                   showSnackBar(context, "Please select at least 1 Sport");
                 } else {
-                  GoRouter.of(context)
-                      .pushNamed(RouteConstants.selectLevelPageRouteName);
+                  CustomNavigationHelper.router
+                      .push(CustomNavigationHelper.selectLevelPath);
                 }
               },
               text: Strings.next,
