@@ -8,7 +8,7 @@ import 'package:gear_up/view/partners/ui/sports_filter.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../data/response/status.dart';
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 import '../../filter/filter_view_model.dart';
 import '../../home/ui/select_sports_widget.dart';
 

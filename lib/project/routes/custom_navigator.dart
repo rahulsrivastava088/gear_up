@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/bottomNavigation/page.dart';
+import 'package:gear_up/view/bottomNavigation/bottom_navigation_page.dart';
 import 'package:gear_up/view/home/ui/home_page_main.dart';
 import 'package:gear_up/view/myChats/ui/chat_page_main.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
 import 'package:gear_up/view/myGames/my_games_page_main.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/otp_status_text.dart';
-import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_one_page.dart';
-import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_three_page.dart';
-import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_two_page.dart';
+import 'package:gear_up/view/onBoarding/loginUi/introScreens/intro_page.dart';
 import 'package:gear_up/view/onBoarding/loginUi/login/login_page.dart';
 import 'package:gear_up/view/onBoarding/loginUi/login/otp_page.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/select_sports.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/set_age.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/set_gender.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_location.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/set_name.dart';
 import 'package:gear_up/view/onBoarding/profileSetUpUi/set_objective.dart';
+import 'package:gear_up/view/onBoarding/profileSetUpUi/set_profile_picture.dart';
 import 'package:gear_up/view/partners/ui/partners_page_main.dart';
 import 'package:gear_up/view/posh/ui/posh_assessment_page.dart';
 import 'package:gear_up/view/posh/ui/posh_first_page.dart';
@@ -24,9 +23,9 @@ import 'package:gear_up/view/userProfile/ui/edit_user_profile/main.dart';
 import 'package:gear_up/view/userProfile/ui/player_profile/player_profile_main_page.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/own_user_page_main.dart';
 import 'package:go_router/go_router.dart';
-import '../myGames/gameCard/model/response/games_list_response.dart';
-import '../onBoarding/profileSetUpUi/set_level.dart';
-import '../posh/ui/posh_information_page.dart';
+import '../../view/myGames/gameCard/model/response/games_list_response.dart';
+import '../../view/onBoarding/profileSetUpUi/set_level.dart';
+import '../../view/posh/ui/posh_information_page.dart';
 
 class CustomNavigationHelper {
   static final CustomNavigationHelper _instance =
@@ -70,17 +69,17 @@ class CustomNavigationHelper {
 
   static const String gameDetailPath = '/game_detail';
 
-  static const String introPage1path = '/intro_page_one';
-  static const String introPage2path = '/intro_page_two';
-  static const String introPage3path = '/intro_page_three';
+  static const String introPagePath = '/intro_page';
   static const String loginPath = '/login_page';
   static const String otpPath = '/otp_page';
   static const String selectSportsPath = '/select_sports';
   static const String selectLevelPath = '/select_level';
-  static const String setObjective = '/set_objective';
-  static const String setName = '/set_name';
-  static const String setAge = '/set_age';
-  static const String setGender = '/set_gender';
+  static const String setObjectivePath = '/set_objective';
+  static const String setNamePath = '/set_name';
+  static const String setAgePath = '/set_age';
+  static const String setGenderPath = '/set_gender';
+  static const String setProfilePicturePath = '/set_profile_picture';
+  static const String setLocationPath = '/set_location';
 
   factory CustomNavigationHelper() {
     return _instance;
@@ -262,30 +261,10 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: introPage1path,
+        path: introPagePath,
         pageBuilder: (context, state) {
           return getPage(
-            child: const IntroOnePage(),
-            state: state,
-          );
-        },
-      ),
-      GoRoute(
-        parentNavigatorKey: parentNavigatorKey,
-        path: introPage2path,
-        pageBuilder: (context, state) {
-          return getPage(
-            child: const IntroTwoPage(),
-            state: state,
-          );
-        },
-      ),
-      GoRoute(
-        parentNavigatorKey: parentNavigatorKey,
-        path: introPage3path,
-        pageBuilder: (context, state) {
-          return getPage(
-            child: const IntroThreePage(),
+            child: const IntroPage(),
             state: state,
           );
         },
@@ -332,7 +311,7 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: setObjective,
+        path: setObjectivePath,
         pageBuilder: (context, state) {
           return getPage(
             child: const SetObjectiveScreen(),
@@ -342,7 +321,7 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: setName,
+        path: setNamePath,
         pageBuilder: (context, state) {
           return getPage(
             child: const SetNameScreen(),
@@ -352,7 +331,7 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: setAge,
+        path: setAgePath,
         pageBuilder: (context, state) {
           return getPage(
             child: const SetAgeScreen(),
@@ -362,10 +341,30 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: setGender,
+        path: setGenderPath,
         pageBuilder: (context, state) {
           return getPage(
             child: const SetGenderScreen(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: setProfilePicturePath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const SetProfilePictureScreen(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: setLocationPath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const SetLocationScreen(),
             state: state,
           );
         },
@@ -374,7 +373,7 @@ class CustomNavigationHelper {
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: myChatPath,
+      initialLocation: setProfilePicturePath,
       routes: routes,
     );
   }

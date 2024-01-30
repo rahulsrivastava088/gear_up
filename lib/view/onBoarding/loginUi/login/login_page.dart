@@ -1,14 +1,14 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/check_box.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/custom_snackbar.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/phone_number_text_field.dart';
 import 'package:gear_up/view/onBoarding/loginUi/login/select_country_code.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 import 'package:provider/provider.dart';
-
 import '../../viewModel/on_boarding_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -72,21 +72,50 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         const SizedBox(height: 24),
-        OnBoardingBigButton(
-          text: model.registerUserLoading ? 'Sending' : Strings.getOtp,
-          onTap: () {
-            if (numberTextEditingController.text.length != 10) {
-              customSnackBar(context, 'Invalid number');
-            } else {
-              if (!model.registerUserLoading) {
-                model.registerUser(
-                  "India",
-                  numberTextEditingController.text,
-                  context,
-                );
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 16),
+          child: InkWell(
+            onTap: () {
+              if (numberTextEditingController.text.isEmpty) {
+                customSnackBar(context, 'Invalid number');
+              } else {
+                if (!model.registerUserLoading) {
+                  model.registerUser(
+                    "+91",
+                    numberTextEditingController.text,
+                    context,
+                  );
+                }
               }
-            }
-          },
+            },
+            child: Ink(
+              width: double.infinity,
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              child: model.registerUserLoading == false
+                  ? const Align(
+                      alignment: Alignment.center,
+                      child: Text(Strings.getOtp,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF242424),
+                            fontSize: 16,
+                            fontFamily: 'General Sans',
+                            fontWeight: FontWeight.bold,
+                          )),
+                    )
+                  : JumpingDots(
+                      color: Colors.grey,
+                      radius: 10,
+                      numberOfDots: 5,
+                    ),
+            ),
+          ),
         )
       ],
     );

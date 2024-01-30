@@ -36,7 +36,7 @@ class NetworkApiServices extends BaseApiServices {
             encoding: Encoding.getByName("utf-8"),
           )
           .timeout(const Duration(seconds: 7));
-      print(response.body);
+      print("resp: ${response.body}");
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

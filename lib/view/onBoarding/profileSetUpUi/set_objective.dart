@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
@@ -7,12 +6,11 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.d
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/profile_set_up_sub_heading_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/select_objective_check_box_list_widget.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/select_playtime_check_box_list_widget%20copy.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/utilities.dart';
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
 class SetObjectiveScreen extends StatefulWidget {
@@ -54,7 +52,7 @@ class _SetObjectiveScreen extends State<SetObjectiveScreen> {
                   showSnackBar(context, "Please select the available options");
                 } else {
                   CustomNavigationHelper.router
-                      .push(CustomNavigationHelper.setName);
+                      .push(CustomNavigationHelper.setNamePath);
                 }
               },
               text: Strings.next,

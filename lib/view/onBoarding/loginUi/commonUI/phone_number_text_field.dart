@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PhoneNumber extends StatefulWidget {
   const PhoneNumber({super.key, required this.textEditingController});
@@ -13,6 +15,7 @@ class _PhoneNumber extends State<PhoneNumber> {
   var isFocussed = false;
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<OnBoardingViewModel>(context);
     return Column(
       children: [
         Container(
@@ -39,10 +42,10 @@ class _PhoneNumber extends State<PhoneNumber> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                '+91',
+              Text(
+                model.selectedCountryCode,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontFamily: 'Space Mono',

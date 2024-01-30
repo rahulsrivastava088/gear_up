@@ -63,3 +63,5 @@ class Strings {
   static const String apiErrorMessage =
       'We are facing an issue, please retry after some time!';
 }
+
+const String mapsApiKey = 'AIzaSyAMoZuA1fXx58e5qiqebq0DYIGp3Jhbysk';

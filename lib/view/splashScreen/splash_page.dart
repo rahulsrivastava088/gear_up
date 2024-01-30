@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/shared_preferences.dart';
-import 'package:gear_up/view/bottomNavigation/custom.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,9 +33,9 @@ class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
           (prefs.getBool(SharedPreferenceConstants.introPageVisited) ?? false);
 
       if (introScreenVisited) {
-        moveToScreen(RouteConstants.loginPageRouteName);
+        moveToScreen(CustomNavigationHelper.loginPath);
       } else {
-        moveToScreen(RouteConstants.introPage1RouteName);
+        moveToScreen(CustomNavigationHelper.introPagePath);
       }
     }
   }

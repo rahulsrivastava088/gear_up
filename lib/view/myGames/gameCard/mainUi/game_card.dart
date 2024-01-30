@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/bottomNavigation/custom.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/view/myGames/gameCard/model/response/games_list_response.dart';
 import '../../../../utils/extension_functions.dart';
 

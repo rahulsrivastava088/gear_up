@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/country_code_bottom_sheet.dart';
+import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
+import 'package:provider/provider.dart';
 
 class SelectCountryCode extends StatelessWidget {
   const SelectCountryCode({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<OnBoardingViewModel>(context);
     return Column(
       children: [
         InkWell(
@@ -38,22 +41,22 @@ class SelectCountryCode extends StatelessWidget {
                 bottom: BorderSide(width: 1, color: Color(0xFF333333)),
               ),
             ),
-            child: const Row(
+            child: Row(
               // mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'India',
-                  style: TextStyle(
+                  model.selectedCountryName,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Space Grotesk',
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(width: 6),
-                Icon(Icons.arrow_downward)
+                const SizedBox(width: 6),
+                const Icon(Icons.arrow_downward)
               ],
             ),
           ),

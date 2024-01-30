@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/colors.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
-import 'package:gear_up/view/bottomNavigation/custom.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/view/posh/viewmodel/posh_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

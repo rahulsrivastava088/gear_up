@@ -59,6 +59,12 @@ dependencies:
   url_launcher: ^6.1.14
   lottie: ^2.6.0
   socket_io_client: ^2.0.3+1
+  animated_text_kit: ^4.2.2
+  jumping_dot: ^0.0.6
+  image_picker: ^1.0.7
+  permission_handler: ^11.0.1
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
 
 
 dev_dependencies:

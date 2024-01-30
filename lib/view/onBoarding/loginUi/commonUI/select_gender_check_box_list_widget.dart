@@ -10,10 +10,10 @@ class SelectGenderListWidget extends StatefulWidget {
   const SelectGenderListWidget({super.key});
 
   @override
-  _ListViewInWrapState createState() => _ListViewInWrapState();
+  State<SelectGenderListWidget> createState() => _SelectGenderListWidget();
 }
 
-class _ListViewInWrapState extends State<SelectGenderListWidget> {
+class _SelectGenderListWidget extends State<SelectGenderListWidget> {
   List<ListItem> items = [];
   @override
   void initState() {

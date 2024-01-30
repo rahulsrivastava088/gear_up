@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/Colors.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
-import 'package:gear_up/view/bottomNavigation/custom.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 
 AppBar userProfileAppBar(BuildContext context) {
   return AppBar(

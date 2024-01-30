@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
@@ -8,10 +7,9 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.d
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/profile_set_up_sub_heading_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/select_sports_check_box.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 
 class SelectSportsScreen extends StatefulWidget {
   const SelectSportsScreen({super.key});
@@ -28,6 +26,7 @@ class _SelectSportsScreenState extends State<SelectSportsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 24, left: 24, right: 24),

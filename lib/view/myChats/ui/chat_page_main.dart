@@ -14,7 +14,7 @@ class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -79,41 +79,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      // const Spacer(),
-      // Container(
-      //   margin: const EdgeInsets.only(left: 8, bottom: 24, right: 24),
-      //   padding: const EdgeInsets.all(8.0),
-      //   child: Row(children: [
-      // Expanded(
-      //   child: TextField(
-      //     controller: _messageController,
-      //     decoration: const InputDecoration(
-      //       hintText: 'Message',
-      //     ),
-      //   ),
-      // ),
-      //     Container(
-      //       width: 320,
-      //       height: 44,
-      //       padding: const EdgeInsets.symmetric(horizontal: 24),
-      //       decoration: ShapeDecoration(
-      //         color: const Color(0xFF1E1E1E),
-      //         shape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(24),
-      //         ),
-      //       ),
-      //       child: TextField(
-      //         controller: _messageController,
-      //         decoration: const InputDecoration(
-      //           hintText: 'Message',
-      //           border: InputBorder.none,
-      //         ),
-      //       ),
-      //     ),
-      //     const SizedBox(width: 12),
-      //     sendMessageWidget(model)
-      //   ]),
-      // ),
     );
   }
 
@@ -121,7 +86,6 @@ class _ChatScreenState extends State<ChatScreen> {
     return Container(
       width: 44,
       height: 44,
-      // padding: const EdgeInsets.all(12),
       decoration: ShapeDecoration(
         color: const Color(0xFF1E1E1E),
         shape: RoundedRectangleBorder(
@@ -152,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: Colors.transparent,
           constraints: const BoxConstraints(minWidth: double.infinity),
           builder: (BuildContext context) {
-            return Wrap(children: [ScheduleMatchBottomSheet()]);
+            return const Wrap(children: [ScheduleMatchBottomSheet()]);
           },
         );
       },
@@ -300,13 +264,11 @@ AppBar _chatAppBar(BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.arrow_back, color: Colors.white, size: 24),
-          SizedBox(width: 16),
+          const Icon(Icons.arrow_back, color: Colors.white, size: 24),
+          const SizedBox(width: 16),
           ClipOval(
             child: SizedBox.fromSize(
-              size: const Size.fromRadius(14), // Image radius
-              // child: Container(
-              // color: Colors.grey,
+              size: const Size.fromRadius(14),
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/person_image.png',
                 image:
@@ -322,8 +284,8 @@ AppBar _chatAppBar(BuildContext context) {
               ),
             ),
           ),
-          SizedBox(width: 8),
-          Text(
+          const SizedBox(width: 8),
+          const Text(
             'Harry Potter',
             textAlign: TextAlign.center,
             style: TextStyle(

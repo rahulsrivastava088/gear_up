@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/chat/schedule_match_bottom_sheet.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/app_bar.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/details_card.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/plays_card.dart';
@@ -82,7 +81,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           EditPlaysBottomSheet(
                             favouriteSports: model.myProfileReponse.data?.user
                                     ?.favoriteSports ??
-                                <FavoriteSport>[],
+                                [],
                           )
                         ]);
                       },

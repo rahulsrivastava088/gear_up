@@ -10,7 +10,7 @@ import 'package:gear_up/view/home/ui/select_sports_widget.dart';
 import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
 import 'package:gear_up/view/partners/ui/sports_filter.dart';
 import 'package:provider/provider.dart';
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 import '../../partners/ui/filter_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {

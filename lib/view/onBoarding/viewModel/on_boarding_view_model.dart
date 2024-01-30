@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:country_state_city/utils/country_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/data/response/api_response.dart';
 import 'package:gear_up/utils/extension_functions.dart';
@@ -13,9 +13,8 @@ import 'package:gear_up/view/onBoarding/repo/on_boarding_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
-import '../../../project/routes/app_route_constants.dart';
 import '../../../utils/shared_preferences.dart';
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 
 class OnBoardingViewModel extends BaseViewModel {
   final _repo = OnBoardingRepository();
@@ -36,6 +35,39 @@ class OnBoardingViewModel extends BaseViewModel {
   int get remainingSeconds => _remainingSeconds;
   bool isResendVisible = false;
 
+  String selectedCountryCode = '+91';
+  String selectedCountryName = 'India';
+
+  int x = 0;
+  updateIntroScreen(bool increase) {
+    // while (currentScreenNumber < 2) {
+    // Future.delayed(
+    //   const Duration(seconds: 2),
+    //   () {
+    if (increase) {
+      increaseScreenNumber();
+    } else {
+      decreaseScreenNumber();
+    }
+    // },
+    // );
+    // }
+  }
+
+  increaseScreenNumber() {
+    if (currentScreenNumber < 2) {
+      currentScreenNumber++;
+      notifyListeners();
+    }
+  }
+
+  decreaseScreenNumber() {
+    if (currentScreenNumber > 0) {
+      currentScreenNumber--;
+      notifyListeners();
+    }
+  }
+
   setRegisterUserLoading(bool value) {
     _registerUserLoading = value;
     notifyListeners();
@@ -44,6 +76,18 @@ class OnBoardingViewModel extends BaseViewModel {
   setVerifyUserLoading(bool value) {
     _verifyUserLoading = value;
     notifyListeners();
+  }
+
+  int currentScreenNumber = 0;
+
+  final screenText = [
+    "Find a partner to play\nwith, suitable to your\npreference and need",
+    "Participate in\ntournaments\nhappening near you",
+    "Join teams &\ncommunities with like\nminded people."
+  ];
+
+  getScreenText() {
+    return screenText[currentScreenNumber];
   }
 
   registerUser(
@@ -57,28 +101,32 @@ class OnBoardingViewModel extends BaseViewModel {
     _repo
         .registerUser(data)
         .then(
-          (value) => {
+          (value) async => {
             if (value.status.toString().isSuccess())
               {
                 showSnackBar(context, "OTP Sent"),
                 registerUserResponse = ApiResponse.completed(value),
                 _remainingSeconds = 10,
                 startCountdown(),
-                navigateToOTPScreen(context)
+                navigateToOTPScreen(context),
+                await Future.delayed(const Duration(milliseconds: 500)),
+                setRegisterUserLoading(false),
               }
             else
               {
                 registerUserResponse =
                     ApiResponse.error(Strings.otpNotSentMessage),
                 showSnackBar(context, "Couldn't send OTP, Please retry"),
+                setRegisterUserLoading(false),
               },
-            setRegisterUserLoading(false),
           },
         )
-        .onError((error, stackTrace) => {
-              setRegisterUserLoading(false),
-              showSnackBar(context, "Couldn't send the OTP, Please retry")
-            });
+        .onError(
+          (error, stackTrace) => {
+            setRegisterUserLoading(false),
+            showSnackBar(context, "Couldn't send the OTP, Please retry"),
+          },
+        );
   }
 
   resendOtp(BuildContext context) async {
@@ -87,7 +135,7 @@ class OnBoardingViewModel extends BaseViewModel {
       context.pop();
     }
     isResendVisible = false;
-    setVerifyUserLoading(false);
+    // setVerifyUserLoading(false);
 
     dynamic data = registerUserBody.toJson();
     _repo
@@ -126,7 +174,7 @@ class OnBoardingViewModel extends BaseViewModel {
       _repo
           .verifyUser(data)
           .then(
-            (value) => {
+            (value) async => {
               if (value.status.toString().isSuccess())
                 {
                   verifyUserResponse = ApiResponse.completed(value),
@@ -134,7 +182,8 @@ class OnBoardingViewModel extends BaseViewModel {
                   if (verifyUserResponse.data?.user?.newUser == true)
                     {navigateToSetUpProfileScreen(context)}
                   else
-                    {navigateToHomeScreen(context)}
+                    {navigateToHomeScreen(context)},
+                  await Future.delayed(const Duration(milliseconds: 500))
                 }
               else
                 {
@@ -189,6 +238,7 @@ class OnBoardingViewModel extends BaseViewModel {
           startCountdown();
         } else {
           isResendVisible = true;
+          _remainingSeconds = 10;
           notifyListeners();
         }
       });
@@ -208,5 +258,17 @@ class OnBoardingViewModel extends BaseViewModel {
       await prefs.setString(SharedPreferenceConstants.token,
           verifyUserResponse.data?.token ?? '');
     }
+  }
+
+  getColor(int position) {
+    if (position <= currentScreenNumber) {
+      return Colors.white;
+    } else {
+      return const Color(0xFF333333);
+    }
+  }
+
+  getCountries() {
+    var list = getAllCountries();
   }
 }

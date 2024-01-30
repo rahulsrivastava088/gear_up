@@ -9,6 +9,7 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/otp_status_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/otp_text_field.dart';
 import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 import 'package:provider/provider.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -70,8 +71,9 @@ class _OtpScreenState extends State<OtpScreen> {
           },
         ),
         const SizedBox(height: 24),
-        OnBoardingBigButton(
-            text: model.verifyUserLoading ? 'Verifying' : Strings.verify,
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 16),
+          child: InkWell(
             onTap: () {
               if (otpTextEditingController.text.isEmpty) {
                 customSnackBar(context, 'Please enter OTP');
@@ -80,7 +82,47 @@ class _OtpScreenState extends State<OtpScreen> {
                   model.verifyUser(context, otpTextEditingController.text);
                 }
               }
-            })
+            },
+            child: Ink(
+              width: double.infinity,
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              child: model.verifyUserLoading == false
+                  ? const Align(
+                      alignment: Alignment.center,
+                      child: Text(Strings.verify,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF242424),
+                            fontSize: 16,
+                            fontFamily: 'General Sans',
+                            fontWeight: FontWeight.bold,
+                          )),
+                    )
+                  : JumpingDots(
+                      color: Colors.grey,
+                      radius: 10,
+                      numberOfDots: 5,
+                    ),
+            ),
+          ),
+        )
+        // ,OnBoardingBigButton(
+        //       text: model.verifyUserLoading ? 'Verifying' : Strings.verify,
+        //       onTap: () {
+        //         if (otpTextEditingController.text.isEmpty) {
+        //           customSnackBar(context, 'Please enter OTP');
+        //         } else {
+        //           if (!model.verifyUserLoading) {
+        //             model.verifyUser(context, otpTextEditingController.text);
+        //           }
+        //         }
+        //       })
       ],
     );
   }

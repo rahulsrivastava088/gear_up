@@ -10,7 +10,9 @@ AppBar onBoardingAppBar(BuildContext context, {Function? onTap}) {
       child: IconButton(
         onPressed: () {
           if (onTap == null) {
-            context.pop();
+            if (context.canPop()) {
+              context.pop();
+            }
           } else {
             onTap();
           }

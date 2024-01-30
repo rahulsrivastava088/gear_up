@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
@@ -8,11 +7,10 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.d
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/profile_set_up_sub_heading_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/select_level.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:provider/provider.dart';
 
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 
 class SetLevelScreen extends StatefulWidget {
   const SetLevelScreen({super.key});
@@ -49,7 +47,7 @@ class _SetLevelScreen extends State<SetLevelScreen> {
               onTap: () {
                 if (model.isLevelListValid()) {
                   CustomNavigationHelper.router
-                      .push(CustomNavigationHelper.setObjective);
+                      .push(CustomNavigationHelper.setObjectivePath);
                 } else {
                   showSnackBar(context, "Please select level for each Sport!");
                 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/view/bottomNavigation/custom.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/view/filter/filter_view_model.dart';
 import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
 import 'package:gear_up/view/myChats/viewmodel/chatScreen_viewModel.dart';

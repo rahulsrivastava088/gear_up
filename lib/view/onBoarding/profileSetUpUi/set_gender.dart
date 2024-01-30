@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/data/response/status.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
@@ -11,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/shared_preferences.dart';
 import '../../../utils/utilities.dart';
+import '../../../project/routes/custom_navigator.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
 class SetGenderScreen extends StatefulWidget {
@@ -29,9 +29,7 @@ class _SetGenderScreen extends State<SetGenderScreen> {
       appBar: onBoardingAppBar(context),
       body: Padding(
         padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-        child: model.registerUserResponse.status == Status.LOADING
-            ? const Center(child: CircularProgressIndicator())
-            : ui(model, context),
+        child: ui(model, context),
       ),
     );
   }
@@ -53,7 +51,8 @@ class _SetGenderScreen extends State<SetGenderScreen> {
             if (model.selectedGender == -1) {
               showSnackBar(context, "Please select gender");
             } else {
-              model.updateUser(context);
+              CustomNavigationHelper.router
+                  .push(CustomNavigationHelper.setProfilePicturePath);
             }
           },
           text: Strings.next,

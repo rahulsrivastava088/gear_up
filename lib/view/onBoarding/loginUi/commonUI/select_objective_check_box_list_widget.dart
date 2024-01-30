@@ -10,10 +10,11 @@ class SelectObjectiveListWidget extends StatefulWidget {
   const SelectObjectiveListWidget({super.key});
 
   @override
-  _ListViewInWrapState createState() => _ListViewInWrapState();
+  State<SelectObjectiveListWidget> createState() =>
+      _SelectObjectiveListWidget();
 }
 
-class _ListViewInWrapState extends State<SelectObjectiveListWidget> {
+class _SelectObjectiveListWidget extends State<SelectObjectiveListWidget> {
   List<ListItem> items = [];
   @override
   void initState() {

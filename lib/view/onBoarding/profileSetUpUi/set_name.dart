@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
@@ -7,10 +6,9 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart'
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/profile_set_up_sub_heading_text.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:provider/provider.dart';
-import '../../bottomNavigation/custom.dart';
+import '../../../project/routes/custom_navigator.dart';
 import '../loginUi/commonUI/onboarding_custom_text_field.dart';
 
 class SetNameScreen extends StatefulWidget {
@@ -92,7 +90,7 @@ class _SetNameScreen extends State<SetNameScreen> {
                 model.lastName = lastNameEditingController.text.toString();
                 if (model.firstName.isNotEmpty && model.lastName.isNotEmpty) {
                   CustomNavigationHelper.router
-                      .push(CustomNavigationHelper.setAge);
+                      .push(CustomNavigationHelper.setAgePath);
                 } else {
                   showSnackBar(context, 'Please enter proper name');
                 }

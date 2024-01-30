@@ -10,10 +10,10 @@ class SelectLevelListWidget extends StatefulWidget {
   const SelectLevelListWidget({super.key, required this.pos});
 
   @override
-  _ListViewInWrapState createState() => _ListViewInWrapState();
+  State<SelectLevelListWidget> createState() => _SelectLevelListWidget();
 }
 
-class _ListViewInWrapState extends State<SelectLevelListWidget> {
+class _SelectLevelListWidget extends State<SelectLevelListWidget> {
   List<SelectLevelListItem> items = [];
   @override
   void initState() {

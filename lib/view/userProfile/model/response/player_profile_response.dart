@@ -202,6 +202,7 @@ class Address {
     this.line3,
     this.line4,
     this.id,
+    String? long,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(

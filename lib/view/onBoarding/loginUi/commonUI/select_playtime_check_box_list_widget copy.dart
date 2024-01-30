@@ -10,10 +10,10 @@ class SelectPlayTimeListWidget extends StatefulWidget {
   const SelectPlayTimeListWidget({super.key});
 
   @override
-  _ListViewInWrapState createState() => _ListViewInWrapState();
+  State<SelectPlayTimeListWidget> createState() => _SelectPlayTimeListWidget();
 }
 
-class _ListViewInWrapState extends State<SelectPlayTimeListWidget> {
+class _SelectPlayTimeListWidget extends State<SelectPlayTimeListWidget> {
   List<ListItem> items = [];
   @override
   void initState() {

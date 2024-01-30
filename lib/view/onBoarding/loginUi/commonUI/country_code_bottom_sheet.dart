@@ -1,5 +1,8 @@
 import 'package:country_state_city/utils/country_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class CountryCodeBottomSheet extends StatefulWidget {
   const CountryCodeBottomSheet({super.key});
@@ -12,7 +15,7 @@ class CountryCodeBottomSheet extends StatefulWidget {
 
 class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
   // Future<List<Country>>? countries;
-  late final Future countries = getAllCountries();
+  Future? countries;
   // Future<List<Country>?> getList() async {
   // countries = await getAllCountries();
   // return countries;
@@ -29,13 +32,14 @@ class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
   @override
   void initState() {
     super.initState();
-    // countries = getAllCountries();
+    countries = getAllCountries();
   }
 
   // String _keyword = "";
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<OnBoardingViewModel>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 72),
       child: Column(
@@ -120,37 +124,49 @@ class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
                             return Text('Error: ${snapshot.error}');
                           } else if (snapshot.hasData) {
                             return ListView.builder(
+                              // physics: const NeverScrollableScrollPhysics(),
                               // addAutomaticKeepAlives: true,
                               shrinkWrap: true,
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (context, index) {
                                 final countryList = snapshot.data;
-                                return Card(
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          countryList?[index].name ?? "-",
-                                          style: const TextStyle(
+                                return GestureDetector(
+                                  onTap: () {
+                                    model.selectedCountryCode =
+                                        countryList?[index].phoneCode;
+                                    model.selectedCountryName =
+                                        countryList?[index].name;
+                                    model.notifyListeners();
+                                    context.pop();
+                                  },
+                                  child: Card(
+                                    color: Colors.transparent,
+                                    elevation: 0,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            countryList?[index].name ?? "-",
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                                fontFamily: 'Space Grotesk',
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            countryList?[index].phoneCode ??
+                                                "-",
+                                            style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 14,
                                               fontFamily: 'Space Grotesk',
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        const Spacer(),
-                                        Text(
-                                          countryList?[index].phoneCode ?? "-",
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontFamily: 'Space Grotesk',
-                                            fontWeight: FontWeight.w400,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

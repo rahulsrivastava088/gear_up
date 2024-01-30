@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/colors/colors.dart';
-import 'package:gear_up/project/routes/app_route_constants.dart';
 import 'package:gear_up/utils/strings.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
-import 'package:gear_up/view/bottomNavigation/custom.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:go_router/go_router.dart';
 
 class PoshScreen extends StatefulWidget {
