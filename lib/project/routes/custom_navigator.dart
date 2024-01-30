@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/view/bottomNavigation/bottom_navigation_page.dart';
 import 'package:gear_up/view/home/ui/home_page_main.dart';
+import 'package:gear_up/view/location/ui/location_main_page.dart';
 import 'package:gear_up/view/myChats/ui/chat_page_main.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
 import 'package:gear_up/view/myGames/my_games_page_main.dart';
@@ -80,6 +81,7 @@ class CustomNavigationHelper {
   static const String setGenderPath = '/set_gender';
   static const String setProfilePicturePath = '/set_profile_picture';
   static const String setLocationPath = '/set_location';
+  static const String locationPath = '/location';
 
   factory CustomNavigationHelper() {
     return _instance;
@@ -369,11 +371,21 @@ class CustomNavigationHelper {
           );
         },
       ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: locationPath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const LocationScreen(),
+            state: state,
+          );
+        },
+      ),
     ];
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: setProfilePicturePath,
+      initialLocation: locationPath,
       routes: routes,
     );
   }

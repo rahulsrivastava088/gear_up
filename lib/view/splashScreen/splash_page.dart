@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
   Future checkFirstSeen() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 4));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(SharedPreferenceConstants.token);
@@ -72,8 +72,12 @@ class SplashScreenText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Lottie.asset('assets/lottie/gear_up_lottie_animation.json',
-            width: 400, height: 400)
+        Lottie.asset(
+          'assets/lottie/gear_up_lottie_animation.json',
+          width: 400,
+          height: 400,
+          repeat: false,
+        )
       ],
     );
   }

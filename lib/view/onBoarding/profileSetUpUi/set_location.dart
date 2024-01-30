@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/data/response/status.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/custom_snackbar.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
-import 'package:gear_up/view/onBoarding/model/response/update_user_response_body.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../utils/shared_preferences.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
 class SetLocationScreen extends StatefulWidget {
@@ -106,7 +99,12 @@ class _SetLocationScreen extends State<SetLocationScreen> {
             },
             text: 'Enable Device Location'),
         const SizedBox(height: 16),
-        CustomBigButtonDark(onTap: () {}, text: 'Enter Your Location Manually'),
+        CustomBigButtonDark(
+            onTap: () {
+              CustomNavigationHelper.router
+                  .push(CustomNavigationHelper.locationPath);
+            },
+            text: 'Enter Your Location Manually'),
         const SizedBox(height: 24)
       ],
     );
