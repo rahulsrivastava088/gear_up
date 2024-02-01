@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
 
+import '../../../../utils/utilities.dart';
+import '../../../partners/ui/filter_bottom_sheet.dart';
 import 'select_level_check_box_list_widget.dart';
 
 class SelectLevelWidget extends StatefulWidget {
@@ -30,7 +33,14 @@ class _SelectLevelWidgetState extends State<SelectLevelWidget> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.circle_outlined),
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: SvgPicture.asset(
+                  getSportIconDataFromSportName(Sports.values[widget.index]),
+                  color: Colors.white,
+                ),
+              ),
               const SizedBox(width: 12),
               Text(
                 Strings.sportsList[widget.index],

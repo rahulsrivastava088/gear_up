@@ -3,6 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/strings.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
+import 'package:gear_up/view/partners/ui/filter_bottom_sheet.dart';
+
+import '../../../../utils/utilities.dart';
 
 class SelectSportsCheckBox extends StatefulWidget {
   final int index;
@@ -40,11 +43,13 @@ class _SelectSportsCheckBox extends State<SelectSportsCheckBox> {
         tileColor: cardBgColor,
         selectedTileColor: const Color(0xFF1E1E1E),
         secondary: SizedBox(
-            height: 20,
-            width: 20,
-            child: SvgPicture.asset(
-              'lib/icons/ic_badminton.svg',
-            )),
+          height: 20,
+          width: 20,
+          child: SvgPicture.asset(
+            getSportIconDataFromSportName(Sports.values[widget.index]),
+            color: Colors.white,
+          ),
+        ),
         selected: _value,
         value: _value,
         onChanged: (value) {

@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 class NetworkUtility {
   static Future<String?> fetchUrl(Uri uri,

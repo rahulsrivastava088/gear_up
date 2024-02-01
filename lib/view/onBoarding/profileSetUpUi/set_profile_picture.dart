@@ -1,22 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gear_up/data/response/status.dart';
-import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/profile_set_up_sub_heading_text.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/select_gender_check_box_list_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/shared_preferences.dart';
-import '../../../utils/utilities.dart';
 import '../../../project/routes/custom_navigator.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
@@ -33,7 +26,45 @@ class _SetProfilePictureScreen extends State<SetProfilePictureScreen> {
     final model = Provider.of<ProfileSetUpViewModel>(context);
 
     return Scaffold(
-      appBar: onBoardingAppBar(context),
+      appBar: AppBar(
+        titleSpacing: 24.0,
+        backgroundColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: IconButton(
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+              }
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 32,
+            ),
+          ),
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                model.userImage = '';
+                CustomNavigationHelper.router
+                    .push(CustomNavigationHelper.setLocationPath);
+              });
+            },
+            child: const Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          const SizedBox(width: 32)
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
         child: ui(model, context),
@@ -50,7 +81,7 @@ class _SetProfilePictureScreen extends State<SetProfilePictureScreen> {
         const LoginSubHeaderText(text: 'Click/Upload your profile picture'),
         const SizedBox(height: 100),
         Center(
-          child: _pickedImage == null
+          child: model.userImage == ''
               ? Container(
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Colors.transparent),
@@ -69,26 +100,54 @@ class _SetProfilePictureScreen extends State<SetProfilePictureScreen> {
                 ),
         ),
         const Spacer(),
-        CustomBigButtonDark(
-            onTap: () async {
-              CustomNavigationHelper.router
-                  .push(CustomNavigationHelper.setLocationPath);
-            },
-            text: 'Skip'),
-        const SizedBox(height: 16),
+        bottomWidgets(model)
+      ],
+    );
+  }
+
+  Widget bottomWidgets(ProfileSetUpViewModel model) {
+    return model.userImage == ''
+        ? selectImageWidgets(model)
+        : progressFlowWidgets(model);
+  }
+
+  Column selectImageWidgets(ProfileSetUpViewModel model) {
+    return Column(
+      children: [
         CustomBigButtonLight(
             onTap: () async {
-              print("tapped");
-              getImage(ImageSource.camera);
+              getImage(ImageSource.camera, model);
             },
             text: 'Click a Selfie'),
         const SizedBox(height: 16),
         CustomBigButtonDark(
             onTap: () {
-              getImage(ImageSource.gallery);
+              getImage(ImageSource.gallery, model);
             },
             text: 'Upload'),
-        const SizedBox(height: 24)
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Column progressFlowWidgets(ProfileSetUpViewModel model) {
+    return Column(
+      children: [
+        CustomBigButtonLight(
+            onTap: () async {
+              CustomNavigationHelper.router
+                  .push(CustomNavigationHelper.setLocationPath);
+            },
+            text: 'Save'),
+        const SizedBox(height: 16),
+        CustomBigButtonDark(
+            onTap: () {
+              setState(() {
+                model.userImage = '';
+              });
+            },
+            text: 'Back'),
+        const SizedBox(height: 24),
       ],
     );
   }
@@ -96,7 +155,7 @@ class _SetProfilePictureScreen extends State<SetProfilePictureScreen> {
   ImagePicker _imagePicker = ImagePicker();
   File? _pickedImage;
 
-  Future getImage(ImageSource source) async {
+  Future getImage(ImageSource source, ProfileSetUpViewModel model) async {
     // var status = await Permission.camera.status;
 
     // if (status != PermissionStatus.granted) {
@@ -123,6 +182,7 @@ class _SetProfilePictureScreen extends State<SetProfilePictureScreen> {
         setState(
           () {
             _pickedImage = File(returnedImage.path);
+            model.userImage = _pickedImage.toString();
           },
         );
       }

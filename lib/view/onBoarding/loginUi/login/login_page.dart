@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
               } else {
                 if (!model.registerUserLoading) {
                   model.registerUser(
-                    "+91",
+                    model.selectedCountryCode,
                     numberTextEditingController.text,
                     context,
                   );

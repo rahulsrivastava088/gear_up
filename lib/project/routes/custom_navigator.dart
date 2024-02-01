@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/bottomNavigation/bottom_navigation_page.dart';
 import 'package:gear_up/view/home/ui/home_page_main.dart';
+import 'package:gear_up/view/location/ui/confirm_location_page.dart';
 import 'package:gear_up/view/location/ui/location_main_page.dart';
 import 'package:gear_up/view/myChats/ui/chat_page_main.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
@@ -24,6 +26,7 @@ import 'package:gear_up/view/userProfile/ui/edit_user_profile/main.dart';
 import 'package:gear_up/view/userProfile/ui/player_profile/player_profile_main_page.dart';
 import 'package:gear_up/view/userProfile/ui/user_profile/own_user_page_main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../view/myGames/gameCard/model/response/games_list_response.dart';
 import '../../view/onBoarding/profileSetUpUi/set_level.dart';
 import '../../view/posh/ui/posh_information_page.dart';
@@ -82,6 +85,7 @@ class CustomNavigationHelper {
   static const String setProfilePicturePath = '/set_profile_picture';
   static const String setLocationPath = '/set_location';
   static const String locationPath = '/location';
+  static const String confirmLocationPath = '/confirm_location';
 
   factory CustomNavigationHelper() {
     return _instance;
@@ -381,11 +385,24 @@ class CustomNavigationHelper {
           );
         },
       ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: confirmLocationPath,
+        pageBuilder: (context, state) {
+          LatLng position = state.extra as LatLng;
+          return getPage(
+            child: ConfirmLocationScreen(
+              position: position,
+            ),
+            state: state,
+          );
+        },
+      ),
     ];
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: locationPath,
+      initialLocation: setProfilePicturePath,
       routes: routes,
     );
   }

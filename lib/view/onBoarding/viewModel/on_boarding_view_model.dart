@@ -35,7 +35,7 @@ class OnBoardingViewModel extends BaseViewModel {
   int get remainingSeconds => _remainingSeconds;
   bool isResendVisible = false;
 
-  String selectedCountryCode = '+91';
+  String selectedCountryCode = '91';
   String selectedCountryName = 'India';
 
   int x = 0;
@@ -261,10 +261,18 @@ class OnBoardingViewModel extends BaseViewModel {
   }
 
   getColor(int position) {
-    if (position <= currentScreenNumber) {
+    if (position == currentScreenNumber) {
       return Colors.white;
     } else {
       return const Color(0xFF333333);
+    }
+  }
+
+  double getSize(int position) {
+    if (position == currentScreenNumber) {
+      return 10;
+    } else {
+      return 8;
     }
   }
 

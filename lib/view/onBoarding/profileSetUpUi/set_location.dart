@@ -5,7 +5,6 @@ import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../viewModel/profile_set_up_view_model.dart';
 
@@ -89,7 +88,7 @@ class _SetLocationScreen extends State<SetLocationScreen> {
         const Spacer(),
         CustomBigButtonLight(
             onTap: () {
-              _getCurrentLocation(context).then((value) {
+              getCurrentLocation(context).then((value) {
                 model.lat = value.latitude.toString();
                 model.long = value.longitude.toString();
                 model.updateUser(context);
@@ -108,26 +107,5 @@ class _SetLocationScreen extends State<SetLocationScreen> {
         const SizedBox(height: 24)
       ],
     );
-  }
-
-  Future<Position> _getCurrentLocation(BuildContext context) async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error("Location Services are disabled");
-    }
-    LocationPermission permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error("Location permissions are denied");
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          "Location permissions are denied forever, we cannot request it");
-    }
-
-    return await Geolocator.getCurrentPosition();
   }
 }
