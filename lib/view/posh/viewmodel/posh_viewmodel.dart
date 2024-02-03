@@ -72,8 +72,68 @@ class PoshViewModel extends BaseViewModel {
     "In your own words, explain the importance of bystander intervention in preventing sexual harassment.",
   ];
 
-  final answers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  List<int> answersProvided = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+  Map<int, List<String>> options = {
+    0: [
+      "Complimenting a teammate",
+      "Unwanted and inappropriate sexual advances or conduct",
+      "Friendly banter during practice"
+    ],
+    1: [
+      "Encouraging teamwork",
+      "Non-verbal harassment",
+      "Complying with coach instructions"
+    ],
+    2: [
+      "It helps in team-building",
+      "It can prevent the misuse of authority in relationships",
+      "It is irrelevant to the prevention of sexual harassment"
+    ],
+    3: ["True", "False"],
+    4: ["True", "False"],
+    5: ["True", "False"],
+    6: [
+      "Physical Harassment",
+      "Verbal Harassment",
+      "Non-Verbal Harassment",
+      "Online Harassment"
+    ],
+    7: [
+      "Ignore the comments and avoid the senior player.",
+      "Confront the senior player privately.",
+      "Communicate discomfort to the senior player and report the incident.",
+      "Share the experience with teammates but take no further action."
+    ],
+    8: [
+      "It has no impact on preventing sexual harassment.",
+      "It fosters a sense of belonging and mutual respect.",
+      "It increases competition among team members.",
+      "It promotes isolation and exclusivity."
+    ],
+    9: [
+      "Bystander intervention is unnecessary in preventing sexual harassment.",
+      "Bystander intervention empowers individuals to actively prevent and address inappropriate behavior.",
+      "Bystander intervention increases the risk of retaliation.",
+      "Bystander intervention should only be done by coaches, not athletes."
+    ],
+  };
+
+  final correctAnswers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  List<int> answersSelected = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+  int score = 0;
+
+  void recordAnswer(int index, int optionIndex) {
+    answersSelected[index] = optionIndex;
+    notifyListeners();
+  }
+
+  void calculateMarks() {
+    for (int i = 0; i < 10; i++) {
+      if (correctAnswers[i] == answersSelected[i]) {
+        score++;
+        notifyListeners();
+      }
+    }
+  }
 
   void moveToNextPage() {
     if (selectedIndex < pageIndexes.length - 1) {

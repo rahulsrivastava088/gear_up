@@ -385,7 +385,7 @@ class CustomNavigationHelper {
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: locationPath,
+      initialLocation: poshAssessmentPath,
       routes: routes,
     );
   }

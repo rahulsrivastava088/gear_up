@@ -63,6 +63,23 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
+  Future getGetApiResponse(String url) async {
+    dynamic responseJson;
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 7));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  @override
   Future getGetApiResponseTokenisedWithPathParam(
       String url, String token, String pathParam) async {
     dynamic responseJson;

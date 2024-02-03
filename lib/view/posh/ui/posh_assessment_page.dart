@@ -42,24 +42,19 @@ class _PoshAssessmentScreen extends State<PoshAssessmentScreen> {
                     ),
                     padding:
                         const EdgeInsets.only(left: 24, right: 24, top: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                indexText(index),
-                                Expanded(child: questionText(model, index)),
-                              ],
-                            ),
-                            optionsWidget(model, index),
+                            indexText(index),
+                            Expanded(child: questionText(model, index)),
                           ],
                         ),
+                        optionsWidget(model, index),
                       ],
                     ));
               },
@@ -70,6 +65,8 @@ class _PoshAssessmentScreen extends State<PoshAssessmentScreen> {
                 const EdgeInsets.only(top: 18, left: 24, right: 24, bottom: 24),
             child: CustomBigButtonLight(
               onTap: () {
+                model.score = 0;
+                model.calculateMarks();
                 CustomNavigationHelper.router
                     .push(CustomNavigationHelper.poshResultsPath);
               },
@@ -82,56 +79,35 @@ class _PoshAssessmentScreen extends State<PoshAssessmentScreen> {
   }
 
   Widget optionsWidget(PoshViewModel model, int index) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          onTap: () {},
-          visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-          contentPadding: EdgeInsets.zero,
-          title: Transform.translate(
-            offset: const Offset(-16, 0),
-            child: const Text(
-              'True',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontFamily: 'Space Grotesk',
-                fontWeight: FontWeight.w400,
-              ),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: model.options[index]!.length,
+      itemBuilder: (context, optionIndex) => ListTile(
+        onTap: () {
+          model.recordAnswer(index, optionIndex);
+        },
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+        contentPadding: EdgeInsets.zero,
+        title: Transform.translate(
+          offset: const Offset(-16, 0),
+          child: Text(
+            model.options[index]![optionIndex],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontFamily: 'Space Grotesk',
+              fontWeight: FontWeight.w400,
             ),
           ),
-          leading: Radio(
-            activeColor: Colors.white,
-            value: true,
-            groupValue: null,
-            onChanged: (value) {},
-          ),
         ),
-        ListTile(
-          onTap: () {},
-          visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-          contentPadding: EdgeInsets.zero,
-          title: Transform.translate(
-            offset: const Offset(-16, 0),
-            child: const Text(
-              'False',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontFamily: 'Space Grotesk',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-          leading: Radio(
-            activeColor: Colors.white,
-            value: true,
-            groupValue: null,
-            onChanged: (value) {},
-          ),
+        leading: Radio(
+          activeColor: Colors.white,
+          value: model.answersSelected[index] == optionIndex,
+          groupValue: true,
+          onChanged: (value) {},
         ),
-      ],
+      ),
     );
   }
 

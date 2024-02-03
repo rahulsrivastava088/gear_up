@@ -67,7 +67,7 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  '8 Correct Answers ',
+                  '${model.score} Correct Answers ',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

@@ -18,6 +18,7 @@ const String fetchMyGamesUrl = "$baseUrl/game/mygames";
 const String fetchMyRecentGamesUrl = "$baseUrl//game/recentGames";
 const String fetchMyLiveGamesUrl = "$baseUrl//game/liveGames";
 const String fetchMyUpcomingGamesUrl = "$baseUrl/game/upcomingGames";
+const String getVenuesUrl = "$baseUrl/venue/venues";
 
 // Profile
 const String fetchPlayerProfileDataUrl = "$baseUrl/user/getAnyPlayer";
