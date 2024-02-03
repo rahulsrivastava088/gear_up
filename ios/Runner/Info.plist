@@ -59,5 +59,7 @@
 	<string>We need continuous access to your location for...</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need access to your location both when the app is in use and always for...</string>
+	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
+	<string>We need to access your location to get address</string>
 </dict>
 </plist>

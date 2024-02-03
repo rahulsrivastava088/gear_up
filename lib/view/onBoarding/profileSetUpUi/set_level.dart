@@ -9,7 +9,6 @@ import 'package:gear_up/view/onBoarding/loginUi/commonUI/select_level.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:provider/provider.dart';
-
 import '../../../project/routes/custom_navigator.dart';
 
 class SetLevelScreen extends StatefulWidget {

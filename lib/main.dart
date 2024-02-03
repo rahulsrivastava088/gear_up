@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/view/filter/filter_view_model.dart';
@@ -12,6 +15,10 @@ import 'package:gear_up/view/userProfile/viewmodel/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    if (kReleaseMode) exit(1);
+  };
   CustomNavigationHelper.instance;
   runApp(const GearUpApp());
 }

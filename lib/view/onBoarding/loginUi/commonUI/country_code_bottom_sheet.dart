@@ -1,3 +1,4 @@
+import 'package:country_state_city/models/country.dart';
 import 'package:country_state_city/utils/country_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
@@ -7,35 +8,40 @@ import 'package:provider/provider.dart';
 class CountryCodeBottomSheet extends StatefulWidget {
   const CountryCodeBottomSheet({super.key});
 
-  // late final Future countries;
-
   @override
   State<CountryCodeBottomSheet> createState() => _CountryCodeBottomSheetState();
 }
 
 class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
-  // Future<List<Country>>? countries;
   Future? countries;
-  // Future<List<Country>?> getList() async {
-  // countries = await getAllCountries();
-  // return countries;
-  // if (_keyword.isEmpty) {
-  //   return countries;
-  // } else {
-  //   return countries
-  //       ?.where((element) =>
-  //           element.name.toLowerCase().contains(_keyword.toLowerCase()))
-  //       .toList();
-  // }
-  // }
 
   @override
   void initState() {
     super.initState();
-    countries = getAllCountries();
+    countries = getAllCountries().then((list) {
+      originalList = list;
+      filteredList.addAll(originalList);
+      setState(() {});
+    });
   }
 
-  // String _keyword = "";
+  final searchTextEditingController = TextEditingController();
+  List<Country> originalList = [];
+  List<Country> filteredList = [];
+
+  void filterList(String query) {
+    filteredList.clear();
+    if (query.isEmpty) {
+      filteredList.addAll(originalList);
+    } else {
+      for (var item in originalList) {
+        if (item.name.toLowerCase().contains(query.toLowerCase())) {
+          filteredList.add(item);
+        }
+      }
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,20 +82,24 @@ class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: SizedBox(
                     height: 36,
                     child: TextField(
+                      onChanged: (query) {
+                        filterList(query);
+                      },
+                      controller: searchTextEditingController,
                       maxLines: 1,
                       textAlignVertical: TextAlignVertical.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF6B6B6B),
                         fontSize: 14,
                         fontFamily: 'Space Grotesk',
                         fontWeight: FontWeight.w400,
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         prefixIcon: Icon(
                           Icons.search,
@@ -105,77 +115,27 @@ class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
                         filled: true,
                         fillColor: Color(0xFFEEEEEE),
                       ),
-                      // onChanged: (value) {
-                      //   setState(() {});
-                      // },
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.zero,
-                  child: FutureBuilder(
-                    future: countries,
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return const CircularProgressIndicator();
-                        default:
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else if (snapshot.hasData) {
-                            return ListView.builder(
-                              // physics: const NeverScrollableScrollPhysics(),
-                              // addAutomaticKeepAlives: true,
-                              shrinkWrap: true,
-                              itemCount: snapshot.data?.length ?? 0,
-                              itemBuilder: (context, index) {
-                                final countryList = snapshot.data;
-                                return GestureDetector(
-                                  onTap: () {
-                                    model.selectedCountryCode =
-                                        countryList?[index].phoneCode;
-                                    model.selectedCountryName =
-                                        countryList?[index].name;
-                                    model.notifyListeners();
-                                    context.pop();
-                                  },
-                                  child: Card(
-                                    color: Colors.transparent,
-                                    elevation: 0,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            countryList?[index].name ?? "-",
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'Space Grotesk',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            countryList?[index].phoneCode ??
-                                                "-",
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontFamily: 'Space Grotesk',
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                      }
+                SizedBox(
+                  height: 700,
+                  // padding: EdgeInsets.zero,
+                  child: ListView.builder(
+                    itemCount: filteredList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            model.selectedCountryCode =
+                                filteredList[index].phoneCode;
+                            model.selectedCountryName =
+                                filteredList[index].name;
+                            model.notifyListeners();
+                            context.pop();
+                          },
+                          child: selectCountryCardWidget(
+                              filteredList, index, model));
                     },
                   ),
                 ),
@@ -183,6 +143,53 @@ class _CountryCodeBottomSheetState extends State<CountryCodeBottomSheet> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Card selectCountryCardWidget(
+      countryList, int index, OnBoardingViewModel model) {
+    return Card(
+      color: model.selectedCountryName == countryList[index].name
+          ? const Color(0xFFEAF3F9)
+          : Colors.transparent,
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            model.selectedCountryName == countryList[index].name
+                ? const Row(
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      SizedBox(width: 6)
+                    ],
+                  )
+                : Container(),
+            Text(
+              countryList?[index].name ?? "-",
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Space Grotesk',
+                  fontWeight: FontWeight.w400),
+            ),
+            const Spacer(),
+            Text(
+              countryList?[index].phoneCode ?? "-",
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
