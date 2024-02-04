@@ -651,7 +651,9 @@ class _ScheduleMatchBottomSheet extends State<ScheduleMatchBottomSheet> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
+      initialDate: _selectedDate.isBefore(DateTime.now())
+          ? DateTime.now()
+          : _selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 1),
     );
