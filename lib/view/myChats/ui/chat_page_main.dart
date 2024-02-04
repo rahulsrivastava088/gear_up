@@ -932,7 +932,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  formatEpochToTime(model.messages[index].game?.createdDate),
+                  formatEpochToTime(model.messages[index].game?.matchDate),
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 12,
@@ -942,7 +942,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  formatEpochToDate(model.messages[index].game?.createdDate),
+                  formatEpochToDate(model.messages[index].game?.matchDate),
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 12,
@@ -1397,11 +1397,11 @@ class _ChatScreenState extends State<ChatScreen> {
               gameId: model.messages[index].game?.id,
               sportIndex: getSportIndex(model.messages[index].game?.sport),
               date: DateTime.fromMillisecondsSinceEpoch(
-                model.messages[index].game?.createdDate ??
+                model.messages[index].game?.matchDate ??
                     DateTime.now().microsecondsSinceEpoch,
               ),
               time: TimeOfDay.fromDateTime(DateTime.fromMillisecondsSinceEpoch(
-                model.messages[index].game?.createdDate ??
+                model.messages[index].game?.matchDate ??
                     DateTime.now().microsecondsSinceEpoch,
               )),
             ),

@@ -111,12 +111,9 @@ class ChatViewModel extends BaseViewModel {
   ) async {
     createGameResponse = ApiResponse.loading();
     notifyListeners();
-    selectedDate = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-      selectedTime.hour,
-    );
+    selectedDate = DateTime(selectedDate.year, selectedDate.month,
+        selectedDate.day, selectedTime.hour, selectedTime.minute);
+    print(selectedDate);
     createGameBody.matchDate = selectedDate.millisecondsSinceEpoch;
     createGameBody.venue = venueID;
     createGameBody.sport = getSportID(selectedSport);
@@ -241,12 +238,8 @@ class ChatViewModel extends BaseViewModel {
     String? venueID,
   ) {
     print("reschedule method called");
-    selectedDate = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-      selectedTime.hour,
-    );
+    selectedDate = DateTime(selectedDate.year, selectedDate.month,
+        selectedDate.day, selectedTime.hour, selectedTime.minute);
     updateGame(
       context,
       gameID,

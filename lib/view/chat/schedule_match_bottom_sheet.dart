@@ -397,6 +397,8 @@ class _ScheduleMatchBottomSheet extends State<ScheduleMatchBottomSheet> {
           } else if (_selectedVenue == null) {
             showSnackBar(context, "Please select Venue");
           } else {
+            print("Creating game");
+            print("selected date: $_selectedDate time: $_selectedTime");
             chatViewModel.createGame(
               context,
               _selectedDate,
