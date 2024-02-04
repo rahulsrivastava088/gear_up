@@ -3,6 +3,7 @@ import 'package:gear_up/view/myChats/model/response/access_chat_response.dart';
 import 'package:gear_up/view/myChats/model/response/create_game_response.dart'
     as create_game_response;
 import 'package:gear_up/view/myChats/model/response/getAllMessages_response.dart';
+import 'package:gear_up/view/myChats/model/response/get_venues_response.dart';
 import 'package:gear_up/view/myChats/model/response/sendMessage_response.dart';
 import 'package:gear_up/view/myChats/model/response/venues_list_response.dart';
 import 'package:logger/logger.dart';
@@ -104,6 +105,17 @@ class ChatRepository {
               updateGameUrl, token, gameID, data);
       Logger().d(response);
       var res = CreateGameResponse.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GetVenuesResponse> getVenues() async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(getVenuesUrl);
+      Logger().d(response);
+      var res = GetVenuesResponse.fromJson(response);
       return res;
     } catch (e) {
       rethrow;
