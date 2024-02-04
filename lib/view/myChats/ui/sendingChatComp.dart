@@ -30,8 +30,6 @@ class SendingChatComp extends StatelessWidget {
                 fontSize: 14,
                 fontFamily: 'Space Grotesk',
                 fontWeight: FontWeight.w400,
-                height: 1.4,
-                letterSpacing: 0.21,
               ),
             ),
           ),

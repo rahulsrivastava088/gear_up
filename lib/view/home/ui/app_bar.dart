@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/project/routes/custom_navigator.dart';
 
 AppBar homeAppBar(BuildContext context, String location) {
   return AppBar(
@@ -30,7 +31,10 @@ AppBar homeAppBar(BuildContext context, String location) {
       ),
       const SizedBox(width: 8),
       InkWell(
-        onTap: () {},
+        onTap: () {
+          CustomNavigationHelper.router
+              .push(CustomNavigationHelper.messagesPath);
+        },
         child: Container(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
           decoration: ShapeDecoration(

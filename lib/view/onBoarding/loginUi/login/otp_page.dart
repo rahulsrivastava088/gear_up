@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/utils/Strings.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/custom_snackbar.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/intro_page_get_started_button.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/otp_status_text.dart';

@@ -7,4 +7,7 @@ abstract class BaseApiServices {
       String url, dynamic data, String token);
   Future<dynamic> getGetApiResponseTokenisedWithPathParam(
       String url, String token, String pathParam);
+  Future<dynamic> getPostApiResponseTokenisedWithPathParam(
+      String url, String token, String pathParam, dynamic data);
+  Future<dynamic> getGetApiResponse(String url);
 }

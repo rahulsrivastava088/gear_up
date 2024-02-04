@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
 import 'package:go_router/go_router.dart';

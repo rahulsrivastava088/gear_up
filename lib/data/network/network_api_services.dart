@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:gear_up/data/app_exceptions.dart';
 import 'package:gear_up/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 class NetworkApiServices extends BaseApiServices {
   @override
@@ -36,7 +37,7 @@ class NetworkApiServices extends BaseApiServices {
             encoding: Encoding.getByName("utf-8"),
           )
           .timeout(const Duration(seconds: 7));
-      print("resp: ${response.body}");
+      Logger().d("resp: ${response.body}");
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -81,6 +82,31 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  @override
+  Future getPostApiResponseTokenisedWithPathParam(
+      String url, String token, String pathParam, dynamic data) async {
+    dynamic responseJson;
+    final msg = jsonEncode(data);
+    try {
+      final response = await http
+          .post(
+            Uri.parse('$url$pathParam'),
+            body: msg,
+            headers: {
+              'Content-type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            encoding: Encoding.getByName("utf-8"),
+          )
+          .timeout(const Duration(seconds: 7));
+      Logger().d("resp: ${response.body}");
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -115,6 +141,23 @@ class NetworkApiServices extends BaseApiServices {
             encoding: Encoding.getByName("utf-8"),
           )
           .timeout(const Duration(seconds: 7));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  @override
+  Future getGetApiResponse(String url) async {
+    dynamic responseJson;
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 7));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

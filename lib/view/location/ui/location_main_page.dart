@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gear_up/data/network/network_util.dart';
 import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/utils/strings.dart';
 import 'package:gear_up/view/location/response/location_fetch_response.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:logger/logger.dart';
 import '../../../utils/utilities.dart';
 
 class LocationScreen extends StatefulWidget {

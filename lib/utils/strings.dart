@@ -65,3 +65,4 @@ class Strings {
 }
 
 const String mapsApiKey = 'AIzaSyAMoZuA1fXx58e5qiqebq0DYIGp3Jhbysk';
+const String myUserID = '65957c913b8e563ac1344a3d';

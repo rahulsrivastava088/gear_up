@@ -3,6 +3,8 @@ import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/extension_functions.dart';
 import 'package:gear_up/view/userProfile/model/response/player_profile_response.dart';
 
+import '../../../myChats/model/response/venues_list_response.dart';
+
 class PlaysCard extends StatelessWidget {
   const PlaysCard({
     super.key,
@@ -76,6 +78,15 @@ String getStringFromFavoriteSportsList(List<FavoriteSport>? sportslist) {
   var result = '';
   for (final sportname in sportslist ?? []) {
     result += "${getSportName(sportname.sport)}, ";
+  }
+  if (result.isEmpty) return "NA";
+  return result.substring(0, result.length - 2);
+}
+
+String getStringFromSportsList(List<SportsList>? sportslist) {
+  var result = '';
+  for (final sportname in sportslist ?? []) {
+    result += "${getSportName(sportname.id)}, ";
   }
   if (result.isEmpty) return "NA";
   return result.substring(0, result.length - 2);

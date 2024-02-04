@@ -9,7 +9,8 @@ const String fetchAllPlayersUrl = "$baseUrl/user/getPlayers";
 const String sendConnectionRequestUrl = "$baseUrl/connection/sendRequest";
 const String acceptConnectionRequestUrl = "$baseUrl/connection/acceptRequest";
 const String rejectConnectionRequestUrl = "$baseUrl/connection/rejectRequest";
-const String cancelConnectionRequestUrl = "$baseUrl/connection/removeConnection";
+const String cancelConnectionRequestUrl =
+    "$baseUrl/connection/removeConnection";
 
 // Games
 const String createGameUrl = "$baseUrl/game/create";
@@ -18,6 +19,7 @@ const String fetchMyGamesUrl = "$baseUrl/game/mygames";
 const String fetchMyRecentGamesUrl = "$baseUrl//game/recentGames";
 const String fetchMyLiveGamesUrl = "$baseUrl//game/liveGames";
 const String fetchMyUpcomingGamesUrl = "$baseUrl/game/upcomingGames";
+const String updateGameUrl = "$baseUrl/game/updateGame/";
 
 // Profile
 const String fetchPlayerProfileDataUrl = "$baseUrl/user/getAnyPlayer";
@@ -28,3 +30,6 @@ const String fetchAllChatsUrl = "$baseUrl/chat/fetchChats";
 const String accessChatUrl = "$baseUrl/chat/accessChat";
 const String getAllMessagesUrl = "$baseUrl/message/getMessages";
 const String sendMessageUrl = "$baseUrl/message/sendMessage";
+
+//Venues
+const String fetchAllVenuesUrl = "$baseUrl/venue/venues";

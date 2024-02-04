@@ -11,6 +11,16 @@ extension StringExtension on String {
   }
 }
 
+extension ParseDoubleExtension on String? {
+  double? toDouble() {
+    try {
+      return this != null ? double.parse(this!) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
 String getSportID(int index) {
   switch (index) {
     case 0:
@@ -25,6 +35,22 @@ String getSportID(int index) {
       return "659ae904f919dd254d788b2f";
   }
   return "";
+}
+
+int getSportIndex(String? id) {
+  switch (id) {
+    case "659ae820fc7fd9bad6fe0dc9":
+      return 0;
+    case "659ae8d6f919dd254d788b26":
+      return 1;
+    case "659ae8ddf919dd254d788b29":
+      return 2;
+    case "659ae8fff919dd254d788b2c":
+      return 3;
+    case "659ae904f919dd254d788b2f":
+      return 4;
+  }
+  return 0;
 }
 
 String getSportName(String? id) {

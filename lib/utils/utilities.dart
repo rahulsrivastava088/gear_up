@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gear_up/view/home/model/response/players_list_response.dart';
 import 'package:gear_up/view/partners/ui/filter_bottom_sheet.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../view/onBoarding/loginUi/commonUI/custom_snackbar.dart';
 import 'package:http/http.dart' as http;
@@ -118,21 +118,56 @@ Future<Position> getCurrentLocation(BuildContext context) async {
   return await Geolocator.getCurrentPosition();
 }
 
-Future<String> getAddressFromLatLng(context, double lat, double lng) async {
-  String _host = 'https://maps.google.com/maps/api/geocode/json';
-  final url =
-      '$_host?key=AIzaSyAMoZuA1fXx58e5qiqebq0DYIGp3Jhbysk&language=en&latlng=$lat,$lng';
-  if (lat != null && lng != null) {
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      Map data = jsonDecode(response.body);
-      String _formattedAddress = data["results"][0]["formatted_address"];
-      print("response ==== $_formattedAddress");
-      return _formattedAddress;
-    } else
-      return Future.error("null");
-  } else
+Future<String> getAddressFromLatLng(context, double? lat, double? lng) async {
+  if (lat == null || lng == null) {
     return Future.error("null");
+  }
+  String host = 'https://maps.google.com/maps/api/geocode/json';
+  final url =
+      '$host?key=AIzaSyAMoZuA1fXx58e5qiqebq0DYIGp3Jhbysk&language=en&latlng=$lat,$lng';
+
+  // if (lng != null) {
+  var response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    Map data = jsonDecode(response.body);
+    // Logger().d("address: $data");
+    String _formattedAddress = data["results"][0]["formatted_address"];
+    // print("response ==== $_formattedAddress");
+    return _formattedAddress;
+  } else {
+    return Future.error("null");
+  }
+  // } else {
+  //   return Future.error("null");
+  // }
 }
 
 const defaultLocation = LatLng(20.5937, 78.9629);
+
+String formatEpochToDate(int? epoch) {
+  if (epoch == null) {
+    return '-';
+  }
+  DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(epoch);
+  DateTime now = DateTime.now();
+
+  if (dateTime.year == now.year &&
+      dateTime.month == now.month &&
+      dateTime.day == now.day) {
+    return 'Today';
+  } else if (dateTime.year == now.year &&
+      dateTime.month == now.month &&
+      dateTime.day == now.day - 1) {
+    return 'Yesterday';
+  } else {
+    return DateFormat('dd MMM yyyy').format(dateTime);
+  }
+}
+
+String formatEpochToTime(int? epoch) {
+  if (epoch == null) {
+    return '-';
+  }
+  DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(epoch);
+  return DateFormat('h:mm a').format(dateTime);
+}

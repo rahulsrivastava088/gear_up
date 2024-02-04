@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
-import 'package:gear_up/view/onBoarding/loginUi/commonUI/app_bar.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
 import 'package:go_router/go_router.dart';
