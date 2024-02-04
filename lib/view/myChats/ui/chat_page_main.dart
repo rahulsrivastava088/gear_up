@@ -29,8 +29,10 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    
     print("chat: ${widget.chat}");
   }
+
 
   final TextEditingController _messageController = TextEditingController();
 

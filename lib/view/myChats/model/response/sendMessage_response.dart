@@ -68,28 +68,24 @@ class Chat {
 
 class Sender {
     String? id;
-    String? firstName;
-    String? lastName;
+    String? name;
     String? img;
 
     Sender({
         this.id,
-        this.firstName,
-        this.lastName,
+        this.name,
         this.img,
     });
 
     factory Sender.fromJson(Map<String, dynamic> json) => Sender(
         id: json["_id"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
+        name: json["name"],
         img: json["img"],
     );
 
     Map<String, dynamic> toJson() => {
         "_id": id,
-        "first_name": firstName,
-        "last_name": lastName,
+        "name": name,
         "img": img,
     };
 }

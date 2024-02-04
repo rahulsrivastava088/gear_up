@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gear_up/data/response/api_response.dart';
 import 'package:gear_up/utils/extension_functions.dart';
@@ -11,19 +12,50 @@ import 'package:gear_up/view/myChats/model/response/sendMessage_response.dart';
 import 'package:gear_up/view/myChats/repo/chat_repository.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/custom_snackbar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:stacked/stacked.dart';
 
 class ChatViewModel extends BaseViewModel {
   final _repo = ChatRepository();
   List<Message> messages = [];
   String receiverId = "";
+  bool socketConnected = false;
 
   bool chatFetched = false;
 
   ApiResponse<GetAllMessages> myChatData = ApiResponse.idle();
 
+  late IO.Socket socket;
+
+  initSocket(String chatId) {
+    socket = IO.io("http://192.168.0.121:5000", <String, dynamic>{
+      'autoConnect': true,
+      'transports': ['websocket'],
+    });
+    socket.connect();
+    socket.emit('setup', "6553184790ef89ef840a6359");
+    socket.emit('join chat', chatId);
+    socket.on('test', (data) {});
+    socket.on('message received', (newMessage) {
+      messages.add(Message.fromJson(newMessage));
+      notifyListeners();
+    });
+    socket.onConnect((_) {
+      socketConnected = true;
+      print('Connection established');
+    });
+    socket.onDisconnect((_) => print('Connection Disconnected'));
+    socket.onConnectError((err) => print(err));
+    socket.onError((err) => print(err));
+  }
+
   Future<List<Message>> fetchAllMessages(String chatID) async {
     //initialize senderID with userId here
+
+    if (!socketConnected) {
+      initSocket(chatID);
+    }
 
     myChatData = ApiResponse.loading();
     _repo
@@ -83,6 +115,11 @@ class ChatViewModel extends BaseViewModel {
             if (value.status.toString().isSuccess())
               {
                 sendSingleMessagesResponse = ApiResponse.completed(value),
+                socket.emit('new message', value.message),
+                if (value.message != null)
+                  {
+                    messages.add(value.message!),
+                  }
               }
             else
               {
@@ -251,6 +288,8 @@ class ChatViewModel extends BaseViewModel {
 
   void clearData() {
     print("clear Data called");
+    socketConnected = false;
+    socket.disconnect();
     chatFetched = false;
     messages = [];
     receiverId = "";

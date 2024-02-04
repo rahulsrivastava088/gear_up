@@ -99,6 +99,7 @@ class Game {
   Venue? venue;
   String? gameStatus;
   dynamic cancelledBy;
+  bool? isHost;
   int? v;
 
   Game({
@@ -116,6 +117,7 @@ class Game {
     this.venue,
     this.gameStatus,
     this.cancelledBy,
+    this.isHost,
     this.v,
   });
 
@@ -142,6 +144,7 @@ class Game {
         venue: json["venue"] == null ? null : Venue.fromJson(json["venue"]),
         gameStatus: json["gameStatus"],
         cancelledBy: json["cancelledBy"],
+        isHost: json["isHost"],
         v: json["__v"],
       );
 
@@ -160,6 +163,7 @@ class Game {
         "venue": venue?.toJson(),
         "gameStatus": gameStatus,
         "cancelledBy": cancelledBy,
+        "isHost": isHost,
         "__v": v,
       };
 }
