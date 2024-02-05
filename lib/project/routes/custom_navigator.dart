@@ -93,6 +93,13 @@ class CustomNavigationHelper {
     return _instance;
   }
 
+  // void _handleTabSelection(int tabIndex) {
+  //   if (tabIndex == 2) {
+  //     myGamesTabNavigatorKey.currentState?.pop();
+  //     myGamesTabNavigatorKey.currentState?.pushNamed(myGamesPath);
+  //   }
+  // }
+
   CustomNavigationHelper._internal() {
     final routes = [
       StatefulShellRoute.indexedStack(
@@ -127,13 +134,17 @@ class CustomNavigationHelper {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: myGamesTabNavigatorKey,
+            // navigatorKey: myGamesTabNavigatorKey,
             routes: [
               GoRoute(
                 path: myGamesPath,
                 pageBuilder: (context, state) {
+                  print("getpage called");
                   return getPage(
-                    child: const MyGamesScreen(),
+                    // key: UniqueKey(),
+                    child: const MyGamesScreen(
+                        // refresh: true,
+                        ),
                     state: state,
                   );
                 },
@@ -415,17 +426,20 @@ class CustomNavigationHelper {
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: homePath,
+      initialLocation: setProfilePicturePath,
       routes: routes,
     );
   }
-
-  static Page getPage({
-    required Widget child,
-    required GoRouterState state,
-  }) {
+  static Page getPage(
+      {required Widget child, required GoRouterState state, LocalKey? key
+      // {
+      //   LocalKey key = state.pageKey,
+      // }
+      }) {
     return MaterialPage(
-      key: state.pageKey,
+      // key: state.pageKey,
+      // key: UniqueKey(),
+      key: key ?? state.pageKey,
       child: child,
     );
   }

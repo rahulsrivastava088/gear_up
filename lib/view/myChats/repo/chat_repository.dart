@@ -6,6 +6,8 @@ import 'package:gear_up/view/myChats/model/response/getAllMessages_response.dart
 import 'package:gear_up/view/myChats/model/response/get_venues_response.dart';
 import 'package:gear_up/view/myChats/model/response/sendMessage_response.dart';
 import 'package:gear_up/view/myChats/model/response/venues_list_response.dart';
+import 'package:gear_up/view/myGames/gameCard/model/response/games_list_response.dart'
+    as GamesListResponse;
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -105,6 +107,23 @@ class ChatRepository {
               updateGameUrl, token, gameID, data);
       Logger().d(response);
       var res = CreateGameResponse.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GamesListResponse.Game> updateGameDetail(
+      dynamic data, String gameID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(SharedPreferenceConstants.token) ??
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
+    try {
+      dynamic response =
+          await _apiServices.getPostApiResponseTokenisedWithPathParam(
+              updateGameUrl, token, gameID, data);
+      Logger().d(response);
+      var res = GamesListResponse.Game.fromJson(response);
       return res;
     } catch (e) {
       rethrow;

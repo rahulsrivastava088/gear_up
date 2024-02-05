@@ -24,11 +24,24 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         type: BottomNavigationBarType.fixed,
         currentIndex: widget.child.currentIndex,
         onTap: (index) {
+          // if (index == 2) {
+          //   print("index is 2");
+          //   // Navigator.of(context).pop();
+
+          //   // widget.child.go
+          //   widget.child.goBranch(index, initialLocation: false);
+
+          //   // widget.child.goBranch(
+          //   //   index,
+          //   //   initialLocation: index == widget.child.currentIndex,
+          //   // );
+          // } else {
           widget.child.goBranch(
             index,
             initialLocation: index == widget.child.currentIndex,
           );
           setState(() {});
+          // }
         },
         selectedItemColor: Colors.white,
         unselectedItemColor: const Color(0xFFADADAD),

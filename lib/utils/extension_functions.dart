@@ -76,6 +76,13 @@ convertDate(int? timestamp) {
   return formattedDate;
 }
 
+convertTime(int? timestamp) {
+  if (timestamp == null) return "";
+  var dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp, isUtc: true);
+  String formattedDate = DateFormat('dd MMM, yyyy').format(dateTime);
+  return formattedDate;
+}
+
 String calculateAge(int? timestamp) {
   if (timestamp == null) return "-";
   var birthDate = DateTime.fromMillisecondsSinceEpoch(timestamp, isUtc: true);

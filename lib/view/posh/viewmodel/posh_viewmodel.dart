@@ -126,6 +126,15 @@ class PoshViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  bool areAllOptionsSelected() {
+    for (final i in answersSelected) {
+      if (i == -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   void calculateMarks() {
     for (int i = 0; i < 10; i++) {
       if (correctAnswers[i] == answersSelected[i]) {

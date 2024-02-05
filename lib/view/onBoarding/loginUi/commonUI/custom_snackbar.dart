@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void customSnackBar(BuildContext context, String text) {
+customSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       duration: const Duration(seconds: 2),

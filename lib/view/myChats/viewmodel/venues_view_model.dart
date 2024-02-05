@@ -34,4 +34,8 @@ class VenuesViewModel extends BaseViewModel {
           },
         );
   }
+
+  clearData() {
+    venuesListResponse = ApiResponse.idle();
+  }
 }

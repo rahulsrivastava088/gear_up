@@ -23,33 +23,7 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           headerText(model),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              poshImage(),
-              const SizedBox(height: 36),
-              const Text(
-                'Congratulations!',
-                style: TextStyle(
-                  color: Color(0xFF32F514),
-                  fontSize: 20,
-                  fontFamily: 'General Sans',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'You’ve earned a POSH badge',
-                style: TextStyle(
-                  color: Color(0xFFCBCBCB),
-                  fontSize: 14,
-                  fontFamily: 'Space Grotesk',
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 32)
-            ],
-          ),
+          poshBadgeWidget(model),
           Container(
             width: double.infinity,
             height: 200,
@@ -68,14 +42,14 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
               children: [
                 Text(
                   '${model.score} Correct Answers ',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontFamily: 'General Sans',
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(
+                const Text(
                   'out of 10',
                   style: TextStyle(
                     color: Colors.white,
@@ -102,7 +76,7 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
                       // divisions: 10,
                       min: 1,
                       max: 10,
-                      value: 8,
+                      value: model.score.toDouble(),
                       onChanged: (value) {
                         setState(() {
                           // selectedDistance = value;
@@ -112,13 +86,13 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Row(
+                const Row(
                   children: [
                     Icon(
                       Icons.info_outlined,
                       color: Colors.grey,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'A minimum score of 8 answers required to earn a POSH Badge',
@@ -135,6 +109,8 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 32),
+          reTakeAssessmentWidget(model),
           const Spacer(),
           Padding(
             padding:
@@ -149,6 +125,71 @@ class _PoshResultsScreen extends State<PoshResultsScreen> {
           )
         ],
       ),
+    );
+  }
+
+  Widget reTakeAssessmentWidget(PoshViewModel model) {
+    if (model.score >= 8) {
+      return Container();
+    }
+    return const Padding(
+      padding: EdgeInsets.only(left: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Re-take Assessment',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontFamily: 'General Sans',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            'You have not pass this training ',
+            style: TextStyle(
+              color: Color(0xFFCBCBCB),
+              fontSize: 14,
+              fontFamily: 'Space Grotesk',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column poshBadgeWidget(PoshViewModel model) {
+    if (model.score < 8) {
+      return const Column();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        poshImage(),
+        const SizedBox(height: 36),
+        const Text(
+          'Congratulations!',
+          style: TextStyle(
+            color: Color(0xFF32F514),
+            fontSize: 20,
+            fontFamily: 'General Sans',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 2),
+        const Text(
+          'You’ve earned a POSH badge',
+          style: TextStyle(
+            color: Color(0xFFCBCBCB),
+            fontSize: 14,
+            fontFamily: 'Space Grotesk',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 32)
+      ],
     );
   }
 

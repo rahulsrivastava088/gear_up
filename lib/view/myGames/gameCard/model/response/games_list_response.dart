@@ -33,6 +33,7 @@ class GamesList {
 }
 
 class Game {
+  CheckedIn? checkedIn;
   Scorecard? scorecard;
   PlayerFeedback? player1Feedback;
   PlayerFeedback? player2Feedback;
@@ -41,14 +42,17 @@ class Game {
   Player1? player2;
   int? createdDate;
   int? matchDate;
-  int? duration;
+  dynamic duration;
   Player1? sport;
   Venue? venue;
+  String? gameStatus;
+  String? cancelledBy;
   int? v;
   bool? isHost;
   String? status;
 
   Game({
+    this.checkedIn,
     this.scorecard,
     this.player1Feedback,
     this.player2Feedback,
@@ -60,12 +64,17 @@ class Game {
     this.duration,
     this.sport,
     this.venue,
+    this.gameStatus,
+    this.cancelledBy,
     this.v,
     this.isHost,
     this.status,
   });
 
   factory Game.fromJson(Map<String, dynamic> json) => Game(
+        checkedIn: json["checked_in"] == null
+            ? null
+            : CheckedIn.fromJson(json["checked_in"]),
         scorecard: json["scorecard"] == null
             ? null
             : Scorecard.fromJson(json["scorecard"]),
@@ -85,12 +94,15 @@ class Game {
         duration: json["duration"],
         sport: json["sport"] == null ? null : Player1.fromJson(json["sport"]),
         venue: json["venue"] == null ? null : Venue.fromJson(json["venue"]),
+        gameStatus: json["gameStatus"],
+        cancelledBy: json["cancelledBy"],
         v: json["__v"],
         isHost: json["isHost"],
         status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
+        "checked_in": checkedIn?.toJson(),
         "scorecard": scorecard?.toJson(),
         "player1Feedback": player1Feedback?.toJson(),
         "player2Feedback": player2Feedback?.toJson(),
@@ -102,9 +114,31 @@ class Game {
         "duration": duration,
         "sport": sport?.toJson(),
         "venue": venue?.toJson(),
+        "gameStatus": gameStatus,
+        "cancelledBy": cancelledBy,
         "__v": v,
         "isHost": isHost,
         "status": status,
+      };
+}
+
+class CheckedIn {
+  bool? player1;
+  bool? player2;
+
+  CheckedIn({
+    this.player1,
+    this.player2,
+  });
+
+  factory CheckedIn.fromJson(Map<String, dynamic> json) => CheckedIn(
+        player1: json["player1"],
+        player2: json["player2"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "player1": player1,
+        "player2": player2,
       };
 }
 
@@ -129,6 +163,7 @@ class Player1 {
 }
 
 class PlayerFeedback {
+  dynamic rateSkills;
   dynamic punctuality;
   dynamic sportsmanship;
   dynamic teamPlayer;
@@ -138,6 +173,7 @@ class PlayerFeedback {
   bool? updated;
 
   PlayerFeedback({
+    this.rateSkills,
     this.punctuality,
     this.sportsmanship,
     this.teamPlayer,
@@ -148,6 +184,7 @@ class PlayerFeedback {
   });
 
   factory PlayerFeedback.fromJson(Map<String, dynamic> json) => PlayerFeedback(
+        rateSkills: json["rate_skills"],
         punctuality: json["punctuality"],
         sportsmanship: json["sportsmanship"],
         teamPlayer: json["teamPlayer"],
@@ -158,6 +195,7 @@ class PlayerFeedback {
       );
 
   Map<String, dynamic> toJson() => {
+        "rate_skills": rateSkills,
         "punctuality": punctuality,
         "sportsmanship": sportsmanship,
         "teamPlayer": teamPlayer,
@@ -169,38 +207,38 @@ class PlayerFeedback {
 }
 
 class Scorecard {
-  dynamic winner;
   dynamic matchesPlayed;
   dynamic matchesWonByPlayer1;
   dynamic matchesWonByPlayer2;
   dynamic matchesDrawn;
   bool? updated;
+  dynamic winner;
 
   Scorecard({
-    this.winner,
     this.matchesPlayed,
     this.matchesWonByPlayer1,
     this.matchesWonByPlayer2,
     this.matchesDrawn,
     this.updated,
+    this.winner,
   });
 
   factory Scorecard.fromJson(Map<String, dynamic> json) => Scorecard(
-        winner: json["winner"],
         matchesPlayed: json["matchesPlayed"],
         matchesWonByPlayer1: json["matchesWonByPlayer1"],
         matchesWonByPlayer2: json["matchesWonByPlayer2"],
         matchesDrawn: json["matchesDrawn"],
         updated: json["updated"],
+        winner: json["winner"],
       );
 
   Map<String, dynamic> toJson() => {
-        "winner": winner,
         "matchesPlayed": matchesPlayed,
         "matchesWonByPlayer1": matchesWonByPlayer1,
         "matchesWonByPlayer2": matchesWonByPlayer2,
         "matchesDrawn": matchesDrawn,
         "updated": updated,
+        "winner": winner,
       };
 }
 

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gear_up/colors/Colors.dart';
 import 'package:gear_up/utils/extension_functions.dart';
+import 'package:gear_up/utils/strings.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_details_app_bar.dart';
 import 'package:gear_up/view/myGames/gameCard/ui/game_rate_radio_button.dart';
 import 'package:gear_up/view/myGames/gameCard/viewmodel/game_card_viewmodel.dart';
 import 'package:provider/provider.dart';
+import '../../../../utils/utilities.dart';
 import '../model/response/games_list_response.dart';
+import '../viewmodel/game_details_view_model.dart';
 import 'game_winner_radio_button.dart';
 
 enum RateSkills { beginner, intermediate, pro }
@@ -30,24 +33,90 @@ class GameDetailsPage extends StatefulWidget {
 }
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
+  @override
+  void initState() {
+    super.initState();
+    game = widget.game;
+  }
+
+  Game game = Game();
   TextEditingController matchesPlayedController = TextEditingController();
   TextEditingController matchesWonController = TextEditingController();
   TextEditingController reviewController = TextEditingController();
-  int winnerIndex = 0;
-  int rateSkillsIndex = 0;
-  int punctualityIndex = 0;
-  int sportsmanshipIndex = 0;
-  int teamPlayerIndex = 0;
-  int competitivenessIndex = 0;
-  int respectfulIndex = 0;
+  int winnerIndex = -1;
+  int rateSkillsIndex = -1;
+  int punctualityIndex = -1;
+  int sportsmanshipIndex = -1;
+  int teamPlayerIndex = -1;
+  int competitivenessIndex = -1;
+  int respectfulIndex = -1;
+  bool showProgressIndicator = false;
+
+  void _toggleProgressIndicator() {
+    setState(() {
+      showProgressIndicator = !showProgressIndicator;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<GameCardViewModel>(context);
-    return ui(context, model, widget.game);
+    final gameModel = Provider.of<GameDetailsViewModel>(context);
+    return Stack(
+      children: [
+        ui(
+          context,
+          model,
+          game,
+          gameModel,
+        ),
+        if (showProgressIndicator)
+          Stack(children: [
+            ModalBarrier(
+              color: Colors.black.withOpacity(0.5),
+              dismissible: false,
+            ),
+            Center(
+              child: Container(
+                width: 280,
+                height: 280,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
+                child: const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        'Updating Scorecard',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontFamily: 'Space Grotesk',
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ]),
+      ],
+    );
   }
 
-  Scaffold ui(BuildContext context, GameCardViewModel model, Game game) {
+  Scaffold ui(BuildContext context, GameCardViewModel model, Game game,
+      GameDetailsViewModel gameModel) {
     return Scaffold(
       appBar: gameCardAppBar(context, game),
       body: SingleChildScrollView(
@@ -59,9 +128,9 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
               noteWidget(),
               matchInfoWidget(),
               scoreCardWidget(),
-              gameStatsWidget(),
+              gameStatsWidget(gameModel),
               reviewReceivedWidget(),
-              partnerFeedbackWidget(),
+              partnerFeedbackWidget(gameModel),
             ],
           ),
         ),
@@ -69,48 +138,90 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     );
   }
 
-  Column partnerFeedbackWidget() {
+  Widget partnerFeedbackWidget(GameDetailsViewModel gameModel) {
+    if (game.status != "Recent") {
+      return const Column();
+    }
+    return shouldPartnerFeedBackBeVisible() == true
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              heading('Partner Feedback'),
+              (game.isHost == true &&
+                          game.player1Feedback?.reviewMessage != null) ||
+                      (game.isHost == false &&
+                          game.player2Feedback?.reviewMessage != null)
+                  ? text1('You have given this review')
+                  : Container(),
+              const SizedBox(height: 12),
+              (game.isHost == true &&
+                          game.player1Feedback?.reviewMessage != null) ||
+                      (game.isHost == false &&
+                          game.player2Feedback?.reviewMessage != null)
+                  ? reviewGivenTextCard()
+                  : Container(),
+              (game.isHost == true && game.player1Feedback?.updated == false) ||
+                      (game.isHost == false &&
+                          game.player2Feedback?.updated == false)
+                  ? partnerFeedBackCard(gameModel)
+                  : Container(),
+            ],
+          )
+        : Container();
+  }
+
+  bool shouldPartnerFeedBackBeVisible() {
+    if (game.isHost == true) {
+      if (game.player1Feedback?.updated == true) {
+        if (game.player1Feedback?.reviewMessage != null) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    } else {
+      if (game.player2Feedback?.updated == true) {
+        if (game.player2Feedback?.reviewMessage != null) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Widget reviewReceivedWidget() {
+    if (game.status != "Recent") {
+      return const Column();
+    }
+    if (game.isHost == true && game.player2Feedback?.reviewMessage == null) {
+      return Container();
+    } else if (game.isHost == false &&
+        game.player1Feedback?.reviewMessage == null) {
+      return Container();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        heading('Partner Feedback'),
-        widget.game.player1Feedback?.reviewMessage != null
-            ? text1('You have given this review')
-            : Container(),
+        heading('Review Received'),
+        text1('Your partner has given this review'),
         const SizedBox(height: 12),
-        widget.game.player1Feedback?.reviewMessage != null
-            ? reviewGivenTextCard()
-            : Container(),
-        widget.game.player1Feedback?.reviewMessage == null
-            ? partnerFeedBackCard()
-            : Container(),
+        reviewReceivedTextCard(),
+        const SizedBox(height: 32),
       ],
     );
   }
 
-  Column reviewReceivedWidget() {
-    if (widget.game.player2Feedback?.reviewMessage != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          heading('Review Received'),
-          text1('Your partner has given this review'),
-          const SizedBox(height: 12),
-          reviewReceivedTextCard(),
-          const SizedBox(height: 32),
-        ],
-      );
-    } else {
+  Column gameStatsWidget(GameDetailsViewModel gameModel) {
+    if (game.status != "Recent") {
       return const Column();
     }
-  }
-
-  Column gameStatsWidget() {
-    if (widget.game.isHost == true && widget.game.scorecard?.updated == false) {
+    if (game.isHost == true && game.scorecard?.updated == false) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          gameStatsHeading(),
+          gameStatsHeading(gameModel),
           const SizedBox(height: 12),
           gameStasCard(),
           const SizedBox(height: 32),
@@ -122,14 +233,17 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
   }
 
   Column scoreCardWidget() {
-    if (widget.game.isHost == true && widget.game.scorecard?.updated == false) {
+    if (game.status != "Recent") {
+      return const Column();
+    }
+    if (game.isHost == true && game.scorecard?.updated == false) {
       return const Column();
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           heading('Scorecard'),
-          widget.game.scorecard?.updated == true
+          game.scorecard?.updated == true
               ? Container()
               : text1('Not updated yet'),
           const SizedBox(height: 12),
@@ -153,6 +267,9 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
   }
 
   Column noteWidget() {
+    if (game.status != "Recent") {
+      return const Column();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -162,18 +279,18 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     );
   }
 
-  Row gameStatsHeading() {
+  Row gameStatsHeading(GameDetailsViewModel gameModel) {
     return Row(
       children: [
         heading('Game Stats'),
         const Spacer(),
-        saveButton(),
+        saveButton(gameModel),
         const SizedBox(width: 4)
       ],
     );
   }
 
-  Container partnerFeedBackCard() {
+  Container partnerFeedBackCard(GameDetailsViewModel gameModel) {
     return Container(
       width: double.infinity,
       decoration: cardDecoration(),
@@ -197,7 +314,36 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
           const SizedBox(height: 10),
           reviewTextInput(),
           const SizedBox(height: 32),
-          CustomBigButtonLight(onTap: () {}, text: 'Share FeedBack')
+          CustomBigButtonLight(
+              onTap: () {
+                if (isFeedBackValid()) {
+                  _toggleProgressIndicator();
+                  gameModel
+                      .updateFeedBack(
+                    context,
+                    game.id,
+                    game.isHost,
+                    rateSkillsIndex,
+                    punctualityIndex,
+                    sportsmanshipIndex,
+                    teamPlayerIndex,
+                    competitivenessIndex,
+                    respectfulIndex,
+                    reviewController.text.trim(),
+                  )
+                      .then((value) {
+                    // game = value;
+                    _toggleProgressIndicator();
+                  }).onError(
+                    (error, stackTrace) {
+                      _toggleProgressIndicator();
+                    },
+                  );
+                } else {
+                  showSnackBar(context, 'Invalid selection');
+                }
+              },
+              text: 'Share FeedBack')
         ],
       ),
     );
@@ -318,21 +464,21 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     return Column(
       children: [
         GameRateListTile<int>(
-          value: 1,
+          value: 0,
           groupValue: rateSkillsIndex,
           title: text2('Beginner'),
           onChanged: (value) => setState(() => rateSkillsIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 2,
+          value: 1,
           groupValue: rateSkillsIndex,
           title: text2('Intermediate'),
           onChanged: (value) => setState(() => rateSkillsIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 3,
+          value: 2,
           groupValue: rateSkillsIndex,
           title: text2('Pro'),
           onChanged: (value) => setState(() => rateSkillsIndex = value!),
@@ -345,21 +491,21 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     return Column(
       children: [
         GameRateListTile<int>(
-          value: 1,
+          value: 0,
           groupValue: punctualityIndex,
           title: text2('Before Time'),
           onChanged: (value) => setState(() => punctualityIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 2,
+          value: 1,
           groupValue: punctualityIndex,
           title: text2('On Time'),
           onChanged: (value) => setState(() => punctualityIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 3,
+          value: 2,
           groupValue: punctualityIndex,
           title: text2('Late'),
           onChanged: (value) => setState(() => punctualityIndex = value!),
@@ -372,21 +518,21 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     return Column(
       children: [
         GameRateListTile<int>(
-          value: 1,
+          value: 0,
           groupValue: sportsmanshipIndex,
           title: text2('Excellent'),
           onChanged: (value) => setState(() => sportsmanshipIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 2,
+          value: 1,
           groupValue: sportsmanshipIndex,
           title: text2('Average'),
           onChanged: (value) => setState(() => sportsmanshipIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 3,
+          value: 2,
           groupValue: sportsmanshipIndex,
           title: text2('Bad'),
           onChanged: (value) => setState(() => sportsmanshipIndex = value!),
@@ -399,21 +545,21 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     return Column(
       children: [
         GameRateListTile<int>(
-          value: 1,
+          value: 0,
           groupValue: teamPlayerIndex,
           title: text2('Excellent'),
           onChanged: (value) => setState(() => teamPlayerIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 2,
+          value: 1,
           groupValue: teamPlayerIndex,
           title: text2('Average'),
           onChanged: (value) => setState(() => teamPlayerIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 3,
+          value: 2,
           groupValue: teamPlayerIndex,
           title: text2('Bad'),
           onChanged: (value) => setState(() => teamPlayerIndex = value!),
@@ -426,21 +572,21 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     return Column(
       children: [
         GameRateListTile<int>(
-          value: 1,
+          value: 0,
           groupValue: competitivenessIndex,
           title: text2('High'),
           onChanged: (value) => setState(() => competitivenessIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 2,
+          value: 1,
           groupValue: competitivenessIndex,
           title: text2('Average'),
           onChanged: (value) => setState(() => competitivenessIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 3,
+          value: 2,
           groupValue: competitivenessIndex,
           title: text2('Low'),
           onChanged: (value) => setState(() => competitivenessIndex = value!),
@@ -453,21 +599,21 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     return Column(
       children: [
         GameRateListTile<int>(
-          value: 1,
+          value: 0,
           groupValue: respectfulIndex,
           title: text2('Excellent'),
           onChanged: (value) => setState(() => respectfulIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 2,
+          value: 1,
           groupValue: respectfulIndex,
           title: text2('Average'),
           onChanged: (value) => setState(() => respectfulIndex = value!),
         ),
         const SizedBox(width: 8),
         GameRateListTile<int>(
-          value: 3,
+          value: 2,
           groupValue: respectfulIndex,
           title: text2('Bad'),
           onChanged: (value) => setState(() => respectfulIndex = value!),
@@ -510,7 +656,9 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
           children: [
             text3('Match Winner'),
             const SizedBox(height: 8),
-            Row(
+            Wrap(
+              spacing: 0.0, // Horizontal spacing between children
+              runSpacing: 0.0,
               children: [
                 Expanded(
                   child: GameWinnerListTile<int>(
@@ -525,7 +673,16 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                   child: GameWinnerListTile<int>(
                     value: 2,
                     groupValue: winnerIndex,
-                    title: text2(widget.game.player2?.name ?? '-'),
+                    title: text2(game.player2?.name ?? '-'),
+                    onChanged: (value) => setState(() => winnerIndex = value!),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: GameWinnerListTile<int>(
+                    value: 3,
+                    groupValue: winnerIndex,
+                    title: text2('Draw'),
                     onChanged: (value) => setState(() => winnerIndex = value!),
                   ),
                 ),
@@ -643,9 +800,35 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     );
   }
 
-  GestureDetector saveButton() {
+  GestureDetector saveButton(GameDetailsViewModel gameModel) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (winnerIndex == 0) {
+          showSnackBar(context, 'Please select Match Winner');
+        } else if (matchesPlayedController.text.trim().isEmpty) {
+          showSnackBar(context, 'Please enter matches played');
+        } else if (matchesWonController.text.trim().isEmpty) {
+          showSnackBar(context, 'Please enter matches won');
+        } else if (!isScoreCardValid()) {
+          showSnackBar(context, 'Invalid selection');
+        } else {
+          _toggleProgressIndicator();
+          gameModel
+              .updateGameStats(
+            context,
+            game.id,
+            int.parse(matchesPlayedController.text.trim()),
+            int.parse(matchesWonController.text.trim()),
+            winnerID(),
+          )
+              .then((value) {
+            // game = value;
+            _toggleProgressIndicator();
+          }).onError((error, stackTrace) {
+            _toggleProgressIndicator();
+          });
+        }
+      },
       child: const Text(
         'Save',
         style: TextStyle(
@@ -656,6 +839,57 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
         ),
       ),
     );
+  }
+
+  bool isScoreCardValid() {
+    int matchesPlayed = int.parse(matchesPlayedController.text.trim());
+    int matchesWon = int.parse(matchesWonController.text.trim());
+    if (winnerIndex == 1) {
+      if (matchesWon * 2 > matchesPlayed) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (winnerIndex == 2) {
+      if (matchesWon * 2 < matchesPlayed) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (winnerIndex == 3) {
+      if (matchesPlayed % 2 != 0) {
+        return false;
+      } else if (matchesWon == matchesPlayed / 2) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool isFeedBackValid() {
+    if (rateSkillsIndex == -1 ||
+        punctualityIndex == -1 ||
+        sportsmanshipIndex == -1 ||
+        teamPlayerIndex == -1 ||
+        competitivenessIndex == -1 ||
+        respectfulIndex == -1) {
+      return false;
+    }
+    return true;
+  }
+
+  String? winnerID() {
+    switch (winnerIndex) {
+      case 0:
+        return null;
+      case 1:
+        return myUserID;
+      case 2:
+        return game.player2?.id;
+      case 3:
+        return null;
+    }
+    return null;
   }
 
   Container matchInfoCard() {
@@ -681,15 +915,13 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              text2(widget.game.sport?.name ?? '-'),
+              text2(getSportName(game.sport?.id)),
               const SizedBox(height: 8),
-              text2(widget.game.matchDate != null
-                  ? convertDate(widget.game.matchDate)
-                  : '-'),
+              text2(game.matchDate != null ? convertDate(game.matchDate) : '-'),
               const SizedBox(height: 8),
-              text2('-'),
+              text2(formatEpochToTime(game.matchDate)),
               const SizedBox(height: 8),
-              text2(widget.game.venue?.name ?? '-'),
+              text2(game.venue?.name ?? '-'),
             ],
           ),
         ],
@@ -718,11 +950,11 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              text2(widget.game.scorecard?.winner ?? 'NA'),
+              text2(game.scorecard?.winner ?? 'NA'),
               const SizedBox(height: 8),
-              text2(widget.game.scorecard?.matchesPlayed ?? 'NA'),
+              text2(game.scorecard?.matchesPlayed?.toString() ?? 'NA'),
               const SizedBox(height: 8),
-              text2(widget.game.scorecard?.matchesWonByPlayer2 ?? 'NA'),
+              text2(game.scorecard?.matchesWonByPlayer2?.toString() ?? 'NA'),
             ],
           ),
         ],
@@ -828,7 +1060,9 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.game.player2Feedback?.reviewMessage ?? '',
+            game.isHost == true
+                ? game.player2Feedback?.reviewMessage ?? '-'
+                : game.player1Feedback?.reviewMessage ?? '-',
             style: const TextStyle(
               color: Color(0xFFCBCBCB),
               fontSize: 14,
@@ -855,7 +1089,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.game.player1Feedback?.reviewMessage ?? '',
+            game.player1Feedback?.reviewMessage ?? '',
             style: const TextStyle(
               color: Color(0xFFCBCBCB),
               fontSize: 14,

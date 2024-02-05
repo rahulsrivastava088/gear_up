@@ -18,7 +18,8 @@ class GameCardViewModel extends BaseViewModel {
   // Feedback host = Feedback();
   // Feedback opponent = Feedback();
   // int
-  int index = 1;
+  // int index = 1;
+  int tabIndex = 1;
 
   // String? selectedSportId = null;
   final _repo = GamesRepository();
@@ -27,11 +28,11 @@ class GameCardViewModel extends BaseViewModel {
 
   ApiResponse<GamesList> gamesListResponse = ApiResponse.idle();
 
-  updateGame() {
-    game = gamesListResponse.data?.games?[index] ?? Game();
-    print(game);
-    // notifyListeners();
-  }
+  // updateGame() {
+  //   game = gamesListResponse.data?.games?[index] ?? Game();
+  //   print(game);
+  //   // notifyListeners();
+  // }
 
   fetchMyGames(BuildContext context) async {
     gamesListResponse = ApiResponse.loading();
@@ -42,7 +43,7 @@ class GameCardViewModel extends BaseViewModel {
             if (value.status.toString().isSuccess())
               {
                 print("response: " + value.toString()),
-                updateGame(),
+                // updateGame(),
                 gamesListResponse = ApiResponse.completed(value),
                 apiCalled = true,
               }

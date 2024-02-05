@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 import 'package:gear_up/data/app_exceptions.dart';
 import 'package:gear_up/data/network/base_api_services.dart';
@@ -159,6 +160,55 @@ class NetworkApiServices extends BaseApiServices {
           )
           .timeout(const Duration(seconds: 7));
       responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  @override
+  Future getPostApiResponseTokenisedWithFile(
+      String url, dynamic data, String token, File file) async {
+    dynamic responseJson;
+    // final msg = jsonEncode(data);
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(url),
+      );
+
+      String jsonString = json.encode(data);
+      request.fields['jsonBody'] = jsonString;
+      request.headers['Content-type'] = 'application/json';
+      request.headers['Authorization'] = 'Bearer $token';
+      // Attach the file to the request
+      var fileStream = http.ByteStream(file.openRead());
+      var length = await file.length();
+      var multipartFile = http.MultipartFile(
+        'file',
+        fileStream,
+        length,
+        filename: file.path.split("/").last,
+        // Encoding.utf8,
+      );
+
+      request.files.add(multipartFile);
+      final response = await request
+          .send()
+          // .post(
+          // Uri.parse(url),
+          // body: msg,
+          // headers: {
+          //   'Content-type': 'application/json',
+          //   'Authorization': 'Bearer $token',
+          // },
+          // encoding: Encoding.getByName("utf-8"),
+          // )
+          .timeout(const Duration(seconds: 7));
+
+      final responseBody = response.stream.bytesToString();
+      Logger().d("resp: $responseBody");
+      // responseJson = returnResponse(responseBody);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }

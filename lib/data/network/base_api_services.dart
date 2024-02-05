@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class BaseApiServices {
   Future<dynamic> getPostApiResponse(String url, dynamic data);
   Future<dynamic> getPostApiResponseTokenised(
@@ -10,4 +12,6 @@ abstract class BaseApiServices {
       String url, String token, String pathParam);
   Future<dynamic> getPostApiResponseTokenisedWithPathParam(
       String url, String token, String pathParam, dynamic data);
+  Future<dynamic> getPostApiResponseTokenisedWithFile(
+      String url, dynamic data, String token, File file);
 }

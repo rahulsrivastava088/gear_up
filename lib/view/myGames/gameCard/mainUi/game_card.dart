@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/project/routes/custom_navigator.dart';
 import 'package:gear_up/view/myGames/gameCard/model/response/games_list_response.dart';
 import '../../../../utils/extension_functions.dart';
+import '../../../../utils/strings.dart';
 
 class GameCard extends StatefulWidget {
   final Game game;
@@ -56,7 +57,7 @@ class _GameCard extends State<GameCard> {
     return Text(
       (convertDate(widget.game.matchDate ?? 0)).toString(),
       style: const TextStyle(
-        color: Colors.white,
+        color: Color(0xFFAFAFAF),
         fontSize: 12,
         fontFamily: 'Space Grotesk',
         fontWeight: FontWeight.w400,
@@ -69,7 +70,7 @@ class _GameCard extends State<GameCard> {
       child: Row(
         children: [
           Text(
-            'Won',
+            getUiTextForRecentGames(widget.game),
             style: const TextStyle(
               color: Color(0xFF0095F6),
               fontSize: 12,
@@ -97,6 +98,30 @@ class _GameCard extends State<GameCard> {
     );
   }
 
+  String getUiTextForRecentGames(Game game) {
+    if (game.checkedIn?.player1 == true && game.checkedIn?.player1 == true) {
+      if (game.scorecard?.updated == true) {
+        switch (game.scorecard?.winner) {
+          case myUserID:
+            return "Won";
+          case null:
+            return "Draw";
+          default:
+            return "Lost";
+        }
+      } else if (game.scorecard?.updated == false) {
+        if (game.player1?.id == myUserID) {
+          return "Update results";
+        } else {
+          return "Results Pending";
+        }
+      }
+    } else {
+      return "Match cancelled";
+    }
+    return "-";
+  }
+
   Widget textWidget() {
     if (widget.game.status == "Live") {
       return liveTextWidget();
@@ -109,9 +134,9 @@ class _GameCard extends State<GameCard> {
   }
 
   Row liveTextWidget() {
-    return Row(
+    return const Row(
       children: [
-        const Text(
+        Text(
           '• Live',
           style: TextStyle(
             color: Colors.white,
@@ -120,8 +145,6 @@ class _GameCard extends State<GameCard> {
             fontWeight: FontWeight.w400,
           ),
         ),
-        // const Spacer(),
-        // sportNameWidget()
       ],
     );
   }
@@ -157,7 +180,7 @@ class _GameCard extends State<GameCard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       ),
       child: Text(
-        widget.game.sport?.name ?? '-',
+        getSportName(widget.game.sport?.id),
         style: const TextStyle(
           color: Colors.white,
           fontSize: 10,

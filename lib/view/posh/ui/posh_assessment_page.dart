@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gear_up/colors/colors.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/project/routes/custom_navigator.dart';
+import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/posh/viewmodel/posh_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +66,10 @@ class _PoshAssessmentScreen extends State<PoshAssessmentScreen> {
                 const EdgeInsets.only(top: 18, left: 24, right: 24, bottom: 24),
             child: CustomBigButtonLight(
               onTap: () {
+                if (!model.areAllOptionsSelected()) {
+                  showSnackBar(context, "Please select all options");
+                  return;
+                }
                 model.score = 0;
                 model.calculateMarks();
                 CustomNavigationHelper.router

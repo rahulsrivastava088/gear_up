@@ -8,7 +8,9 @@ import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
 import 'package:gear_up/view/messages/viewmodel/messages_view_model.dart';
 import 'package:gear_up/view/myChats/viewmodel/chat_view_model.dart';
 import 'package:gear_up/view/myChats/viewmodel/venues_view_model.dart';
+import 'package:gear_up/view/myGames/gameCard/ui/game_details_main.dart';
 import 'package:gear_up/view/myGames/gameCard/viewmodel/game_card_viewmodel.dart';
+import 'package:gear_up/view/myGames/gameCard/viewmodel/game_details_view_model.dart';
 import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
 import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
 import 'package:gear_up/view/posh/viewmodel/posh_viewmodel.dart';
@@ -42,6 +44,7 @@ class GearUpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatViewModel()),
         ChangeNotifierProvider(create: (context) => VenuesViewModel()),
         ChangeNotifierProvider(create: (context) => MessagesViewModel()),
+        ChangeNotifierProvider(create: (context) => GameDetailsViewModel()),
       ],
       child: MaterialApp.router(
         theme: ThemeData.dark(useMaterial3: true)

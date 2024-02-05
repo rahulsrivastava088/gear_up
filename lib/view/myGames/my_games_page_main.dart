@@ -7,13 +7,36 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../data/response/status.dart';
 
-class MyGamesScreen extends StatelessWidget {
-  const MyGamesScreen({super.key});
+class MyGamesScreen extends StatefulWidget {
+  // final bool refresh;
+  const MyGamesScreen({
+    super.key,
+  });
+
+  @override
+  State<MyGamesScreen> createState() {
+    print("create state called");
+    return _MyGamesScreenState();
+  }
+}
+
+class _MyGamesScreenState extends State<MyGamesScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("my games init state");
+    // _refresh = widget.refresh;
+  }
+
+  // bool _refresh = false;
 
   @override
   Widget build(BuildContext context) {
+    print("build called");
     final model = Provider.of<GameCardViewModel>(context);
     if (!model.apiCalled) {
+      // refresh = false;
       model.fetchMyGames(context);
       return shimmerUI(context);
     } else if (model.gamesListResponse.status == Status.LOADING) {
@@ -38,7 +61,7 @@ class MyGamesScreen extends StatelessWidget {
           baseColor: Colors.grey.shade300,
           highlightColor: Colors.grey.shade100,
           child: const Text(
-            'Shimmering Text',
+            'Loading the Games',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
@@ -61,21 +84,23 @@ class MyGamesScreen extends StatelessWidget {
 
   Scaffold ui(BuildContext context, GameCardViewModel model) {
     return Scaffold(
-      appBar: myGamesAppBar(context),
-      body: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: myGamesTabBar(),
-          body: TabBarView(
-            children: [
-              liveGamesTab(model),
-              upcomingGamesTab(model),
-              recentGamesTab(model),
-            ],
-          ),
-        ),
-      ),
-    );
+        appBar: myGamesAppBar(context),
+        body: DefaultTabController(
+          initialIndex: model.tabIndex,
+          length: 3,
+          child: Builder(builder: (BuildContext context) {
+            return Scaffold(
+              appBar: myGamesTabBar(),
+              body: TabBarView(
+                children: [
+                  liveGamesTab(context, model),
+                  upcomingGamesTab(context, model),
+                  recentGamesTab(context, model),
+                ],
+              ),
+            );
+          }),
+        ));
   }
 
   AppBar myGamesTabBar() {
@@ -103,12 +128,25 @@ class MyGamesScreen extends StatelessWidget {
     );
   }
 
-  Padding recentGamesTab(GameCardViewModel model) {
+  Padding recentGamesTab(BuildContext context, GameCardViewModel model) {
+    // model.tabIndex = 2;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: model.recentGames().isNotEmpty
-          ? recentGamesListWidget(model)
-          : emptyListTextWidget('No Recent Games'),
+          ? RefreshIndicator(
+              onRefresh: () async {
+                _refresh(context, model);
+              },
+              child: recentGamesListWidget(model))
+          : RefreshIndicator(
+              onRefresh: () async {
+                _refresh(context, model);
+              },
+              child: CustomScrollView(slivers: [
+                SliverToBoxAdapter(
+                    child: emptyListTextWidget('No Recent Games'))
+              ]),
+            ),
     );
   }
 
@@ -123,12 +161,24 @@ class MyGamesScreen extends StatelessWidget {
     );
   }
 
-  Padding upcomingGamesTab(GameCardViewModel model) {
+  Padding upcomingGamesTab(BuildContext context, GameCardViewModel model) {
+    // model.tabIndex = 1;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: model.upcomingGames().isNotEmpty
-          ? upcomingGamesListWidget(model)
-          : emptyListTextWidget('No Upcoming Games'),
+          ? RefreshIndicator(
+              onRefresh: () async {
+                _refresh(context, model);
+              },
+              child: upcomingGamesListWidget(model))
+          : RefreshIndicator(
+              onRefresh: () async {
+                _refresh(context, model);
+              },
+              child: CustomScrollView(slivers: [
+                SliverToBoxAdapter(
+                    child: emptyListTextWidget('No Upcoming Games'))
+              ])),
     );
   }
 
@@ -143,18 +193,42 @@ class MyGamesScreen extends StatelessWidget {
     );
   }
 
-  Padding liveGamesTab(GameCardViewModel model) {
+  void _refresh(BuildContext context, GameCardViewModel model) {
+    model.tabIndex = DefaultTabController.of(context).index;
+    model.apiCalled = false;
+    model.notifyListeners();
+  }
+
+  int getCurrentTabIndex(BuildContext context) {
+    return DefaultTabController.of(context).index;
+  }
+
+  Widget liveGamesTab(BuildContext context, GameCardViewModel model) {
+    // model.tabIndex = 0;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: model.liveGames().isNotEmpty
-          ? liveGamesListWidget(model)
-          : emptyListTextWidget('No Live Games'),
+          ? RefreshIndicator(
+              onRefresh: () async {
+                _refresh(context, model);
+              },
+              child: liveGamesListWidget(model))
+          : RefreshIndicator(
+              onRefresh: () async {
+                _refresh(context, model);
+              },
+              child: CustomScrollView(slivers: [
+                SliverToBoxAdapter(child: emptyListTextWidget('No Live Games'))
+              ])),
     );
   }
 
-  Center emptyListTextWidget(String text) {
-    return Center(
-      child: emptyListText(text),
+  Widget emptyListTextWidget(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 240),
+      child: Center(
+        child: emptyListText(text),
+      ),
     );
   }
 
