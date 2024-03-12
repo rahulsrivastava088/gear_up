@@ -55,7 +55,9 @@ AppBar homeAppBar(BuildContext context, String location) {
       ),
     ],
     title: InkWell(
-      onTap: () {},
+      onTap: () {
+        CustomNavigationHelper.router.push(CustomNavigationHelper.locationPath);
+      },
       child: Container(
         padding: const EdgeInsets.only(top: 8, left: 8, right: 12, bottom: 8),
         decoration: ShapeDecoration(

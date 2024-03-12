@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gear_up/utils/shared_preferences.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
 import 'package:gear_up/utils/utilities.dart';
+import 'package:gear_up/view/onBoarding/viewModel/on_boarding_view_model.dart';
+import 'package:gear_up/view/onBoarding/viewModel/profile_set_up_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'location_main_page.dart';
 
 class ConfirmLocationScreen extends StatefulWidget {
@@ -34,6 +39,8 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<ProfileSetUpViewModel>(context);
+
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -184,21 +191,24 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                   ),
                   const SizedBox(height: 16),
                   CustomBigButtonDark(
-                      onTap: () {
-                        // final nav = Navigator.of(context);
-                        // nav.pop();
-                        // nav.pop();
-                        // Navigator.popUntil(context, ModalRoute.withName('/'));
-                        // Navigator.pop(context, 'Data from Third Screen');
-                        // Navigator.pop(
-                        //         context,
-                        //         {
-                        //           'lat': _selectedPosition.latitude,
-                        //           'long': _selectedPosition.longitude,
-                        //         },
-                        // );
-                      },
-                      text: 'Confirm Location'),
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      if (prefs.getBool(SharedPreferenceConstants.isNewUser) ==
+                          true) {
+                        print(widget.position.latitude.toString());
+                        print(widget.position.longitude.toString());
+                        showSnackBar(context,
+                            "Creating profile for ${model.firstName} ${model.lastName}");
+                        model.lat = widget.position.latitude.toString();
+                        model.long = widget.position.longitude.toString();
+                        model.updateUser(context);
+                      } else {
+                        model.updateLocation();
+                      }
+                    },
+                    text: 'Confirm Location',
+                  ),
                 ],
               ),
             )

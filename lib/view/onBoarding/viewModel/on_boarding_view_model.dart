@@ -38,6 +38,8 @@ class OnBoardingViewModel extends BaseViewModel {
   String selectedCountryCode = '91';
   String selectedCountryName = 'India';
 
+  bool tncAccepted = false;
+
   int x = 0;
   updateIntroScreen(bool increase) {
     // while (currentScreenNumber < 2) {
@@ -123,10 +125,15 @@ class OnBoardingViewModel extends BaseViewModel {
         )
         .onError(
           (error, stackTrace) => {
-            setRegisterUserLoading(false),
+            printError(error),
             showSnackBar(context, "Couldn't send the OTP, Please retry"),
+            setRegisterUserLoading(false),
           },
         );
+  }
+
+  printError(Object? error) {
+    print(error);
   }
 
   resendOtp(BuildContext context) async {
@@ -178,7 +185,7 @@ class OnBoardingViewModel extends BaseViewModel {
               if (value.status.toString().isSuccess())
                 {
                   verifyUserResponse = ApiResponse.completed(value),
-                  saveUserCredsInSharedPref(),
+                  await saveUserCredsInSharedPref(),
                   if (verifyUserResponse.data?.user?.newUser == true)
                     {navigateToSetUpProfileScreen(context)}
                   else
@@ -250,7 +257,7 @@ class OnBoardingViewModel extends BaseViewModel {
     isResendVisible = true;
   }
 
-  void saveUserCredsInSharedPref() async {
+  saveUserCredsInSharedPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (verifyUserResponse.data?.token != null) {
       await prefs.setBool(SharedPreferenceConstants.isNewUser,

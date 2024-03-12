@@ -18,6 +18,7 @@ class PlayersViewModel extends BaseViewModel {
 
   fetchPlayers(BuildContext context,
       PlayersListRequestBody playersListRequestBody) async {
+    print(playersListRequestBody.toJson());
     dynamic data = playersListRequestBody.toJson();
     playersListResponse = ApiResponse.loading();
     _repo

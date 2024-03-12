@@ -62,8 +62,3 @@ class _SetGenderScreen extends State<SetGenderScreen> {
     );
   }
 }
-
-Future<void> setSharedPrefData(BuildContext context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setBool(SharedPreferenceConstants.isNewUser, false);
-}

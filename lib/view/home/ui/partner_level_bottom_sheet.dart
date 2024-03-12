@@ -25,6 +25,9 @@ class _PartnerLevelBottomSheet extends State<PartnerLevelBottomSheet> {
   Widget build(BuildContext context) {
     final model = Provider.of<FilterViewModel>(context);
     final playerViewModel = Provider.of<PlayersViewModel>(context);
+    if (model.favouriteSport == Sports.values[widget.selectedSportIndex]) {
+      selectedLevel = model.favouriteSportLevel;
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

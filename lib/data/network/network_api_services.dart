@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:convert';
 import 'dart:io';
 import 'package:gear_up/data/app_exceptions.dart';
 import 'package:gear_up/data/network/base_api_services.dart';
@@ -14,6 +13,8 @@ class NetworkApiServices extends BaseApiServices {
       final response = await http
           .post(Uri.parse(url), body: data)
           .timeout(const Duration(seconds: 7));
+      Logger().d("resp: ${response.body}");
+
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -57,6 +58,8 @@ class NetworkApiServices extends BaseApiServices {
           'Authorization': 'Bearer $token',
         },
       ).timeout(const Duration(seconds: 7));
+      Logger().d("resp: ${response.body}");
+
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -74,6 +77,8 @@ class NetworkApiServices extends BaseApiServices {
           'Content-type': 'application/json',
         },
       ).timeout(const Duration(seconds: 7));
+      Logger().d("resp: ${response.body}");
+
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -93,6 +98,8 @@ class NetworkApiServices extends BaseApiServices {
           'Authorization': 'Bearer $token',
         },
       ).timeout(const Duration(seconds: 7));
+      Logger().d("resp: ${response.body}");
+
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -159,6 +166,8 @@ class NetworkApiServices extends BaseApiServices {
             encoding: Encoding.getByName("utf-8"),
           )
           .timeout(const Duration(seconds: 7));
+      Logger().d("resp: ${response.body}");
+
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

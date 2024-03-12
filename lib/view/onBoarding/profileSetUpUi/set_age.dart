@@ -48,8 +48,9 @@ class _SetAgeScreen extends State<SetAgeScreen> {
             const Spacer(),
             OnBoardingBigButton(
               onTap: () {
-                model.dob = ageTextEditingController.text.toString();
-                if (model.isValidDate(model.dob)) {
+                var ageString = ageTextEditingController.text.toString();
+                if (ageString.length == 10 && model.isValidDate(ageString)) {
+                  model.dob = dateStringToEpoch(ageString);
                   CustomNavigationHelper.router
                       .push(CustomNavigationHelper.setGenderPath);
                 } else {

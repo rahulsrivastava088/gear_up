@@ -8,10 +8,10 @@ import '../../../data/response/api_response.dart';
 class MyProfileViewModel extends BaseViewModel {
   final _repo = ProfileRepository();
 
-  ApiResponse<PlayerProfile> myProfileReponse = ApiResponse.idle();
+  ApiResponse<PlayerProfile> myProfileResponse = ApiResponse.idle();
 
   fetchPlayerProfile(BuildContext context) async {
-    myProfileReponse = ApiResponse.loading();
+    myProfileResponse = ApiResponse.loading();
     notifyListeners();
     _repo
         .fetchUserProfileData()
@@ -19,22 +19,22 @@ class MyProfileViewModel extends BaseViewModel {
           (value) => {
             if (value.status.toString().isSuccess())
               {
-                myProfileReponse = ApiResponse.completed(value),
+                myProfileResponse = ApiResponse.completed(value),
               }
             else
               {
-                myProfileReponse = ApiResponse.error(""),
+                myProfileResponse = ApiResponse.error(""),
               },
             notifyListeners()
           },
         )
         .onError(
           (error, stackTrace) =>
-              {myProfileReponse = ApiResponse.error(""), notifyListeners()},
+              {myProfileResponse = ApiResponse.error(""), notifyListeners()},
         );
   }
 
   clearData() {
-    myProfileReponse = ApiResponse.idle();
+    myProfileResponse = ApiResponse.idle();
   }
 }

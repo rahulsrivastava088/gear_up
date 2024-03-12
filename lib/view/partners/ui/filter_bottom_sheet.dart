@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/utils/extension_functions.dart';
 import 'package:gear_up/view/filter/filter_view_model.dart';
+import 'package:gear_up/view/partners/ui/select_level_filter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -91,7 +93,7 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Select a location',
+                      'Filters',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 24,
@@ -112,228 +114,246 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Games',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'General Sans',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Column(
-                children: [
-                  const SizedBox(height: 8),
-                  sportsRadioButtonWidget("Badminton", Sports.badminton),
-                  sportsRadioButtonWidget("Table Tennis", Sports.tableTennis),
-                  sportsRadioButtonWidget("Pool/Snooker", Sports.pool),
-                  sportsRadioButtonWidget("Lawn Tennis", Sports.lawnTennis),
-                  sportsRadioButtonWidget("Squash", Sports.squash),
-                ],
-              ),
-              const SizedBox(height: 42),
-              const Text(
-                'Range',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'General Sans',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 18),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${selectedDistance.toInt()} Kms',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'Space Grotesk',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    Text(
-                      '(max: ${maximumDistance.toInt()}km)',
-                      style: const TextStyle(
-                        color: Color(0xFF333333),
-                        fontSize: 14,
-                        fontFamily: 'Space Grotesk',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 2, right: 2),
-                child: SliderTheme(
-                  data: SliderThemeData(
-                    trackHeight: 6,
-                    trackShape: const RectangularSliderTrackShape(),
-                    activeTrackColor: Colors.black,
-                    inactiveTrackColor: const Color(0xFFAFAFAF),
-                    thumbColor: Colors.white,
-                    overlayShape: SliderComponentShape.noThumb,
-                    thumbShape:
-                        const RoundSliderThumbShape(enabledThumbRadius: 8),
-                  ),
-                  child: Slider(
-                    divisions: (maximumDistance - minimumDistance).toInt(),
-                    min: minimumDistance,
-                    max: maximumDistance,
-                    value: selectedDistance,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDistance = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 42),
-              const Text(
-                'Age Group',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'General Sans',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 18),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${selectedStartAge.toInt()}-${selectedEndAge.toInt()} Yrs',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'Space Grotesk',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    Text(
-                      '(min: ${minAge.toInt()} Yrs)',
-                      style: const TextStyle(
-                        color: Color(0xFF333333),
-                        fontSize: 14,
-                        fontFamily: 'Space Grotesk',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 2, right: 2),
-                child: SliderTheme(
-                  data: SliderThemeData(
-                    trackHeight: 6,
-                    trackShape: const RectangularSliderTrackShape(),
-                    activeTrackColor: Colors.black,
-                    inactiveTrackColor: const Color(0xFFAFAFAF),
-                    thumbColor: Colors.white,
-                    overlayShape: SliderComponentShape.noThumb,
-                    thumbShape:
-                        const RoundSliderThumbShape(enabledThumbRadius: 8),
-                  ),
-                  child: RangeSlider(
-                    divisions: (maxAge - minAge).toInt(),
-                    min: minAge,
-                    max: maxAge,
-                    values: RangeValues(selectedStartAge, selectedEndAge),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedStartAge = value.start;
-                        selectedEndAge = value.end;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 42),
-              const Text(
-                'Gender',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'General Sans',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Column(
-                children: [
-                  const SizedBox(height: 8),
-                  ListTile(
-                    onTap: () {
-                      setState(
-                        () {
-                          selectedGender = Gender.All;
-                        },
-                      );
-                    },
-                    visualDensity:
-                        const VisualDensity(horizontal: 0, vertical: -4),
-                    contentPadding: EdgeInsets.zero,
-                    title: Transform.translate(
-                      offset: const Offset(-16, 0),
-                      child: const Text(
-                        "All Gender",
+              SizedBox(
+                height: 600,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Games',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Space Grotesk',
-                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontFamily: 'General Sans',
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                    leading: Radio(
-                      activeColor: Colors.black,
-                      value: Gender.All,
-                      groupValue: selectedGender,
-                      onChanged: (value) {},
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      setState(
-                        () {
-                          selectedGender = Gender.Male;
-                        },
-                      );
-                    },
-                    visualDensity:
-                        const VisualDensity(horizontal: 0, vertical: -4),
-                    contentPadding: EdgeInsets.zero,
-                    title: Transform.translate(
-                      offset: const Offset(-16, 0),
-                      child: const Text(
-                        "Male",
+                      Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          sportsRadioButtonWidget(
+                              "Badminton", Sports.badminton, model),
+                          sportsRadioButtonWidget(
+                              "Table Tennis", Sports.tableTennis, model),
+                          sportsRadioButtonWidget(
+                              "Pool/Snooker", Sports.pool, model),
+                          sportsRadioButtonWidget(
+                              "Lawn Tennis", Sports.lawnTennis, model),
+                          sportsRadioButtonWidget(
+                              "Squash", Sports.squash, model),
+                        ],
+                      ),
+                      const SizedBox(height: 42),
+                      const Text(
+                        'Range',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Space Grotesk',
-                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontFamily: 'General Sans',
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                    leading: Radio(
-                      activeColor: Colors.black,
-                      value: Gender.Male,
-                      groupValue: selectedGender,
-                      onChanged: (value) {},
-                    ),
+                      const SizedBox(height: 18),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${selectedDistance.toInt()} Kms',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Space Grotesk',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              '(max: ${maximumDistance.toInt()}km)',
+                              style: const TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 14,
+                                fontFamily: 'Space Grotesk',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2, right: 2),
+                        child: SliderTheme(
+                          data: SliderThemeData(
+                            trackHeight: 6,
+                            trackShape: const RectangularSliderTrackShape(),
+                            activeTrackColor: Colors.black,
+                            inactiveTrackColor: const Color(0xFFAFAFAF),
+                            thumbColor: Colors.white,
+                            overlayShape: SliderComponentShape.noThumb,
+                            thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 8),
+                          ),
+                          child: Slider(
+                            divisions:
+                                (maximumDistance - minimumDistance).toInt(),
+                            min: minimumDistance,
+                            max: maximumDistance,
+                            value: selectedDistance,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedDistance = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 42),
+                      const Text(
+                        'Age Group',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'General Sans',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${selectedStartAge.toInt()}-${selectedEndAge.toInt()} Yrs',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Space Grotesk',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              '(min: ${minAge.toInt()} Yrs)',
+                              style: const TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 14,
+                                fontFamily: 'Space Grotesk',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2, right: 2),
+                        child: SliderTheme(
+                          data: SliderThemeData(
+                            trackHeight: 6,
+                            trackShape: const RectangularSliderTrackShape(),
+                            activeTrackColor: Colors.black,
+                            inactiveTrackColor: const Color(0xFFAFAFAF),
+                            thumbColor: Colors.white,
+                            overlayShape: SliderComponentShape.noThumb,
+                            thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 8),
+                          ),
+                          child: RangeSlider(
+                            divisions: (maxAge - minAge).toInt(),
+                            min: minAge,
+                            max: maxAge,
+                            values:
+                                RangeValues(selectedStartAge, selectedEndAge),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedStartAge = value.start;
+                                selectedEndAge = value.end;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 42),
+                      const Text(
+                        'Gender',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'General Sans',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          ListTile(
+                            onTap: () {
+                              setState(
+                                () {
+                                  selectedGender = Gender.All;
+                                },
+                              );
+                            },
+                            visualDensity: const VisualDensity(
+                                horizontal: 0, vertical: -4),
+                            contentPadding: EdgeInsets.zero,
+                            title: Transform.translate(
+                              offset: const Offset(-16, 0),
+                              child: const Text(
+                                "All Gender",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontFamily: 'Space Grotesk',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            leading: Radio(
+                              activeColor: Colors.black,
+                              value: Gender.All,
+                              groupValue: selectedGender,
+                              onChanged: (value) {},
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              setState(
+                                () {
+                                  selectedGender = Gender.Male;
+                                },
+                              );
+                            },
+                            visualDensity: const VisualDensity(
+                                horizontal: 0, vertical: -4),
+                            contentPadding: EdgeInsets.zero,
+                            title: Transform.translate(
+                              offset: const Offset(-16, 0),
+                              child: const Text(
+                                "Male",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontFamily: 'Space Grotesk',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            leading: Radio(
+                              activeColor: Colors.black,
+                              value: Gender.Male,
+                              groupValue: selectedGender,
+                              onChanged: (value) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
               const SizedBox(height: 18),
               Row(
@@ -377,7 +397,6 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
                         model.minAge = minAge.toInt();
                         model.range = selectedDistance.toInt();
                         model.favouriteSport = selectedSports;
-                        model.favouriteSportLevel = selectedLevel;
                         widget.onTap();
                         Navigator.pop(context);
                       },
@@ -413,41 +432,47 @@ class _FilterBottomSheet extends State<FilterBottomSheet> {
     );
   }
 
-  ListTile sportsRadioButtonWidget(String text, Sports value) {
-    return ListTile(
-      onTap: () {
-        setState(
-          () {
-            selectedSports = value;
+  Widget sportsRadioButtonWidget(
+      String text, Sports value, FilterViewModel model) {
+    return Column(
+      children: [
+        ListTile(
+          onTap: () {
+            setState(
+              () {
+                selectedSports = value;
+              },
+            );
           },
-        );
-      },
-      visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-      contentPadding: EdgeInsets.zero,
-      title: Transform.translate(
-        offset: const Offset(-16, 0),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontFamily: 'Space Grotesk',
-            fontWeight: FontWeight.w400,
+          visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+          contentPadding: EdgeInsets.zero,
+          title: Transform.translate(
+            offset: const Offset(-16, 0),
+            child: Text(
+              text,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          leading: Radio(
+            activeColor: Colors.black,
+            value: value,
+            groupValue: selectedSports,
+            onChanged: (value) {
+              // setState(
+              //   () {
+              //     selectedSports = value!;
+              //   },
+              // );
+            },
           ),
         ),
-      ),
-      leading: Radio(
-        activeColor: Colors.black,
-        value: value,
-        groupValue: selectedSports,
-        onChanged: (value) {
-          // setState(
-          //   () {
-          //     selectedSports = value!;
-          //   },
-          // );
-        },
-      ),
+        value == selectedSports ? const SelectLevelFilterWidget() : Container()
+      ],
     );
   }
 }

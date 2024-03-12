@@ -89,6 +89,10 @@ class _SetLocationScreen extends State<SetLocationScreen> {
         CustomBigButtonLight(
             onTap: () {
               getCurrentLocation(context).then((value) {
+                print(value.latitude.toString());
+                print(value.longitude.toString());
+                showSnackBar(context,
+                    "Creating profile for ${model.firstName} ${model.lastName}");
                 model.lat = value.latitude.toString();
                 model.long = value.longitude.toString();
                 model.updateUser(context);

@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gear_up/utils/uiUtils/big_button.dart';
+import 'package:gear_up/utils/utilities.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_header_text.dart';
 import 'package:gear_up/view/onBoarding/loginUi/commonUI/login_sub_header_text.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/shared_preferences.dart';
@@ -186,12 +188,22 @@ class _SetProfilePictureScreen extends State<SetProfilePictureScreen> {
         );
       }
     } catch (e) {
+      if (source == ImageSource.camera) {
+        final status = await Permission.camera.status;
+        if (status == PermissionStatus.denied) {
+          showSnackBar(context, "Camera permission is denied");
+        } else {
+          showSnackBar(context, "Error picking image");
+        }
+      } else if (source == ImageSource.gallery) {
+        final status = await Permission.photos.status;
+        if (status == PermissionStatus.denied) {
+          showSnackBar(context, "Photos permission is denied");
+        } else {
+          showSnackBar(context, "Error picking image");
+        }
+      }
       print('Error picking image: $e');
     }
   }
-}
-
-Future<void> setSharedPrefData(BuildContext context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setBool(SharedPreferenceConstants.isNewUser, false);
 }

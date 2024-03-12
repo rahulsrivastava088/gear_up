@@ -426,7 +426,7 @@ class CustomNavigationHelper {
 
     router = GoRouter(
       navigatorKey: parentNavigatorKey,
-      initialLocation: setProfilePicturePath,
+      initialLocation: homePath,
       routes: routes,
     );
   }

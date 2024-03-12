@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gear_up/utils/extension_functions.dart';
+import 'package:gear_up/utils/shared_preferences.dart';
 import 'package:gear_up/utils/strings.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import '../../../data/response/api_response.dart';
 import '../../../utils/utilities.dart';
@@ -21,7 +23,7 @@ class ProfileSetUpViewModel extends BaseViewModel {
   int selectedPlayTime = -1;
   String firstName = '';
   String lastName = '';
-  String dob = '';
+  int dob = 0;
   String userImage = '';
   String? lat;
   String? long;
@@ -75,11 +77,11 @@ class ProfileSetUpViewModel extends BaseViewModel {
   updateUser(BuildContext context) async {
     updateUserBody.firstName = firstName;
     updateUserBody.lastName = lastName;
-    // updateUserBody.gender = Strings.genderList[selectedGender];
-    // updateUserBody.objective = Strings.playingObjectiveList[1];
-    // updateUserBody.playTime = Strings.playingTimeList[1];
+    updateUserBody.gender = Strings.genderList[selectedGender];
+    updateUserBody.objective = Strings.playingObjectiveList[selectedObjective];
+    updateUserBody.playTime = Strings.playingTimeList[selectedPlayTime];
     updateUserBody.favoriteSports = [];
-    updateUserBody.birthday = 0;
+    updateUserBody.birthday = dob;
     updateUserBody.bio = '';
     updateUserBody.profession = '';
     updateUserBody.currentAddress = user_req.Address(lat: lat, lng: long);
@@ -93,15 +95,17 @@ class ProfileSetUpViewModel extends BaseViewModel {
     }
     updateUserBody.img = userImage;
     dynamic data = updateUserBody.toJson();
+    print("request: $data");
     registerUserResponse = ApiResponse.loading();
     // notifyListeners();
     _repo
         .updateUser(data)
         .then(
-          (value) => {
+          (value) async => {
             if (value.status.toString().isSuccess())
               {
                 registerUserResponse = ApiResponse.completed(value),
+                await updateSharedPrefData(value),
                 CustomNavigationHelper.router
                     .go(CustomNavigationHelper.homePath),
               }
@@ -121,5 +125,14 @@ class ProfileSetUpViewModel extends BaseViewModel {
             notifyListeners(),
           },
         );
+  }
+
+  updateSharedPrefData(user_res.UpdateUser value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(SharedPreferenceConstants.isNewUser, false);
+  }
+
+  updateLocation() {
+    CustomNavigationHelper.router.go(CustomNavigationHelper.homePath);
   }
 }

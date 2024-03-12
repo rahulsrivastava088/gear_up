@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gear_up/utils/strings.dart';
 import 'package:gear_up/view/userProfile/ui/edit_user_profile/app_bar.dart';
 
 class EditUserProfileScreen extends StatefulWidget {
@@ -17,23 +18,23 @@ class _EditUserProfileScreen extends State<EditUserProfileScreen> {
   String userPlayingObjective = 'Fun';
   String userPlayTime = 'Daily';
 
-  List<String> gendersList = [
-    'Male',
-    'Female',
-    'Others',
-  ];
+  // List<String> gendersList = [
+  //   'Male',
+  //   'Female',
+  //   'Others',
+  // ];
 
-  List<String> playObjectiveList = [
-    'Fun',
-    'Practice',
-    'Improve Game',
-  ];
+  // List<String> playObjectiveList = [
+  //   'Fun',
+  //   'Practice',
+  //   'Improve Game',
+  // ];
 
-  List<String> playTimeList = [
-    'Weekends',
-    'Daily',
-    'Anytime',
-  ];
+  // List<String> playTimeList = [
+  //   'Weekends',
+  //   'Daily',
+  //   'Anytime',
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +173,7 @@ class _EditUserProfileScreen extends State<EditUserProfileScreen> {
                     isDense: true,
                     border: InputBorder.none),
                 value: userGender,
-                items: gendersList
+                items: Strings.genderList
                     .map((item) => DropdownMenuItem(
                           value: item,
                           child: Text(
@@ -222,7 +223,7 @@ class _EditUserProfileScreen extends State<EditUserProfileScreen> {
                     isDense: true,
                     border: InputBorder.none),
                 value: userPlayingObjective,
-                items: playObjectiveList
+                items: Strings.playingObjectiveList
                     .map((item) => DropdownMenuItem(
                           value: item,
                           child: Text(
@@ -272,7 +273,7 @@ class _EditUserProfileScreen extends State<EditUserProfileScreen> {
                     isDense: true,
                     border: InputBorder.none),
                 value: userPlayTime,
-                items: playTimeList
+                items: Strings.playingTimeList
                     .map((item) => DropdownMenuItem(
                           value: item,
                           child: Text(

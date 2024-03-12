@@ -9,6 +9,8 @@ import 'package:gear_up/view/home/ui/app_bar.dart';
 import 'package:gear_up/view/home/ui/select_sports_widget.dart';
 import 'package:gear_up/view/home/viewModel/home_page_view_model.dart';
 import 'package:gear_up/view/partners/ui/sports_filter.dart';
+import 'package:gear_up/view/userProfile/viewmodel/my_profile_viewmodel.dart';
+import 'package:gear_up/view/userProfile/viewmodel/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../../project/routes/custom_navigator.dart';
 import '../../partners/ui/filter_bottom_sheet.dart';
@@ -21,12 +23,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final int userCoins = 100;
   int _index = 0;
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<PlayersViewModel>(context);
+    final profileModel = Provider.of<MyProfileViewModel>(context);
     final filterViewModel = Provider.of<FilterViewModel>(context);
+    if (profileModel.myProfileResponse.status == Status.IDLE) {
+      profileModel.fetchPlayerProfile(context);
+    }
     if (model.playersListResponse.status == Status.IDLE) {
       model.fetchPlayers(context, filterViewModel.getPlayersListRequestBody());
       return const Center(
@@ -39,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (model.playersListResponse.status == Status.ERROR) {
       return errorUI(model);
     } else if (model.playersListResponse.status == Status.COMPLETED) {
-      return ui(context, model, filterViewModel);
+      return ui(context, model, filterViewModel, profileModel);
     } else {
       return errorUI(model);
     }
@@ -82,13 +87,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Scaffold ui(BuildContext context, PlayersViewModel model,
-      FilterViewModel filterViewModel) {
+      FilterViewModel filterViewModel, MyProfileViewModel profileModel) {
     return Scaffold(
-      appBar: homeAppBar(context, "Brussels"),
+      appBar: homeAppBar(
+          context,
+          profileModel.myProfileResponse.data?.user?.currentAddress?.line1 ??
+              '-'),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            bucksAndReferWidget(),
+            bucksAndReferWidget(profileModel),
             const SizedBox(height: 32),
             partnersNearYouWidget(),
             const SizedBox(height: 12),
@@ -466,7 +474,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container bucksAndReferWidget() {
+  Container bucksAndReferWidget(MyProfileViewModel profileModel) {
     return Container(
       height: 28,
       color: const Color(0xFFF1F54E),
@@ -480,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(width: 6),
           Text(
-            '$userCoins Bucks',
+            '${profileModel.myProfileResponse.data?.user?.bucks ?? "-"} Bucks',
             style: const TextStyle(
               color: Colors.black,
               fontSize: 12,

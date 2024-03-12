@@ -15,10 +15,11 @@ class SplashScreen extends StatefulWidget {
 
 class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
   Future checkFirstSeen() async {
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(SharedPreferenceConstants.token)??"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
+    String? token = prefs.getString(SharedPreferenceConstants.token);
+    // ??"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
     if (token != null) {
       bool isNewUser =
           prefs.getBool(SharedPreferenceConstants.isNewUser) ?? false;
@@ -26,7 +27,7 @@ class CheckBaseActionState extends State<SplashScreen> with AfterLayoutMixin {
       if (isNewUser) {
         moveToScreen(CustomNavigationHelper.selectSportsPath);
       } else {
-        moveToScreen(CustomNavigationHelper.myProfilePath);
+        moveToScreen(CustomNavigationHelper.homePath);
       }
     } else {
       bool introScreenVisited =

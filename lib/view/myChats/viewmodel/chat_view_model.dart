@@ -154,7 +154,7 @@ class ChatViewModel extends BaseViewModel {
     createGameBody.matchDate = selectedDate.millisecondsSinceEpoch;
     createGameBody.venue = venueID;
     createGameBody.sport = getSportID(selectedSport);
-    createGameBody.player2 = '6553184790ef89ef840a6359';
+    createGameBody.player2 = '65c7c17b0dc5aa5209a49aa1';
     _repo
         .createGame(createGameBody)
         .then(

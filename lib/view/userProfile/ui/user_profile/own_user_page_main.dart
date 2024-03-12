@@ -32,14 +32,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<MyProfileViewModel>(context);
-    if (model.myProfileReponse.status == Status.IDLE) {
+    if (model.myProfileResponse.status == Status.IDLE) {
       model.fetchPlayerProfile(context);
       return const Center(child: CircularProgressIndicator());
-    } else if (model.myProfileReponse.status == Status.LOADING) {
+    } else if (model.myProfileResponse.status == Status.LOADING) {
       return const Center(child: CircularProgressIndicator());
-    } else if (model.myProfileReponse.status == Status.ERROR) {
+    } else if (model.myProfileResponse.status == Status.ERROR) {
       return errorUI(model);
-    } else if (model.myProfileReponse.status == Status.COMPLETED) {
+    } else if (model.myProfileResponse.status == Status.COMPLETED) {
       return ui(context, model);
     } else {
       return errorUI(model);
@@ -56,18 +56,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 UserDetailsCard(
-                  userImage: model.myProfileReponse.data?.user?.img,
-                  userName: model.myProfileReponse.data?.user?.name,
-                  userAge: model.myProfileReponse.data?.user?.age,
-                  userGender: model.myProfileReponse.data?.user?.gender,
+                  userImage: model.myProfileResponse.data?.user?.img,
+                  userName: model.myProfileResponse.data?.user?.name,
+                  userAge: model.myProfileResponse.data?.user?.age,
+                  userGender: model.myProfileResponse.data?.user?.gender,
                   userLocation:
-                      model.myProfileReponse.data?.user?.currentAddress?.name,
+                      model.myProfileResponse.data?.user?.currentAddress?.name,
                 ),
                 RatingCard(
-                    userRating: model.myProfileReponse.data?.user?.rating),
+                    userRating: model.myProfileResponse.data?.user?.rating),
                 const SizedBox(height: 8),
                 PlaysCard(
-                  sportslist: model.myProfileReponse.data?.user?.favoriteSports,
+                  sportslist:
+                      model.myProfileResponse.data?.user?.favoriteSports,
                   onTap: () {
                     showModalBottomSheet(
                       useRootNavigator: true,
@@ -79,7 +80,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       builder: (BuildContext context) {
                         return Wrap(children: [
                           EditPlaysBottomSheet(
-                            favouriteSports: model.myProfileReponse.data?.user
+                            favouriteSports: model.myProfileResponse.data?.user
                                     ?.favoriteSports ??
                                 [],
                           )
@@ -91,7 +92,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 const SizedBox(height: 8),
                 AboutCard(
-                  text: model.myProfileReponse.data?.user?.bio,
+                  text: model.myProfileResponse.data?.user?.bio,
                   onTap: () {
                     showModalBottomSheet(
                         useRootNavigator: true,
@@ -103,7 +104,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         builder: (BuildContext context) {
                           return Wrap(children: [
                             EditAboutBottomSheet(
-                              about: model.myProfileReponse.data?.user?.bio,
+                              about: model.myProfileResponse.data?.user?.bio,
                             )
                           ]);
                         });
@@ -112,7 +113,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 const SizedBox(height: 8),
                 ProfessionCard(
-                  text: model.myProfileReponse.data?.user?.profession,
+                  text: model.myProfileResponse.data?.user?.profession,
                   onTap: () {
                     showModalBottomSheet(
                         useRootNavigator: true,
@@ -124,8 +125,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         builder: (BuildContext context) {
                           return Wrap(children: [
                             EditProfessionBottomSheet(
-                              profession:
-                                  model.myProfileReponse.data?.user?.profession,
+                              profession: model
+                                  .myProfileResponse.data?.user?.profession,
                             )
                           ]);
                         });
@@ -135,7 +136,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 const SizedBox(height: 32),
                 const TitleText(text: 'Rewards & Subscription'),
                 const SizedBox(height: 16),
-                RewardsCard(bucks: model.myProfileReponse.data?.user?.bucks),
+                RewardsCard(bucks: model.myProfileResponse.data?.user?.bucks),
                 const SizedBox(height: 8),
                 const SubscriptionCard(),
                 const SizedBox(height: 32),
@@ -149,12 +150,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount:
-                        model.myProfileReponse.data?.user?.gameStats?.length ??
+                        model.myProfileResponse.data?.user?.gameStats?.length ??
                             0,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return ExpandedTile(
-                        gameStat: model.myProfileReponse.data?.user
+                        gameStat: model.myProfileResponse.data?.user
                                 ?.gameStats?[index] ??
                             GameStat(),
                       );
@@ -169,28 +170,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     icon: Icons.facebook,
                     isEditable: true,
                     link: model
-                        .myProfileReponse.data?.user?.socialMedia?.facebook),
+                        .myProfileResponse.data?.user?.socialMedia?.facebook),
                 const SizedBox(height: 8),
                 SocialMediaCard(
                     text: 'Instagram',
                     icon: Icons.facebook,
                     isEditable: true,
                     link: model
-                        .myProfileReponse.data?.user?.socialMedia?.instagram),
+                        .myProfileResponse.data?.user?.socialMedia?.instagram),
                 const SizedBox(height: 8),
                 SocialMediaCard(
                     text: 'Linkedin',
                     icon: Icons.facebook,
                     isEditable: true,
                     link: model
-                        .myProfileReponse.data?.user?.socialMedia?.linkedin),
+                        .myProfileResponse.data?.user?.socialMedia?.linkedin),
                 const SizedBox(height: 8),
                 SocialMediaCard(
                     text: 'X(Twitter)',
                     icon: Icons.facebook,
                     isEditable: true,
                     link: model
-                        .myProfileReponse.data?.user?.socialMedia?.twitter),
+                        .myProfileResponse.data?.user?.socialMedia?.twitter),
                 const SizedBox(height: 8),
                 const SizedBox(height: 32),
                 reviewsAndRatingsWidget(model),
@@ -202,7 +203,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Widget reviewsAndRatingsWidget(MyProfileViewModel model) {
-    final ratings = model.myProfileReponse.data?.user?.ratings;
+    final ratings = model.myProfileResponse.data?.user?.ratings;
     if (ratings == null || ratings.isEmpty) {
       return Container();
     } else {
@@ -215,11 +216,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               itemCount:
-                  model.myProfileReponse.data?.user?.ratings?.length ?? 0,
+                  model.myProfileResponse.data?.user?.ratings?.length ?? 0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return ReviewCard(
-                  rating: model.myProfileReponse.data?.user?.ratings?[index] ??
+                  rating: model.myProfileResponse.data?.user?.ratings?[index] ??
                       Rating(),
                 );
               },
@@ -251,7 +252,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                model.myProfileReponse = ApiResponse.idle();
+                model.myProfileResponse = ApiResponse.idle();
                 model.notifyListeners();
               },
               child: const Icon(

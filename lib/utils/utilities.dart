@@ -56,15 +56,15 @@ uiText(String? text) {
 
 getSportIconData(String? sportID) {
   switch (sportID) {
-    case "659ae820fc7fd9bad6fe0dc9":
+    case "65c7bfc60dc5aa5209a49a90":
       return "assets/sport_icons/ic_badminton.svg";
-    case "659ae8d6f919dd254d788b26":
+    case "65c7bfbe0dc5aa5209a49a8d":
       return "assets/sport_icons/ic_table_tennis.svg";
-    case "659ae8ddf919dd254d788b29":
+    case "65c7bfb90dc5aa5209a49a8a":
       return "assets/sport_icons/ic_pool.svg";
-    case "659ae8fff919dd254d788b2c":
+    case "65c7bfb30dc5aa5209a49a87":
       return "assets/sport_icons/ic_lawn_tennis.svg";
-    case "659ae904f919dd254d788b2f":
+    case "65c7bfa20dc5aa5209a49a84":
       return "assets/sport_icons/ic_squash.svg";
   }
   return "";
@@ -111,8 +111,7 @@ Future<Position> getCurrentLocation(BuildContext context) async {
     }
   }
   if (permission == LocationPermission.deniedForever) {
-    return Future.error(
-        "Location permissions are denied forever, we cannot request it");
+    return Future.error("Location permissions are denied");
   }
 
   return await Geolocator.getCurrentPosition();
@@ -170,4 +169,17 @@ String formatEpochToTime(int? epoch) {
   }
   DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(epoch);
   return DateFormat('h:mm a').format(dateTime);
+}
+
+int dateStringToEpoch(String dateString) {
+  try {
+    List<String> dateComponents = dateString.split('/');
+    int day = int.parse(dateComponents[0]);
+    int month = int.parse(dateComponents[1]);
+    int year = int.parse(dateComponents[2]);
+    DateTime date = DateTime(year, month, day);
+    return date.millisecondsSinceEpoch;
+  } catch (e) {
+    return 0;
+  }
 }

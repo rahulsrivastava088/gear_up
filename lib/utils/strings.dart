@@ -43,7 +43,7 @@ class Strings {
     'Practice',
     'Improve Game'
   ];
-  static const List<String> playingTimeList = ['Weekends', 'Daily', 'Any Time'];
+  static const List<String> playingTimeList = ['Weekends', 'Daily', 'Anytime'];
   static const String whatsYourName = 'What\'s your full name?';
   static const String whatsYourAge = 'What\'s your age?';
   static const String whatsYourDOB = 'What\'s your date of birth?';

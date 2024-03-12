@@ -1,3 +1,4 @@
+import 'package:gear_up/utils/extension_functions.dart';
 import 'package:gear_up/view/home/model/request/players_list_request_body.dart';
 import 'package:stacked/stacked.dart';
 import '../partners/ui/filter_bottom_sheet.dart';
@@ -13,12 +14,15 @@ class FilterViewModel extends BaseViewModel {
   int currentlySelectedSportIndex = -1;
 
   getPlayersListRequestBody() {
+    print(favouriteSportLevel);
     PlayersListRequestBody playersListRequestBody = PlayersListRequestBody();
     // playersListRequestBody.range = range;
     // playersListRequestBody.maxAge = maxAge;
-    playersListRequestBody.gender = gender.name;
-    // playersListRequestBody.favouriteSport = favouriteSport;
-    // playersListRequestBody.favouriteSportLevel = favouriteSportLevel;
+    // playersListRequestBody.gender = gender.name;
+    // playersListRequestBody.favouriteSport =
+    //     getSportIDFromSports(favouriteSport);
+    // playersListRequestBody.favouriteSportLevel =
+    //     getLevelName(favouriteSportLevel);
     return playersListRequestBody;
   }
 }

@@ -59,13 +59,15 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: 24, width: 24, child: LoginCheckBox()),
               SizedBox(width: 10),
-              Text(
-                'Get important notifications & SMS to stay updated',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontFamily: 'Space Grotesk',
-                    fontWeight: FontWeight.w400),
+              Expanded(
+                child: Text(
+                  'I hereby declare that I agree to the Terms and Conditions',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontFamily: 'Space Grotesk',
+                      fontWeight: FontWeight.w400),
+                ),
               )
             ],
           ),
@@ -77,6 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               if (numberTextEditingController.text.isEmpty) {
                 customSnackBar(context, 'Invalid number');
+              } else if (!model.tncAccepted) {
+                customSnackBar(context, 'Please accept Terms and Conditions');
               } else {
                 if (!model.registerUserLoading) {
                   model.registerUser(

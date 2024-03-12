@@ -12,7 +12,11 @@ class PlayersRepository {
 
   Future<PlayersList> fetchPlayers(dynamic data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(SharedPreferenceConstants.token) ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
+    String? token = prefs.getString(SharedPreferenceConstants.token);
+    if (token == null) {
+      return Future.error("Invalid token");
+    }
+    //  ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
     try {
       dynamic response = await _apiServices.getPostApiResponseTokenised(
           fetchAllPlayersUrl, data, token);
@@ -24,9 +28,14 @@ class PlayersRepository {
     }
   }
 
-  Future<SendConnectionRequestResponse> sendConnectionRequest(dynamic data) async {
+  Future<SendConnectionRequestResponse> sendConnectionRequest(
+      dynamic data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(SharedPreferenceConstants.token) ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
+    String? token = prefs.getString(SharedPreferenceConstants.token);
+    if (token == null) {
+      return Future.error("Invalid token");
+    }
+    // ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk1N2M5MTNiOGU1NjNhYzEzNDRhM2QiLCJpYXQiOjE3MDQyOTU1Njl9.NWThEs1bbrtCTNyzJtB9IS0DuRzJbEsc6nc0QGQ5F4I";
     try {
       dynamic response = await _apiServices.getPostApiResponseTokenised(
           sendConnectionRequestUrl, data, token);
